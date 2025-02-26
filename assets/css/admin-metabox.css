@@ -1,0 +1,20 @@
+.ehx-member-metabox .ehx-forms-line th {
+    width: 33%;
+}
+.ehx-admin-metabox label {
+    display: block;
+    cursor: default;
+    padding: 0 !important;
+    font-size: 13px;
+    color: #666;
+}
+.ehx_tooltip.dashicons {
+    height: 22px;
+}
+.ehx_tooltip {
+    cursor: pointer;
+    vertical-align: middle;
+}
+.ehx-form-table .ehx-forms-line[data-conditional] {
+    display: none;
+}
