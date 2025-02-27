@@ -27,15 +27,18 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
             add_shortcode('ehx_campaigns', [$this, 'add_shortcode']);
 
             // Set up the AJAX actions for handling form submissions
-            add_action('wp_ajax_ehx_members_from_submit', [$this, 'handle_form']); // When user is logged in
-            add_action('wp_ajax_nopriv_ehx_members_from_submit', [$this, 'handle_form']); // When user is logged out
+            add_action('wp_ajax_ehx_donate_from_submit', [$this, 'handle_form']); // When user is logged in
+            add_action('wp_ajax_nopriv_ehx_donate_from_submit', [$this, 'handle_form']); // When user is logged out
         }
         
         /**
-         * Register the shortcode to display the form.
+         * Adds a shortcode for displaying a donation form for a specific campaign.
          *
-         * @param array $attr Shortcode attributes.
-         * @return string HTML output of the form.
+         * The function retrieves the current campaign ID, retrieves the associated post and custom fields,
+         * fetches all published 'ehx-campaign' posts, and generates a donation form with the necessary fields.
+         * It also handles the payment callback and displays the payment form.
+         *
+         * @return string The rendered donation form.
          */
         public function add_shortcode()
         {
@@ -50,7 +53,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                     'posts_per_page' => -1, // Get all posts
                     'post_status'    => 'publish'
                 ];
-                
+
                 foreach (get_posts($args) as $post) {
                     $campaigns[$post->post_name] = $post->post_title;
                 }
@@ -68,43 +71,41 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                 esc_html__('Yearly', 'ehx-donate'),
             ];
 
+            $status = $this->request->input('status');
+            $txid = $this->request->input('txid');
+            if (!empty($status) && !empty($txid)) {
+                $browser_session = EHX_Donate_Helper::sessionGet('browser_session');
+                $payment_callback = !empty($status) && !empty($txid) && !empty($browser_session);
+                $this->paymentCallback($status, $txid, $browser_session);
+            }
+
+            global $wp;
+            $callback = home_url($wp->request);
+
             require EHX_DONATE_PLUGIN_DIR . 'views/shortcodes/campaign.php';
-
-            // require EHX_MEMBER_PLUGIN_DIR . ($ehx_mode == 'profile' ? 'views/profile-form.php' : 'views/form.php');
-
-            // if (isset($ehx_form['_ehx_mode']) && $ehx_form['_ehx_mode'] == 'register') {
-            //     wp_enqueue_script('ehx-members-google-map');
-            //     wp_enqueue_script('ehx-members-google-map-init');
-            // }
-            // else {
-            //     wp_enqueue_style('ehx-members-profile-css');
-            //     wp_enqueue_script('ehx-members-bootstrap-cdn');
-            // }
-
-            if ($load_stripe) {
-                wp_enqueue_script('ehx-donate-stripe');
-            }
-
-            if ($this->request->filled('status') && $this->request->filled('txid') && EHX_Donate_Helper::sessionGet('browser_session') != null) {
-                $this->paymentCallback();
-            }
 
             return ob_get_clean();
         }
         
-        
         /**
-         * Handle user registration, login, and profile updates.
+         * Handles the form submission for donations.
          *
-         * @return mixed Success response with message and optional redirect URL, error response with error message.
+         * Validates form input, processes payments using Stripe API,
+         * and saves donation records to the database.
+         *
+         * @return void Returns true on successful payment, error message on failure.
          */
         public function handle_form()
         {
+            // Initialize validator
             $validator = new EHX_Donate_Validator();
 
             // Validate nonce to prevent CSRF
             $validator->validate_nonce(self::NONCE_NAME, self::NONCE_ACTION);
 
+            $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
+
+            // Validate input data
             $validator->validate([
                 'campaign' => 'required|string|max:255',
                 'recurring' => 'required|string|max:255',
@@ -112,117 +113,287 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                 'first_name' => 'required|string|min:2|max:30',
                 'last_name' => 'required|string|min:2|max:30',
                 'email' => 'required|string|email|max:255',
-                'phone' => 'required|string|min:9|max:15',
+                'phone' => 'required|string|min:9|max:20',
                 'address_line_1' => 'nullable|string|max:50',
                 'address_line_2' => 'nullable|string|max:50',
                 'city' => 'nullable|string|max:50',
                 'state' => 'nullable|string|max:50',
                 'country' => 'nullable|string|max:50',
                 'post_code' => 'nullable|string|max:50',
+                'g-recaptcha-response' => $enable_recaptcha ? 'required' : 'nullable',
             ]);
 
-            $stripe_enable = (bool) EHX_Donate_Settings::extract_setting_value('stripe_enable', false);
-            
-            $amount = $this->request->input('amount');
+            // Validate reCAPTCHA if enabled
+            if ($enable_recaptcha) {
+                $validator->validate_recaptcha($this->request->input('g-recaptcha-response'));
+            }
+
+            // Calculate total amount with service charge
+            $amount = (float) $this->request->input('amount');
             $service_charge = $amount * 1.4 / 100;
             $total_amount = $amount + $service_charge;
             $browser_session = uniqid();
 
-            if($stripe_enable && $total_amount > 0) {
-                try {
-                    $mode = 'payment';
-
-                    $campaign = get_page_by_path($this->request->input('campaign'), OBJECT, 'ehx-campaign'); 
-
-                    $priceData = [
-                        'currency' => 'gbp',
-                        'unit_amount' => round($total_amount, 2) * 100,
-                        'product_data' => [
-                            'name' => $campaign->post_title,
-                            'description' => $campaign->post_content,
-                        ],
-                    ];
-    
-                    $recurring = $this->request->input('recurring');
-                    if ($recurring !== 'One-off') {
-                        $interval = match ($recurring) {
-                            'weekly' => ['interval' => 'week'],
-                            'quarterly' => ['interval' => 'day', 'interval_count' => 15],
-                            'yearly' => ['interval' => 'year'],
-                            default => ['interval' => 'month']
-                        };
-                        $priceData['recurring'] = $interval;
-    
-                        $mode = 'subscription';
-                    }
-    
-                    $items[] = [
-                        'price_data' => $priceData,
-                        'quantity' => 1,
-                    ];
-        
-                    \Stripe\Stripe::setApiKey(esc_html(EHX_Donate_Settings::extract_setting_value('stripe_client_secret')));
-        
-                    $payment_method_types = match ($this->request->input('payment_method')) {
-                        'paypal' => ['paypal'],
-                        'applepay' => ['applepay'],
-                        'googlepay' => ['googlepay'],
-                        default => ['card'],
-                    };
-
-                    global $wp;
-
-                    $callback = home_url($wp->request);
-                    $cancel_url = "$callback?status=cancel&txid=$browser_session";
-                    $success_url = "$callback?status=success&txid=$browser_session";
-        
-                    $session = \Stripe\Checkout\Session::create([
-                        'payment_method_types' => $payment_method_types,
-                        'line_items' => $items,
-                        'mode' => $mode,
-                        'cancel_url' => $cancel_url,
-                        'success_url' => $success_url,
-                    ]);
-        
-                    return $session;
-        
-                } catch (Exception $e) {
-                    return $this->response->error($e->getMessage());
+            // Handle Stripe payment if enabled
+            $stripe_enable = (bool) EHX_Donate_Settings::extract_setting_value('stripe_enable', false);
+            if ($stripe_enable && $total_amount > 0) {
+                $response = $this->handlePayment($total_amount, $browser_session);
+                if (!$response || !isset($response->url)) {
+                    return $this->response->error(__('Payment processing failed. Please try again.', 'ehx-donate'));
                 }
             }
 
+            // Create or update user
+            $user_id = $this->create_or_update_user();
+            if (is_wp_error($user_id)) {
+                return $this->response->error(__('Failed to create user. Please try again.', 'ehx-donate'));
+            }
+
+            // Save donation record
+            $donation_id = $this->save_donation_record($user_id, $total_amount, $service_charge, $browser_session);
+            if (!$donation_id) {
+                return $this->response->error(__('Failed to save donation record. Please try again.', 'ehx-donate'));
+            }
+
+            // Save user meta data
+            $this->save_user_meta($user_id);
+
+            // Store validated input and browser session in session
+            EHX_Donate_Helper::sessionSet('input', $validator->validated());
+            EHX_Donate_Helper::sessionSet('browser_session', $browser_session);
+
+            // Return success response
+            return $this->response->success(
+                __('Donation processed successfully, please complete payment.', 'ehx-donate'),
+                ['redirect' => $response->url]
+            );
+        }
+
+        /**
+         * Create or update a user based on form input.
+         *
+         * @return int|WP_Error User ID on success, WP_Error on failure.
+         */
+        private function create_or_update_user()
+        {
             $display_name = $this->request->input('first_name');
             if ($this->request->filled('last_name')) {
                 $display_name .= ' ' . $this->request->input('last_name');
             }
-            
-            global $wpdb;
 
-            $user_id = wp_insert_user([
+            return wp_insert_user([
                 'user_login' => str_replace(' ', '-', strtolower($display_name)),
-                'user_pass' => rand(),
+                'user_pass' => wp_generate_password(),
                 'user_email' => $this->request->input('email'),
                 'display_name' => $display_name,
             ]);
+        }
 
-            $wpdb->insert(EHX_Donate::$donation_table, [
+        /**
+         * Save donation record to the database.
+         *
+         * @param int $user_id
+         * @param float $total_amount
+         * @param float $service_charge
+         * @param string $browser_session
+         * @return int|false The inserted donation ID or false on failure.
+         */
+        private function save_donation_record($user_id, $total_amount, $service_charge, $browser_session)
+        {
+            global $wpdb;
+
+            return $wpdb->insert(EHX_Donate::$donation_table, [
                 'user_id' => $user_id,
                 'invoice' => 'stripe',
                 'processing_fee' => $service_charge,
                 'gift_aid' => $this->request->boolean('gift_aid'),
                 'total_amount' => $total_amount,
-                'charge'  => 0,
+                'charge' => 0,
                 'payment_method' => 'stripe',
                 'payment_status' => 'pending',
                 'browser_session' => $browser_session,
                 'created_at' => gmdate('Y-m-d H:i:s'),
-            ]);
-
-            EHX_Donate_Helper::sessionSet('browser_session', $browser_session);
-            
+            ]) ? $wpdb->insert_id : false;
         }
 
+        /**
+         * Save user meta data based on form input.
+         *
+         * @param int $user_id
+         */
+        private function save_user_meta($user_id)
+        {
+            add_user_meta($user_id, 'title', $this->request->input('title'));
+            add_user_meta($user_id, 'first_name', $this->request->input('first_name'));
+            add_user_meta($user_id, 'last_name', $this->request->input('last_name'));
+            add_user_meta($user_id, 'phone', $this->request->input('phone'));
+
+            if ($this->request->boolean('gift_aid')) {
+                $address = [
+                    'address_line_1' => $this->request->input('address_line_1'),
+                    'address_line_2' => $this->request->input('address_line_2'),
+                    'city' => $this->request->input('city'),
+                    'state' => $this->request->input('state'),
+                    'country' => $this->request->input('country'),
+                    'post_code' => $this->request->input('post_code'),
+                ];
+                add_user_meta($user_id, 'address', $address);
+            }
+        }
+
+        /**
+         * Handles the payment process using Stripe API.
+         *
+         * @param float $total_amount The total amount to be paid.
+         * @param string $browser_session The unique browser session identifier.
+         */
+        private function handlePayment($total_amount, $browser_session)
+        {
+            try {
+                $mode = 'payment';
+
+                $campaign = get_page_by_path(page_path: $this->request->input('campaign'), post_type: 'ehx-campaign'); 
+
+                EHX_Donate_Helper::sessionSet('campaign', $campaign);
+
+                $priceData = [
+                    'currency' => 'gbp',
+                    'unit_amount' => round($total_amount, 2) * 100,
+                    'product_data' => [
+                        'name' => $campaign->post_title,
+                        'description' => substr(strip_tags($campaign->post_content), 20),
+                    ],
+                ];
+
+                $recurring = $this->request->input('recurring');
+                if ($recurring !== 'One-off') {
+                    $interval = match ($recurring) {
+                        'weekly' => ['interval' => 'week'],
+                        'quarterly' => ['interval' => 'day', 'interval_count' => 15],
+                        'yearly' => ['interval' => 'year'],
+                        default => ['interval' => 'month']
+                    };
+                    $priceData['recurring'] = $interval;
+
+                    $mode = 'subscription';
+                }
+
+                $items[] = [
+                    'price_data' => $priceData,
+                    'quantity' => 1,
+                ];
+
+                \Stripe\Stripe::setApiKey(esc_html(EHX_Donate_Settings::extract_setting_value('stripe_client_secret')));
+
+                $payment_method_types = match ($this->request->input('payment_method')) {
+                    'paypal' => ['paypal'],
+                    'applepay' => ['applepay'],
+                    'googlepay' => ['googlepay'],
+                    default => ['card'],
+                };
+
+                $callback = $this->request->input('callback');
+                $cancel_url  = add_query_arg(array('status' => 'cancel', 'txid' => $browser_session), $callback);
+                $success_url = add_query_arg(array('status' => 'success', 'txid' => $browser_session), $callback);
+
+                $session = \Stripe\Checkout\Session::create([
+                    'payment_method_types' => $payment_method_types,
+                    'line_items' => $items,
+                    'mode' => $mode,
+                    'cancel_url' => $cancel_url,
+                    'success_url' => $success_url,
+                ]);
+
+                return $session;
+
+            } catch (Exception $e) {
+                return $this->response->error($e->getMessage());
+            }
+        }
         
+        /**
+         * Handles the payment callback after a successful payment.
+         *
+         * This function updates the donation status, creates a subscription if recurring,
+         * and inserts the donation details into the respective tables.
+         *
+         * @param string $status The payment status (e.g., 'success' or 'cancel').
+         * @param string $txid The unique transaction identifier.
+         * @param string $browser_session The unique browser identifier.
+         *
+         * @return bool|string
+         */
+        private function paymentCallback($status, $txid, $browser_session): bool|string
+        {
+            if ($browser_session != $txid) {
+                return home_url('/');
+            }
+
+            $campaign = EHX_Donate_Helper::sessionGet('campaign');
+            $input = EHX_Donate_Helper::sessionGet('input');
+
+            $donation_table = EHX_Donate::$donation_table;
+
+            global $wpdb;
+
+            $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE browser_session = %s AND WHERE payment_status = `pending`", $browser_session));
+            if($donation != null) {
+                if ($status == 'success') {
+                    $recurring = $input['recurring'];
+
+                    if ($recurring !== 'One-off') {
+
+                        $next_payment_date = match($recurring) {
+                            'weekly' => date('Y-m-d H:i:s', strtotime('+1 week')),
+                            'quarterly' => date('Y-m-d H:i:s', strtotime('+3 months')),
+                            'yearly' => date('Y-m-d H:i:s', strtotime('+1 year')),
+                            default => date('Y-m-d H:i:s', strtotime('+1 month')),
+                        };
+
+                        $subscriptionId = $wpdb->insert(EHX_Donate::$subscription_table, [
+                            'user_id' => $donation->user_id,
+                            'title' => $campaign->post_title,
+                            'stripe_subscription_id' => rand(),
+                            'stripe_subscription_price_id' => null,
+                            'amount' => $donation->total_amount,
+                            'recurring' => $recurring,
+                            'next_payment_date'  => $next_payment_date,
+                            'invoice_no' => rand(),
+                            'status' => 'active',
+                            'payment_method' => $donation->payment_method,
+                            'created_at' => gmdate('Y-m-d H:i:s'),
+                        ]);
+                    }
+
+                    $wpdb->insert(EHX_Donate::$donation_items_table, [
+                        'donation_id' => $donation->id,
+                        'campaign_id' => $campaign->ID,
+                        'subscription_id' => $subscriptionId ?? null,
+                        'amount'  => $donation->total_amount,
+                        'gift_aid' => $donation->gift_aid,
+                        'recurring' => $recurring,
+                        'status' => 1,
+                        'created_at' => gmdate('Y-m-d H:i:s'),
+                    ]);
+
+                    $wpdb->insert(EHX_Donate::$transaction_table, [
+                        'donation_id' => $donation->id,
+                        'amount'  => $donation->total_amount,
+                        'balance'  => $donation->total_amount,
+                        'created_at' => gmdate('Y-m-d H:i:s'),
+                    ]);
+                }
+
+                $wpdb->query($wpdb->prepare("UPDATE $donation_table SET payment_status = %s WHERE browser_session = %s", $status, $browser_session));
+            }
+
+            EHX_Donate_Helper::sessionForget('campaign');
+            EHX_Donate_Helper::sessionForget('input');
+            EHX_Donate_Helper::sessionForget('browser_session');
+
+            return true;
+        }
+
         /**
          * Generates an HTML input field with label and validation message.
          *
@@ -287,36 +458,5 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
             
             return [$post, $ehx_campaign];
         }
-        
-        private function paymentCallback()
-        {
-            $txid = $this->request->input('txid');
-
-            $browser_session = EHX_Donate_Helper::sessionGet('browser_session');
-            if ($browser_session == null || $browser_session != $txid) {
-                return home_url('/');
-            }
-
-            $status = $this->request->input('status');
-            
-            $donation_table = EHX_Donate::$donation_table;
-
-            global $wpdb;
-
-            $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE `browser_session` = %s", $browser_session));
-            if($donation != null) {
-                $wpdb->insert(EHX_Donate::$donation_items_table, [
-                    'donation_id' => $donation->id,
-                    'campaign_id' => 1,
-                    'subscription_id' => $this->request->boolean('gift_aid'),
-                    'amount'  => $donation->total_amount,
-                    'gift_aid' => $donation->gift_aid,
-                    'recurring' => $donation->recurring,
-                    'status' => 1,
-                    'created_at' => gmdate('Y-m-d H:i:s'),
-                ]);
-            }
-        }
-
     }
 }

@@ -36,9 +36,9 @@ if (!class_exists('EHX_Donate_Helper')) {
          */
         public static function session()
         {
-            if (!session_id()) {
+            if (session_status() == PHP_SESSION_NONE) {
                 session_start();
-            }
+            }            
         }
 
         /**
@@ -58,6 +58,16 @@ if (!class_exists('EHX_Donate_Helper')) {
             self::session();
 
             $_SESSION[$key] = $value;
+        }
+
+        public static function sessionForget($key)
+        {
+            self::session();
+
+            if(array_key_exists($key, $_SESSION)) {
+                unset($_SESSION[$key]);
+            }
+            return true;
         }
 
         /**

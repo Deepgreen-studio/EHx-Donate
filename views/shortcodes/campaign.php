@@ -6,19 +6,22 @@
 </style>
 <div class="edp-card" id="edp-card-element">
     
-    <form id="ehx_member_form_submit" class="edp-form">
+    <form id="ehx_donate_form_submit" class="edp-form" method="POST">
         
+        <input type="hidden" name="action" value="ehx_donate_from_submit">
+        <input type="hidden" name="callback" value="<?php echo esc_html($callback); ?>">
+        <?php wp_nonce_field(self::NONCE_ACTION, self::NONCE_NAME); ?>
+
         <input type="hidden" name="amount" id="amount" value="0" />
 
         <ul id="progressbar" class="edp-progressbar">
             <li class="edp-progress-active" id="donation" data-step="1"><strong>Donation</strong></li>
-            <li id="personal" data-step="2"><strong>Personal</strong></li>
-            <!-- <li id="payment" data-step="3"><strong>Payment</strong></li> -->
-            <li id="confirm" data-step="3"><strong>Confirm</strong></li>
+            <li class="<?php echo esc_attr(isset($payment_callback) && $payment_callback ? 'edp-progress-active':''); ?>" id="personal" data-step="2"><strong>Personal</strong></li>
+            <li class="<?php echo esc_attr(isset($payment_callback) && $payment_callback ? 'edp-progress-active':''); ?>" id="confirm" data-step="3"><strong>Confirmation</strong></li>
         </ul>
         <br>
 
-        <fieldset class="edp-fieldset">
+        <fieldset class="edp-fieldset" <?php if(isset($payment_callback) && $payment_callback): ?> style="display: none; position: relative; opacity: 0;" <?php endif ?>>
             <div class="edp-form-card">
                 <div class="row">
                     <div class="col-7">
@@ -29,15 +32,15 @@
                 <?php
                     if (count($campaigns)) {
                         self::input_field(label: 'campaign', isType: 'select', placeholder: 'Select campaign', data: $campaigns);
+                        echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select required fields.', 'ehx-donate') .'</p>';
                     }
                     else {
                         echo "<input type='hidden' name='campaign' id='campaign' value='{$post->post_name}' />";
+                        echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select one option.', 'ehx-donate') .'</p>';
                     }
 
                     self::input_field(label: 'How often would you like to give?', for: 'recurring', isType: 'select', data: $recurring);
                 ?>
-
-                <p id="edp__donation__message" style="display: none;color:red;"><?php esc_html_e('Please select one option', 'ehx-donate') ?></p>
 
                 <div>
                     <label class="edp-field-labels">Now choose how much.</label>
@@ -94,7 +97,7 @@
 
         </fieldset>
 
-        <fieldset class="edp-fieldset">
+        <fieldset class="edp-fieldset" <?php if(isset($payment_callback) && $payment_callback): ?> style="display: none; position: relative; opacity: 0;" <?php endif ?>>
             <div class="edp-form-card">
                 <div class="row">
                     <div class="col-7">
@@ -168,34 +171,31 @@
             
             <div class="edp-step-buttons"></div>
 
-            <input type="submit" name="next" class="edp-next-btn edp-action-btn" value="Submit" /> 
+            <input type="submit" name="next" class="edp-action-btn" value="Submit" /> 
             <input type="button" name="previous" class="edp-previous-btn edp-action-btn-previous" value="Previous" />
 
         </fieldset>
-
-        <fieldset class="edp-fieldset">
+        
+        <fieldset class="edp-fieldset" <?php if(isset($payment_callback) && $payment_callback): ?> style="display: block; opacity: 1;" <?php endif ?>>
             <div class="edp-form-card">
                 <div class="row">
                     <div class="col-7">
-                        <h2 class="edp-fs-title">Confirm:</h2>
+                        <h2 class="edp-fs-title">Confirmation:</h2>
                     </div>
                 </div> 
                 <br><br>
 
-                <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
-
-                <div class="row justify-content-center">
-                    <div class="col-3"> 
-                        <img src="https://i.imgur.com/GwStPmg.png" class="fit-image"> 
-                    </div>
-                </div> 
-                <br><br>
+                <h2 class="purple-text text-center"><strong><?php echo $status == 'success' ? __('SUCCESS !', 'ehx-donate') : __('CANCEL !', 'ehx-donate'); ?></strong></h2> 
+                <br>
 
                 <div class="row justify-content-center">
                     <div class="col-7 text-center">
-                        <h5 class="purple-text text-center">You Have Successfully Signed Up</h5>
+                        <h5 class="purple-text text-center">
+                            <?php echo $status == 'success' ? __('Thank you for your generous donation!', 'ehx-donate') : __('Your donation are cancelled.', 'ehx-donate'); ?>
+                        </h5>
                     </div>
                 </div>
+
             </div>
         </fieldset>
 
