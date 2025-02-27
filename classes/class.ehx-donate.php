@@ -27,6 +27,8 @@ class EHX_Donate
         add_action('plugins_loaded', [$this, 'load_textdomain']);
 
         $this->include_dependencies();
+
+        add_action('init', fn() => EHX_Donate_Helper::session(), 1); // Priority 1 ensures it runs early
     }
 
     /**
@@ -57,6 +59,7 @@ class EHX_Donate
             'class.ehx-donate-scripts.php',
             'class.ehx-donate-settings.php',
             'class.ehx-donate-campaign.php',
+            'class.ehx-donate-cron-job.php',
         ];
         array_map(fn($file) => require_once EHX_DONATE_PLUGIN_DIR . "classes/{$file}", $class_files);
 
@@ -68,6 +71,7 @@ class EHX_Donate
         new EHX_Donate_Register_Scripts();
         new EHX_Donate_Settings();
         new EHX_Donate_Campaign();
+        new EHX_Donate_Cron_Job();
 
         new EHX_Donate_Campaign_Shortcode();
 
@@ -212,8 +216,8 @@ class EHX_Donate
                 id INT(11) NOT NULL AUTO_INCREMENT,
                 user_id BIGINT UNSIGNED DEFAULT NULL,
                 title VARCHAR(255) NOT NULL,
-                stripe_subscription_id VARCHAR(255) NOT NULL,
-                stripe_subscription_price_id VARCHAR(255) NOT NULL,
+                stripe_subscription_id VARCHAR(255) DEFAULT NULL,
+                stripe_subscription_price_id VARCHAR(255) DEFAULT NULL,
                 amount DECIMAL(8,2) NOT NULL,
                 recurring ENUM('One-off','Weekly','Monthly','Quarterly','Yearly') DEFAULT NULL,
                 next_payment_date DATE DEFAULT NULL,

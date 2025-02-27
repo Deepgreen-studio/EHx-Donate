@@ -1,6 +1,6 @@
 (function ($) {
 
-    $(document).on("submit", "form#ehx_member_form_submit", async function (e) {
+    $(document).on("submit", "form#ehx_donate_form_submit", async function (e) {
         e.preventDefault();
 
         // Gather form data
@@ -21,14 +21,6 @@
             options.contentType = false;
             options.enctype = file;
             options.processData = false;
-
-            if (card) {
-                let { token, error } = await stripe.createToken(card);
-                if (typeof error != "undefined") {
-                    return;
-                }
-                options.data.append("stripe_token", JSON.stringify(token));
-            }
         }
 
         $.ajax({
@@ -49,70 +41,10 @@
         });
     });
 
-    // let cards;
-    let cardElement;
-    let card;
-    let stripe;
-    // Stripe API
-    function initilizeCard() {
-        stripe = Stripe($("#card_element").data("key"));
-        var elements = stripe.elements();
-        var style = {
-            base: {
-                color: "#32325d",
-                fontFamily: '"Helvetica Neue", Helvetica, sans-serif',
-                fontSmoothing: "antialiased",
-                fontSize: "16px",
-                padding: "16px",
-                "::placeholder": {
-                color: "#aab7c4",
-                },
-            },
-            invalid: {
-                color: "#fa755a",
-                iconColor: "#fa755a",
-            },
-        };
-        card = elements.create("card", { hidePostalCode: true, style: style });
-        return card;
-    }
-
-    function waitForElm() {
-        const element = document.querySelector("#card_element");
-        return new Promise((resolve) => {
-            if (element) {
-                return resolve(element);
-            }
-            const observer = new MutationObserver((mutations) => {
-                if (element) {
-                observer.disconnect();
-                resolve(element);
-                }
-            });
-            observer.observe(document.body, {
-                childList: true,
-                subtree: true,
-            });
-        });
-    }
-
-    function renderStripeElement() {
-        waitForElm().then((elm) => {
-            cardElement = document.getElementById("card_element");
-            card = initilizeCard();
-            card.mount(cardElement);
-        });
-    }
-
-    if ($("#card_element").length) {
-        setTimeout(() => renderStripeElement(), 2000);
-    }
-    
-
     var current_fs, next_fs, previous_fs; //fieldsets
     var opacity;
     var current = 1;
-    var steps = $("fieldset").length;
+    // var steps = $("fieldset").length;
 
     // setProgressBar(current);
 
@@ -183,10 +115,6 @@
 
     });
 
-    $(".submit").click(function () {
-        return false;
-    });
-
     $(".edp-card").on('change', 'select#recurring', function (e) {
         $('.edp-plan-list .edp-plan-list-text').text(e.target.value)
     });
@@ -212,7 +140,6 @@
 
         $('.edp-card input[name="amount"]').val(amount)
     });
-
 
     $(".edp-card").on('input', '.edp-plan-list.edp-plan-list-custom-input input', function (e) {
         let amount = parseFloat(e.target.value || 0);
@@ -257,8 +184,12 @@
 
         // Step 1: Validate Amount (Current Step: 1)
         if (current === 1) {
+            let campaign = $('.edp-card input[name="campaign"], .edp-card select[name="campaign"]').val().trim();
             let amount = $('.edp-card input[name="amount"]').val().trim();
-            valid = amount > 0;
+            if(amount <= 0 || campaign == '') {
+                valid = false;
+            }
+
             $('#edp__donation__message').toggle(!valid);
         }
         // Step 2: Validate Personal Details (Current Step: 2)
@@ -280,9 +211,6 @@
                 scrollTop: $("#edp-card-element").offset().top
             }, 500);
         }
-        
-        console.log(valid);
-        
         return valid;
     }
     
