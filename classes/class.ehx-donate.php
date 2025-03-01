@@ -56,8 +56,10 @@ class EHX_Donate
         // Load main classes
         $class_files = [
             'class.ehx-donate-menu.php',
+            'class.ehx-donate-actions.php',
             'class.ehx-donate-scripts.php',
             'class.ehx-donate-settings.php',
+            'class.ehx-donate-donation.php',
             'class.ehx-donate-campaign.php',
             'class.ehx-donate-cron-job.php',
         ];
@@ -68,14 +70,13 @@ class EHX_Donate
 
         // Initialize core components
         new EHX_Donate_Menu();
+        new EHX_Donate_Actions();
         new EHX_Donate_Register_Scripts();
         new EHX_Donate_Settings();
         new EHX_Donate_Campaign();
         new EHX_Donate_Cron_Job();
 
         new EHX_Donate_Campaign_Shortcode();
-
-        self::create_table();
     }
     
     /**
@@ -83,8 +84,8 @@ class EHX_Donate
      *
      * This function is called when the plugin is activated. It performs the following tasks:
      * 1. Flushes the rewrite rules to prevent 404 errors.
-     * 2. Calls the EHX_Helper::create_table() method to create the necessary tables for the plugin.
-     * 3. Calls the EHX_Helper::set_default_options() method to set default plugin options.
+     * 2. Calls the self::create_table() method to create the necessary tables for the plugin.
+     * 3. Calls the self::set_default_options() method to set default plugin options.
      *
      * @return void
      */
@@ -171,6 +172,7 @@ class EHX_Donate
                 processing_fee_percentage DECIMAL(8,2) NOT NULL,
                 processing_fee DECIMAL(8,2) NOT NULL,
                 gift_aid TINYINT(1) DEFAULT 0,
+                amount DECIMAL(8,2) NOT NULL,
                 total_amount DECIMAL(8,2) NOT NULL,
                 charge DECIMAL(8,2) DEFAULT 0,
                 payment_method ENUM('Stripe','Paypal','Google Pay','Samsung Pay','Apple Pay','Skrill','Checkout','Blockchain','BTCPay') DEFAULT NULL,

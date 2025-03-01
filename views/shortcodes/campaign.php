@@ -73,7 +73,7 @@
                 <div class="edp-donation-amounts" id="edp-donation-amounts" style="display: none;">
                     <div class="edp-donation-amount">
                         <div class="form-column">
-                            <span class="form-row-title"><strong>Donation amount:</strong></span>
+                            <span class="form-row-title"><strong>Total Payable Amount:</strong></span>
                         </div>
                         <div class="form-column">
                             <span class="form-row-value" id="edp_donation_amount"><strong></strong></span>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="edp-donation-amount">
                         <div class="form-column">
-                            <span class="form-row-title"><strong>Total amount to pay:</strong></span>
+                            <span class="form-row-title"><strong>Final Payable with Fee:</strong></span>
                         </div>
                         <div class="form-column">
                             <span class="form-row-value" id="edp_donation_pay"><strong></strong></span>
@@ -143,14 +143,14 @@
                     <?php if($enable_recaptcha): ?>
                         <div style="margin-top: 24px;">
                             <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-                            <div class="g-recaptcha mb-3" id="feedback-recaptcha" data-sitekey="<?php echo esc_attr(EHX_Member_Settings::extract_setting_value('google_recaptcha_site_key')) ?>"></div>
+                            <div class="g-recaptcha mb-3" id="feedback-recaptcha" data-sitekey="<?php echo esc_attr(EHX_Donate_Settings::extract_setting_value('google_recaptcha_site_key')) ?>"></div>
                         </div>
                     <?php endif ?>
 
                     <div class="edp-donation-amounts" id="edp-pay-amounts" style="display: none;">
                         <div class="edp-donation-amount">
                             <div class="form-column">
-                                <span class="form-row-title"><strong>Total amount to pay:</strong></span>
+                                <span class="form-row-title"><strong>Total Payable Amount:</strong></span>
                             </div>
                             <div class="form-column">
                                 <span class="form-row-value"><strong id="edp_donation_payable_amount"></strong></span>
@@ -158,7 +158,7 @@
                         </div>
                         <div class="edp-donation-amount" id="edp-pay-gift-aid" style="display: none;">
                             <div class="form-column">
-                                <span class="form-row-title"><strong>Total amount to pay:</strong> (25%)</span>
+                                <span class="form-row-title"><strong>Your Contribution with Gift Aid:</strong> (25%)</span>
                             </div>
                             <div class="form-column">
                                 <span class="form-row-value"><strong id="edp_donation_pay"></strong></span>

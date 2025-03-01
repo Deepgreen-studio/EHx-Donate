@@ -1,6 +1,6 @@
 <?php
 
-if (!class_exists('classes/EHX_Donate_Campaign')) {
+if (!class_exists('EHX_Donate_Campaign')) {
 
     class EHX_Donate_Campaign
     {
