@@ -59,7 +59,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                 }
             }
 
-            $enable_recaptcha = (bool) EHX_Member_Settings::extract_setting_value('google_recaptcha_enable', false);
+            $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
 
             ob_start();
 
@@ -150,7 +150,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
             }
 
             // Save donation record
-            $donation_id = $this->save_donation_record($user_id, $total_amount, $service_charge, $browser_session);
+            $donation_id = $this->save_donation_record($user_id, $amount, $total_amount, $service_charge, $browser_session);
             if (!$donation_id) {
                 return $this->response->error(__('Failed to save donation record. Please try again.', 'ehx-donate'));
             }
@@ -198,7 +198,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
          * @param string $browser_session
          * @return int|false The inserted donation ID or false on failure.
          */
-        private function save_donation_record($user_id, $total_amount, $service_charge, $browser_session)
+        private function save_donation_record($user_id, $amount, $total_amount, $service_charge, $browser_session)
         {
             global $wpdb;
 
@@ -207,6 +207,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                 'invoice' => 'stripe',
                 'processing_fee' => $service_charge,
                 'gift_aid' => $this->request->boolean('gift_aid'),
+                'amount' => $amount,
                 'total_amount' => $total_amount,
                 'charge' => 0,
                 'payment_method' => 'stripe',
@@ -261,7 +262,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                     'unit_amount' => round($total_amount, 2) * 100,
                     'product_data' => [
                         'name' => $campaign->post_title,
-                        'description' => substr(strip_tags($campaign->post_content), 20),
+                        // 'description' => substr(strip_tags($campaign->post_content), 20),
                     ],
                 ];
 

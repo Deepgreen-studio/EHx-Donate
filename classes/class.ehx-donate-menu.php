@@ -178,21 +178,21 @@ if (!class_exists('EHX_Donate_Menu')) {
         }
 
         /**
-         * Callback function for the payments page.
+         * Callback function for the donations page.
          *
-         * This function checks if the current user has the necessary capabilities to access the payments page.
-         * If the user has the required capabilities, it initializes and displays the payments table.
+         * This function checks if the current user has the necessary capabilities to access the donations page.
+         * If the user has the required capabilities, it initializes and displays the donations table.
          *
          * @return void
          */
-        public function ehx_donate_admin_donations() 
+        public function ehx_donate_donations_page() 
         {
             if (!current_user_can('manage_options')) {
                 return;
             }
 
             // Initialize and display the payments table
-            $this->render_table_page('Payment_Data_Table', 'payments');
+            $this->render_table_page('EHX_Donate_Donation_Data_Table', 'donations');
         }
 
         /**
