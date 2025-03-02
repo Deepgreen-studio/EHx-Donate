@@ -337,11 +337,24 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
 
             global $wpdb;
 
-            $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE browser_session = %s AND WHERE payment_status = `pending`", $browser_session));
-            if($donation != null) {
-                if ($status == 'success') {
-                    $recurring = $input['recurring'];
+            $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE browser_session = %s AND payment_status = 'pending'", $browser_session));
 
+            
+            if($donation != null) {
+                $recurring = $input['recurring'];
+
+                $wpdb->insert(EHX_Donate::$donation_items_table, [
+                    'donation_id' => $donation->id,
+                    'campaign_id' => $campaign->ID,
+                    'subscription_id' => $subscriptionId ?? null,
+                    'amount'  => $donation->total_amount,
+                    'gift_aid' => $donation->gift_aid,
+                    'recurring' => $recurring,
+                    'status' => 1,
+                    'created_at' => gmdate('Y-m-d H:i:s'),
+                ]);
+
+                if ($status == 'success') {
                     if ($recurring !== 'One-off') {
 
                         $next_payment_date = match($recurring) {
@@ -366,26 +379,21 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                         ]);
                     }
 
-                    $wpdb->insert(EHX_Donate::$donation_items_table, [
-                        'donation_id' => $donation->id,
-                        'campaign_id' => $campaign->ID,
-                        'subscription_id' => $subscriptionId ?? null,
-                        'amount'  => $donation->total_amount,
-                        'gift_aid' => $donation->gift_aid,
-                        'recurring' => $recurring,
-                        'status' => 1,
-                        'created_at' => gmdate('Y-m-d H:i:s'),
-                    ]);
-
                     $wpdb->insert(EHX_Donate::$transaction_table, [
                         'donation_id' => $donation->id,
                         'amount'  => $donation->total_amount,
                         'balance'  => $donation->total_amount,
                         'created_at' => gmdate('Y-m-d H:i:s'),
                     ]);
+
+                    $subject = 'Donation Receipt for Your Generous Contribution.';
+                    $message = "Your donation has been successfully received! With your kind contribution, we're one step closer to achieving our goals and making a positive change. Thank you for your generosity and support. We couldn't do it without you!";
+                    
+                    EHX_Donate_Helper::send_email($input['email'], $subject, $message);
                 }
 
                 $wpdb->query($wpdb->prepare("UPDATE $donation_table SET payment_status = %s WHERE browser_session = %s", $status, $browser_session));
+
             }
 
             EHX_Donate_Helper::sessionForget('campaign');

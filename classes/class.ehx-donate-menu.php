@@ -80,6 +80,12 @@ if (!class_exists('EHX_Donate_Menu')) {
                             'callback'   => [$this, 'ehx_donate_donations_page'],
                         ],
                         [
+                            'page_title' => esc_html__('Gift Aid', 'ehx-member'),
+                            'menu_title' => esc_html__('Gift Aid', 'ehx-member'),
+                            'menu_slug'  => 'ehx_donate_admin_gift_aid',
+                            'callback'   => [$this, 'ehx_donate_gift_aid_page'],
+                        ],
+                        [
                             'page_title' => esc_html__('Campaigns', 'ehx-member'),
                             'menu_title' => esc_html__('Campaigns', 'ehx-member'),
                             'menu_slug'  => 'edit.php?post_type=ehx-campaign',
@@ -191,8 +197,34 @@ if (!class_exists('EHX_Donate_Menu')) {
                 return;
             }
 
+            if ($this->request->filled('deleted')) {
+                EHX_Helper::display_notice(esc_html__('Donation Deleted Successfully.', 'ehx-donate'));
+            }
+
             // Initialize and display the payments table
             $this->render_table_page('EHX_Donate_Donation_Data_Table', 'donations');
+        }
+
+        /**
+         * Callback function for the donations page.
+         *
+         * This function checks if the current user has the necessary capabilities to access the donations page.
+         * If the user has the required capabilities, it initializes and displays the donations table.
+         *
+         * @return void
+         */
+        public function ehx_donate_gift_aid_page() 
+        {
+            if (!current_user_can('manage_options')) {
+                return;
+            }
+
+            if ($this->request->filled('deleted')) {
+                EHX_Helper::display_notice(esc_html__('Gift Aid Deleted Successfully.', 'ehx-donate'));
+            }
+
+            // Initialize and display the payments table
+            $this->render_table_page('EHX_Donate_GiftAid_Data_Table', 'giftaid');
         }
 
         /**

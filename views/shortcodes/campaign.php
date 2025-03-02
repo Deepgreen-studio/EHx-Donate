@@ -158,7 +158,7 @@
                         </div>
                         <div class="edp-donation-amount" id="edp-pay-gift-aid" style="display: none;">
                             <div class="form-column">
-                                <span class="form-row-title"><strong>Your Contribution with Gift Aid:</strong> (25%)</span>
+                                <span class="form-row-title"><strong>Your Contribution with Gift Aid:</strong></span>
                             </div>
                             <div class="form-column">
                                 <span class="form-row-value"><strong id="edp_donation_pay"></strong></span>
@@ -171,7 +171,7 @@
             
             <div class="edp-step-buttons"></div>
 
-            <input type="submit" name="next" class="edp-action-btn" value="Submit" /> 
+            <input type="submit" name="next" class="edp-action-btn" value="<?php esc_html_e('Submit', 'ehx-donate') ?>" data-submit="<?php esc_html_e('Please Wait...', 'ehx-donate') ?>" /> 
             <input type="button" name="previous" class="edp-previous-btn edp-action-btn-previous" value="Previous" />
 
         </fieldset>

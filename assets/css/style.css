@@ -76,6 +76,7 @@
   padding: 10px 5px;
   margin: 10px 0px;
   float: right;
+  position: relative;
 }
 
 .edp-form .edp-action-btn:hover,
