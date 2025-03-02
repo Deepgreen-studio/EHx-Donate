@@ -92,7 +92,6 @@
             </div> 
 
             <div class="edp-step-buttons"></div>
-
             <input type="button" name="next" class="edp-next-btn edp-action-btn" value="Next" />
 
         </fieldset>
@@ -170,8 +169,11 @@
             </div> 
             
             <div class="edp-step-buttons"></div>
-
-            <input type="submit" name="next" class="edp-action-btn" value="<?php esc_html_e('Submit', 'ehx-donate') ?>" data-submit="<?php esc_html_e('Please Wait...', 'ehx-donate') ?>" /> 
+            
+            <button type="submit" class="edp-action-btn" data-submit="<?php esc_html_e('Please Wait...', 'ehx-donate') ?>">
+                <div class="ehx-btn-loader" id="ehx-loader"></div>
+                <span id="ehx-btn-text"><?php esc_html_e('Submit', 'ehx-donate') ?></span>
+            </button>
             <input type="button" name="previous" class="edp-previous-btn edp-action-btn-previous" value="Previous" />
 
         </fieldset>

@@ -198,7 +198,7 @@ if (!class_exists('EHX_Donate_Menu')) {
             }
 
             if ($this->request->filled('deleted')) {
-                EHX_Helper::display_notice(esc_html__('Donation Deleted Successfully.', 'ehx-donate'));
+                EHX_Donate_Helper::display_notice(esc_html__('Donation Deleted Successfully.', 'ehx-donate'));
             }
 
             // Initialize and display the payments table
@@ -220,7 +220,7 @@ if (!class_exists('EHX_Donate_Menu')) {
             }
 
             if ($this->request->filled('deleted')) {
-                EHX_Helper::display_notice(esc_html__('Gift Aid Deleted Successfully.', 'ehx-donate'));
+                EHX_Donate_Helper::display_notice(esc_html__('Gift Aid Deleted Successfully.', 'ehx-donate'));
             }
 
             // Initialize and display the payments table

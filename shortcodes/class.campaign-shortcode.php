@@ -120,13 +120,13 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                 'state' => 'nullable|string|max:50',
                 'country' => 'nullable|string|max:50',
                 'post_code' => 'nullable|string|max:50',
-                'g-recaptcha-response' => $enable_recaptcha ? 'required' : 'nullable',
+                // 'g-recaptcha-response' => $enable_recaptcha ? 'required' : 'nullable',
             ]);
 
             // Validate reCAPTCHA if enabled
-            if ($enable_recaptcha) {
-                $validator->validate_recaptcha($this->request->input('g-recaptcha-response'));
-            }
+            // if ($enable_recaptcha) {
+            //     $validator->validate_recaptcha($this->request->input('g-recaptcha-response'));
+            // }
 
             // Calculate total amount with service charge
             $amount = (float) $this->request->input('amount');

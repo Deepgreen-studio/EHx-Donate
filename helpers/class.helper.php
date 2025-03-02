@@ -139,7 +139,7 @@ if (!class_exists('EHX_Donate_Helper')) {
                 $field_name = strtolower(str_replace(' ', '_', $field_name));
                 $type       = $args['type'] ?? 'text';
                 $input_type = $args['is_type'] ?? 'input';
-                $value      = EHX_Member_Settings::extract_setting_value($field_name);
+                $value      = EHX_Donate_Settings::extract_setting_value($field_name);
                 $input_name = esc_attr($option . "[$field_name]");
                 $placeholder = isset($args['placeholder']) ? esc_attr($args['placeholder']) : '';
                 $data       = $args['data'] ?? [];
@@ -221,7 +221,7 @@ if (!class_exists('EHX_Donate_Helper')) {
         public static function input_field($label, $for = null, $type = 'text', $placeholder = '')
         {
             $htmlFor = $for != null ? $for : $label;
-            $value      = EHX_Member_Settings::extract_setting_value($htmlFor);
+            $value   = EHX_Donate_Settings::extract_setting_value($htmlFor);
 
             ?>
                 <input

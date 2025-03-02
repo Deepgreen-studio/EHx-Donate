@@ -66,17 +66,61 @@
   text-align: left;
 }
 .edp-form .edp-action-btn {
-  width: 100px;
+  min-width: 100px;
   background: var(--primary-color);
   font-weight: bold;
   color: white;
   border: 0 none;
   border-radius: 0px;
   cursor: pointer;
-  padding: 10px 5px;
+  padding: 10px 8px;
   margin: 10px 0px;
   float: right;
   position: relative;
+}
+.edp-form button[type="submit"]:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+.edp-form button[type="submit"]:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}
+.edp-form button[type="submit"].edp-action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.edp-form .edp-action-btn .ehx-btn-loader {
+  display: none;
+  border: 2px solid #fff;
+  border-top: 2px solid #6a6a6a;
+  border-radius: 50%;
+  width: 10px;
+  height: 10px;
+  animation: spin 1s linear infinite;
+  margin-left: 10px;
+}
+.edp-form button[type="submit"]:disabled .ehx-btn-loader {
+  opacity: 0.8;
+  cursor: progress;
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+.loading {
+  background-color: #ccc;
+  pointer-events: none;
 }
 
 .edp-form .edp-action-btn:hover,

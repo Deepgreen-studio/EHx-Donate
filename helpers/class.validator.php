@@ -418,7 +418,7 @@ if (!class_exists('EHX_Donate_Validator')) {
             try {
                 // Prepare request data
                 $data = [
-                    'secret'   => EHX_Member_Settings::extract_setting_value('google_recaptcha_secret_key'),
+                    'secret'   => EHX_Donate_Settings::extract_setting_value('google_recaptcha_secret_key'),
                     'response' => $value
                 ];
 

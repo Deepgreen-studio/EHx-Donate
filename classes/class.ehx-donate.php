@@ -42,7 +42,7 @@ class EHX_Donate
     private function include_dependencies() 
     {
         // Autoload Composer dependencies
-        // require_once __DIR__ . '/../vendor/autoload.php';
+        require_once __DIR__ . '/../vendor/autoload.php';
 
         // Load helper classes
         $helper_files = [

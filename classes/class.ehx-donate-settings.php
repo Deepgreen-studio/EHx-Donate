@@ -278,9 +278,9 @@ if (!class_exists('EHX_Donate_Settings')) {
          */
         public function ehx_save_settings() 
         {
-            $response  = new EHX_Response();
-            $request   = new EHX_Request();
-            $validator = new EHX_Validator();
+            $response  = new EHX_Donate_Response();
+            $request   = new EHX_Donate_Request();
+            $validator = new EHX_Donate_Validator();
 
             $validator->validate_nonce(self::NONCE_NAME, self::NONCE_ACTION);
             

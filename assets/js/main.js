@@ -7,10 +7,14 @@
         let form = $(this);
         let file = form.attr("enctype");
         let submitBtn = form.find('button[type="submit"]');
+        let btnLoaderEl = submitBtn.find('#ehx-loader');
+        let btnTextEl = submitBtn.find('#ehx-btn-text');
+        let btnLoaderCurrTxt = btnTextEl.text();
+        let btnLoaderLoadTxt = submitBtn.data('submit');
 
         let options = {
             type: "POST",
-            url: ehx_object.ajax_url,
+            url: ehx_donate_object.ajax_url,
             dataType: "JSON",
         };
 
@@ -27,6 +31,8 @@
             ...options,
             beforeSend: () => {
                 submitBtn.attr("disabled", true);
+                btnLoaderEl.css("display", 'block');
+                btnTextEl.text(btnLoaderLoadTxt);
             },
             success: (response) => {
                 form.trigger("reset");
@@ -34,6 +40,8 @@
             },
             complete: () => {
                 submitBtn.attr("disabled", false);
+                btnLoaderEl.css("display", 'none');
+                btnTextEl.text(btnLoaderCurrTxt);
             },
             error: function (e) {
                 handleError(e);

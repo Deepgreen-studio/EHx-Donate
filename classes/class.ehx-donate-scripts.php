@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Class EHX_Register_Scripts
+ * Class EHX_Donate_Register_Scripts
  *
  * This class is responsible for registering and enqueuing scripts and styles for both the admin and frontend of the WordPress plugin.
  */
 class EHX_Donate_Register_Scripts 
 {
     /**
-     * Constructor for the EHX_Register_Scripts class.
+     * Constructor for the EHX_Donate_Register_Scripts class.
      *
      * Initializes the sets up WordPress hooks.
      *
@@ -77,7 +77,7 @@ class EHX_Donate_Register_Scripts
             args: true
         );
 
-        wp_localize_script('ehx-donate-admin-js', 'ehx_ajax_obj', [
+        wp_localize_script('ehx-donate-admin-js', 'ehx_donate_object', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('ehx_ajax_nonce'),
         ]);
