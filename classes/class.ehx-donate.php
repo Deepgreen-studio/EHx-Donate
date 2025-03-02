@@ -60,6 +60,7 @@ class EHX_Donate
             'class.ehx-donate-scripts.php',
             'class.ehx-donate-settings.php',
             'class.ehx-donate-donation.php',
+            'class.ehx-donate-giftaid.php',
             'class.ehx-donate-campaign.php',
             'class.ehx-donate-cron-job.php',
         ];
