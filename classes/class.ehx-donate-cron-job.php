@@ -50,18 +50,19 @@ class EHX_Donate_Cron_Job
         $donation_items_table = EHX_Donate::$donation_items_table;
         $subscription_table = EHX_Donate::$subscription_table;
 
-        $subscriptions = $wpdb->get_results("
-            SELECT s.*, di.subscription_id, di.admin_fee, di.processing_fee, di.campaign_id, d.id as donation_id, d.payment_method, o.gift_aid 
+        $query = "SELECT s.*, di.subscription_id, di.processing_fee, di.campaign_id, d.id as donation_id, d.payment_method, o.gift_aid 
             FROM $subscription_table s
             LEFT JOIN $donation_items_table di ON s.id = di.subscription_id
             LEFT JOIN $donation_table d ON di.donation_id = d.id
             WHERE DATE(s.next_payment_date) = CURDATE()
-        ");
+        ";
+
+        $subscriptions = $wpdb->get_results($query);
 
         foreach ($subscriptions as $subscription) {
             try {
                 // Extract subscription name and details
-                $subscription_name = explode(' -> ', $subscription->subscription_name);
+                // $subscription_name = explode(' -> ', $subscription->subscription_name);
 
                 // Get campaign
                 // $campaign = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}campaigns WHERE title = %s LIMIT 1", $type));
@@ -79,7 +80,7 @@ class EHX_Donate_Cron_Job
                     'gift_aid' => $subscription->gift_aid,
                     'recurring' => $subscription->recurring,
                     'status' => 1,
-                    'created_at' => gmdate('Y-m-d H:i:s'),
+                    'created_at' => wp_date('Y-m-d H:i:s'),
                 ]);
 
                 // Determine next payment date

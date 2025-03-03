@@ -52,7 +52,7 @@ if (!class_exists('EHX_Donate_Validator')) {
             if (!empty($this->errors)) {
                 wp_send_json_error([
                     'errors' => $this->errors(),
-                    'message' => esc_html__('Please fill up all fields correctly.', 'ehx-member'),
+                    'message' => esc_html__('Please fill up all fields correctly.', 'ehx-donate'),
                 ], 422);
             }
 
@@ -118,7 +118,7 @@ if (!class_exists('EHX_Donate_Validator')) {
                 $this->$method($field, $value, $param);
             } else {
                 /* translators: %s is the name of the validation rule (e.g., "min", "max") */
-                throw new Exception(sprintf(esc_html__('Validation rule "%s" is not supported.', 'ehx-member'), esc_html($ruleName)));
+                throw new Exception(sprintf(esc_html__('Validation rule "%s" is not supported.', 'ehx-donate'), esc_html($ruleName)));
             }
         }
 
@@ -152,7 +152,7 @@ if (!class_exists('EHX_Donate_Validator')) {
         {
             if ($this->isEmpty($value)) {
                 /* translators: %s is the name of the field that is required */
-                $this->addError($field, sprintf(esc_html__('The %s field is required.', 'ehx-member'), esc_html($field)));
+                $this->addError($field, sprintf(esc_html__('The %s field is required.', 'ehx-donate'), esc_html($field)));
             }
         }
 
@@ -185,7 +185,7 @@ if (!class_exists('EHX_Donate_Validator')) {
         {
             if (!is_array($value)) {
                 /* translators: %s field must be an array */
-                $this->addError($field, sprintf(esc_html__('The %s field must be an array.', 'ehx-member'), esc_html($field)));
+                $this->addError($field, sprintf(esc_html__('The %s field must be an array.', 'ehx-donate'), esc_html($field)));
             }
         }
 
@@ -199,7 +199,7 @@ if (!class_exists('EHX_Donate_Validator')) {
         {
             if (!is_email($value)) {
                 /* translators: %s field must be a valid email address */
-                $this->addError($field, sprintf(esc_html__('The %s field must be a valid email address.', 'ehx-member'), esc_html($field)));
+                $this->addError($field, sprintf(esc_html__('The %s field must be a valid email address.', 'ehx-donate'), esc_html($field)));
             }
         }
 
@@ -213,7 +213,7 @@ if (!class_exists('EHX_Donate_Validator')) {
         {
             if (email_exists($value)) {
                 /* translators: %s has already been taken */
-                $this->addError($field, sprintf(esc_html__('The %s has already been taken.', 'ehx-member'), esc_html($field)));
+                $this->addError($field, sprintf(esc_html__('The %s has already been taken.', 'ehx-donate'), esc_html($field)));
             }
         }
 
@@ -232,7 +232,7 @@ if (!class_exists('EHX_Donate_Validator')) {
                     $field,
                     sprintf(
                         /* translators: %1$s is the field name, %2$d is the minimum length */
-                        esc_html__('The %1$s field must be at least %2$d characters long.', 'ehx-member'),
+                        esc_html__('The %1$s field must be at least %2$d characters long.', 'ehx-donate'),
                         esc_html($field),
                         (int)$param
                     )
@@ -255,7 +255,7 @@ if (!class_exists('EHX_Donate_Validator')) {
                     $field,
                     sprintf(
                         /* translators: %1$s is the field name, %2$d is the maximum length */
-                        esc_html__('The %1$s field must not exceed %2$d characters.', 'ehx-member'),
+                        esc_html__('The %1$s field must not exceed %2$d characters.', 'ehx-donate'),
                         esc_html($field),
                         (int)$param
                     )
@@ -273,7 +273,7 @@ if (!class_exists('EHX_Donate_Validator')) {
         {
             if (!is_string($value)) {
                 /* translators: %s field must be a string */
-                $this->addError($field, sprintf(esc_html__('The %s field must be a string.', 'ehx-member'), esc_html($field)));
+                $this->addError($field, sprintf(esc_html__('The %s field must be a string.', 'ehx-donate'), esc_html($field)));
             }
         }
 
@@ -287,7 +287,7 @@ if (!class_exists('EHX_Donate_Validator')) {
         {
             if (!is_numeric($value)) {
                 /* translators: %s field must be a number */
-                $this->addError($field, sprintf(esc_html__('The %s field must be a number.', 'ehx-member'), esc_html($field)));
+                $this->addError($field, sprintf(esc_html__('The %s field must be a number.', 'ehx-donate'), esc_html($field)));
             }
         }
 
@@ -306,7 +306,7 @@ if (!class_exists('EHX_Donate_Validator')) {
                     $field,
                     sprintf(
                         /* translators: %1$s is the first field name, %2$s is the second field name */
-                        esc_html__('The %1$s field must match the %2$s field.', 'ehx-member'),
+                        esc_html__('The %1$s field must match the %2$s field.', 'ehx-donate'),
                         esc_html($field),
                         esc_html($param)
                     )
@@ -324,7 +324,7 @@ if (!class_exists('EHX_Donate_Validator')) {
         {
             if (filter_var($value, FILTER_VALIDATE_URL) === FALSE) {
                 /* translators: %s field must be an valid url */
-                $this->addError($field, sprintf(esc_html__('The %s field must be an valid url.', 'ehx-member'), esc_html($field)));
+                $this->addError($field, sprintf(esc_html__('The %s field must be an valid url.', 'ehx-donate'), esc_html($field)));
             }
         }
 
@@ -387,7 +387,7 @@ if (!class_exists('EHX_Donate_Validator')) {
         {
             $nonce = $this->request->input($field);
             if (!wp_verify_nonce($nonce, $action)) {
-                $this->response->error(esc_html__('Nonce verification failed. Please try again.', 'ehx-member'), 419);
+                $this->response->error(esc_html__('Nonce verification failed. Please try again.', 'ehx-donate'), 419);
                 return false;
             }
             return true;
@@ -401,7 +401,7 @@ if (!class_exists('EHX_Donate_Validator')) {
         public function validate_ajax_nonce(): bool
         {
             if (!check_ajax_referer('ehx_ajax_nonce', 'security', false)) {
-                $this->response->error(esc_html__('Nonce verification failed. Please try again.', 'ehx-member'), 419);
+                $this->response->error(esc_html__('Nonce verification failed. Please try again.', 'ehx-donate'), 419);
                 return false;
             }
             return true;
@@ -431,7 +431,7 @@ if (!class_exists('EHX_Donate_Validator')) {
 
                 // Check for WP_Error
                 if (is_wp_error($response)) {
-                    return $this->response->error(esc_html__('ReCaptcha verification failed.', 'ehx-member'));
+                    return $this->response->error(esc_html__('ReCaptcha verification failed.', 'ehx-donate'));
                 }
 
                 // Decode JSON response
@@ -439,12 +439,12 @@ if (!class_exists('EHX_Donate_Validator')) {
 
                 // Validate reCAPTCHA success
                 if (empty($body['success']) || !$body['success']) {
-                    return $this->response->error(esc_html__('ReCaptcha verification failed.', 'ehx-member'));
+                    return $this->response->error(esc_html__('ReCaptcha verification failed.', 'ehx-donate'));
                 }
 
                 return true; // Validation successful
             } catch (\Exception $e) {
-                return $this->response->error(esc_html__('ReCaptcha verification error.', 'ehx-member'));
+                return $this->response->error(esc_html__('ReCaptcha verification error.', 'ehx-donate'));
             }
         }
 

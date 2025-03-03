@@ -36,13 +36,13 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
         public function get_columns(): array 
         {
             return [
-                'cb'     => '<input type="checkbox" />',
+                'cb' => '<input type="checkbox" />',
                 'created_at'   => 'Date',
-                'display_name'  => 'Donor',
+                'display_name' => 'Donor',
                 'amount' => 'Amount',
-                'post_title'  => 'Campaign',
+                'post_title' => 'Campaign',
                 'gift_aid' => 'Gift Aid Enabled',
-                'recurring'      => 'Recurring',
+                'recurring' => 'Recurring',
                 'payment_status' => 'Payment',
             ];
         }
@@ -57,11 +57,11 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
         public function get_sortable_columns(): array 
         {
             return [
-                'date'       => ['created_at', false],
-                'donor'      => ['donor', false],
-                'amount'     => ['total_amount', false],
-                'post_title' => ['post_title', false],
-                'recurring'  => ['recurring', false]
+                'created_at'   => ['created_at', false],
+                'display_name' => ['display_name', false],
+                'amount'       => ['total_amount', false],
+                'post_title'   => ['post_title', false],
+                'recurring'    => ['recurring', false]
             ];
         }
          
@@ -97,15 +97,16 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
         {
             switch ($column_name) {
                 case 'created_at':
-                    $delete_link = admin_url("admin.php?page=ehx_donate_admin_donations&action=ehx_donations_delete&id={$item['id']}");
-                    // $view_link = admin_url("admin.php?page=ehx_donate_admin_donations&id={$item['id']}");
+                    $page = EHX_Donate_Menu::$pages['donation'];
+                    $delete_link = admin_url("admin.php?page={$page}&action=ehx_donations_delete&id={$item['id']}");
+                    // $view_link = admin_url("admin.php?page={$page}&id={$item['id']}");
 
                     $actions = [
                         'delete' => '<a href="' . esc_url(wp_nonce_url($delete_link, 'donations_delete_' . $item['id'])) . '" onclick="return confirm(\'Are you sure?\')">Delete</a>',
                         // 'view'   => '<a href="' . esc_url($view_link) . '">' . esc_html__('View', 'ehx-member') . '</a>'
                     ];
 
-                    return date('d F Y', strtotime($item['created_at']))
+                    return wp_date('d F Y', strtotime($item['created_at']))
                     . $this->row_actions($actions);
                 case 'gift_aid':
                     return esc_html($item['gift_aid'] ? 'True' : 'False');
@@ -149,7 +150,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                 $selected_status = $this->request->input('filter_status');
                 ?>
                 <div class="alignleft actions">
-                    <input type="hidden" name="page" value="ehx_donate_admin_donations">
+                    <input type="hidden" name="page" value="<?php echo esc_html(EHX_Donate_Menu::$pages['donation']) ?>">
                     
                     <!-- User Filter -->
                     <select name="filter_user">
@@ -170,7 +171,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                     </select>
 
                     <input type="submit" class="button" value="Filter">
-                    <a href="?page=ehx_donate_admin_donations&per_page=-1&export=csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
+                    <a href="?page=<?php echo esc_html(EHX_Donate_Menu::$pages['donation']) ?>&per_page=-1&export=csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
                 </div>
                 <?php
             }
@@ -224,9 +225,17 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
             $posts_table = esc_sql($wpdb->posts);
 
             // Sorting
-            $valid_orderby = ['id', 'amount', 'created_at']; // Allowed sorting columns
+            $valid_orderby = [
+                'id' => 'd.id',
+                'created_at' => 'd.created_at',
+                'display_name' => 'u.display_name',
+                'amount' => 'd.total_amount',
+                'post_title' => 'p.post_title',
+                'recurring' => 'di.recurring',
+            ];
+
             $orderby = esc_sql($this->request->input('orderby', 'id'));
-            $orderby = in_array($orderby, $valid_orderby) ? $orderby : 'id';
+            $orderby = isset($valid_orderby[$orderby]) ? $valid_orderby[$orderby] : 'd.id';
             $order = esc_sql($this->request->input('order', 'DESC'));
             $order = ($order === 'ASC') ? 'ASC' : 'DESC';
 

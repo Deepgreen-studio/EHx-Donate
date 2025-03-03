@@ -1,5 +1,5 @@
 <div class="wrap">
-    <h1><?php esc_html_e('Members', 'ehx-member') ?></h1>
+    <h1><?php esc_html_e('Members', 'ehx-donate') ?></h1>
     <form method="get">
         
         <?php 

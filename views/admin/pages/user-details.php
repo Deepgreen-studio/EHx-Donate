@@ -1,6 +1,6 @@
 <div class="wrap">
     <div style="display: flex;"></div>
-    <h1><?php esc_html_e('Member Details', 'ehx-member'); ?></h1>
+    <h1><?php esc_html_e('Member Details', 'ehx-donate'); ?></h1>
 
     <div class="user-details">
 
@@ -55,6 +55,6 @@
     </div>
 
     <a href="<?php echo esc_url(admin_url('admin.php?page=ehx_member_members')); ?>" class="button button-secondary">
-        <?php esc_html_e('Back to Members', 'ehx-member'); ?>
+        <?php esc_html_e('Back to Members', 'ehx-donate'); ?>
     </a>
 </div>

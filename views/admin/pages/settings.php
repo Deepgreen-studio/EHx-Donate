@@ -27,8 +27,8 @@
 
             <div id="general" class="tab-panel tab-panel-active">
 
-                <h2><?php esc_html_e('Email notifications', 'ehx-member'); ?></h2>
-                <p><?php esc_html_e("Email notifications sent from Ehx Member are listed below. Click on an email to configure it. Emails should be sent from an email using your website's domain name. We highly recommend using a SMTP service email delivery. Please see this doc for more information.", 'ehx-member') ?></p>
+                <h2><?php esc_html_e('Email notifications', 'ehx-donate'); ?></h2>
+                <p><?php esc_html_e("Email notifications sent from Ehx Member are listed below. Click on an email to configure it. Emails should be sent from an email using your website's domain name. We highly recommend using a SMTP service email delivery. Please see this doc for more information.", 'ehx-donate') ?></p>
                 
                 <table class="form-table">
                     <?php
@@ -77,8 +77,8 @@
 
             <div id="email" class="tab-panel">
 
-                <h2><?php esc_html_e('Email notifications', 'ehx-member'); ?></h2>
-                <p><?php esc_html_e("Email notifications sent from Ehx Member are listed below. Click on an email to configure it. Emails should be sent from an email using your website's domain name. We highly recommend using a SMTP service email delivery. Please see this doc for more information.", 'ehx-member') ?></p>
+                <h2><?php esc_html_e('Email notifications', 'ehx-donate'); ?></h2>
+                <p><?php esc_html_e("Email notifications sent from Ehx Member are listed below. Click on an email to configure it. Emails should be sent from an email using your website's domain name. We highly recommend using a SMTP service email delivery. Please see this doc for more information.", 'ehx-donate') ?></p>
                 
                 <table class="form-table">
                     <?php
@@ -88,8 +88,8 @@
                     ?>
                 </table>
 
-                <h2><?php esc_html_e('Email sender options', 'ehx-member'); ?></h2>
-                <p><?php esc_html_e("How the sender appears in outgoing Ehx Member emails.", 'ehx-member') ?></p>
+                <h2><?php esc_html_e('Email sender options', 'ehx-donate'); ?></h2>
+                <p><?php esc_html_e("How the sender appears in outgoing Ehx Member emails.", 'ehx-donate') ?></p>
                 
                 <table class="form-table">
                     <?php
@@ -99,8 +99,8 @@
                     ?>
                 </table>
 
-                <h2><?php esc_html_e('Email template', 'ehx-member'); ?></h2>
-                <p><?php esc_html_e("Section to customize email templates settings.", 'ehx-member') ?></p>
+                <h2><?php esc_html_e('Email template', 'ehx-donate'); ?></h2>
+                <p><?php esc_html_e("Section to customize email templates settings.", 'ehx-donate') ?></p>
                 
                 <table class="form-table">
                     <?php
@@ -170,7 +170,7 @@
         </div>
 
         <?php
-            submit_button(__('Save Settings', 'ehx-member'));
+            submit_button(__('Save Settings', 'ehx-donate'));
         ?>
     </form>
 </div>
