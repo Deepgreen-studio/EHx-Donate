@@ -1,0 +1,706 @@
+# Blank WordPress Pot
+# Copyright 2014 ...
+# This file is distributed under the GNU General Public License v3 or later.
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: EHx "
+"Donate v1.0.0\n"
+"Report-Msgid-Bugs-To: "
+"Translator Name "
+"<translations@example."
+"com>\n"
+"POT-Creation-Date: "
+"2025-03-03 16:11+0600\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Your "
+"Name <you@example.com>\n"
+"Language-Team: Your Team "
+"<translations@example."
+"com>\n"
+"Language: en_US\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/"
+"plain; charset=UTF-8\n"
+"Content-Transfer-"
+"Encoding: 8bit\n"
+"Plural-Forms: "
+"nplurals=2; plural=n != "
+"1;\n"
+"X-Textdomain-Support: "
+"yesX-Generator: Poedit "
+"1.6.4\n"
+"X-Poedit-SourceCharset: "
+"UTF-8\n"
+"X-Poedit-KeywordsList: "
+"__;_e;esc_html_e;"
+"esc_html_x:1,2c;"
+"esc_html__;esc_attr_e;"
+"esc_attr_x:1,2c;"
+"esc_attr__;_ex:1,2c;"
+"_nx:4c,1,2;"
+"_nx_noop:4c,1,2;_x:1,2c;"
+"_n:1,2;_n_noop:1,2;"
+"__ngettext:1,2;"
+"__ngettext_noop:1,2;_c,"
+"_nc:4c,1,2\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Bookmarks: \n"
+"X-Generator: Poedit 3.5\n"
+"X-Poedit-"
+"SearchPath-0: .\n"
+
+#: classes/class.ehx-donate-actions.php:42
+#: classes/class.ehx-donate-actions.php:182
+msgid "Permission denied"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:54
+#: classes/class.ehx-donate-campaign.php:55
+#: classes/class.ehx-donate-campaign.php:57
+#: classes/class.ehx-donate-menu.php:97
+#: classes/class.ehx-donate-menu.php:98
+msgid "Campaigns"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:58
+msgid "Form"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:59
+msgid "EHx Campaigns"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:60
+msgid "All Campaigns"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:61
+msgid "Add New"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:62
+#: classes/class.ehx-donate-campaign.php:234
+msgid "Add New Campaign"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:63
+msgid "Edit Campaign"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:64
+msgid "New Campaign"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:65
+msgid "View Campaign"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:66
+msgid "Search Campaigns"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:67
+msgid "No campaigns found"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:68
+msgid ""
+"No campaigns found in "
+"Trash"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:103
+#: helpers/class.helper.php:279
+msgid "Goal Amount"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:104
+#: helpers/class.helper.php:286
+msgid "Recurring"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:105
+msgid "Start & End Date"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:244
+msgid ""
+"Enter Campaign Title"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:255
+msgid "Banner image"
+msgstr ""
+
+#: classes/class.ehx-donate-campaign.php:262
+msgid "Options"
+msgstr ""
+
+#: classes/class.ehx-donate-donation.php:148
+msgid "Pending"
+msgstr ""
+
+#: classes/class.ehx-donate-donation.php:148
+msgid "Success"
+msgstr ""
+
+#: classes/class.ehx-donate-donation.php:148
+msgid "Cancel"
+msgstr ""
+
+#: classes/class.ehx-donate-donation.php:157
+#: classes/class.ehx-donate-giftaid.php:162
+#: classes/class.ehx-donate-transaction.php:145
+msgid "All Users"
+msgstr ""
+
+#: classes/class.ehx-donate-donation.php:167
+msgid "All"
+msgstr ""
+
+#: classes/class.ehx-donate-donation.php:174
+#: classes/class.ehx-donate-giftaid.php:171
+#: classes/class.ehx-donate-transaction.php:154
+msgid "Export"
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:72
+msgid "EHx Donate"
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:73
+msgid "EHx Donates"
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:79
+#: classes/class.ehx-donate-menu.php:80
+msgid "Settings"
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:85
+#: classes/class.ehx-donate-menu.php:86
+#: views/admin/pages/donations.php:2
+msgid "Donations"
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:91
+#: classes/class.ehx-donate-menu.php:92
+#: views/admin/pages/giftaid.php:2
+#: views/shortcodes/campaign.php:122
+msgid "Gift Aid"
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:103
+#: classes/class.ehx-donate-menu.php:104
+msgid ""
+"Gift Aid Transaction"
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:180
+msgid ""
+"Setting Updated "
+"Successfully."
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:202
+msgid ""
+"Donation Deleted "
+"Successfully."
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:224
+msgid ""
+"Gift Aid Deleted "
+"Successfully."
+msgstr ""
+
+#: classes/class.ehx-donate-menu.php:247
+msgid ""
+"Transaction Deleted "
+"Successfully."
+msgstr ""
+
+#: classes/class.ehx-donate-settings.php:28
+msgid "General"
+msgstr ""
+
+#: classes/class.ehx-donate-settings.php:29
+msgid "Access"
+msgstr ""
+
+#: classes/class.ehx-donate-settings.php:30
+msgid "Email"
+msgstr ""
+
+#: classes/class.ehx-donate-settings.php:31
+msgid "Integration"
+msgstr ""
+
+#: classes/class.ehx-donate-settings.php:294
+msgid ""
+"Settings saved "
+"successfully."
+msgstr ""
+
+#: helpers/class.helper.php:186
+msgid "Select an option"
+msgstr ""
+
+#: helpers/class.helper.php:282
+msgid "Enter Goal Amount"
+msgstr ""
+
+#: helpers/class.helper.php:290
+#: shortcodes/class.campaign-shortcode.php:67
+#: views/shortcodes/campaign.php:54
+#: views/shortcodes/campaign.php:66
+msgid "One-off"
+msgstr ""
+
+#: helpers/class.helper.php:291
+#: shortcodes/class.campaign-shortcode.php:68
+msgid "Weekly"
+msgstr ""
+
+#: helpers/class.helper.php:292
+#: shortcodes/class.campaign-shortcode.php:69
+msgid "Monthly"
+msgstr ""
+
+#: helpers/class.helper.php:293
+#: shortcodes/class.campaign-shortcode.php:70
+msgid "Quarterly"
+msgstr ""
+
+#: helpers/class.helper.php:294
+#: shortcodes/class.campaign-shortcode.php:71
+msgid "Yearly"
+msgstr ""
+
+#: helpers/class.helper.php:301
+msgid "Start Date"
+msgstr ""
+
+#: helpers/class.helper.php:304
+#: helpers/class.helper.php:311
+msgid "Choice Start date"
+msgstr ""
+
+#: helpers/class.helper.php:308
+msgid "End Date"
+msgstr ""
+
+#: helpers/class.validator.php:55
+msgid ""
+"Please fill up all "
+"fields correctly."
+msgstr ""
+
+#: helpers/class.validator.php:121
+#, php-format
+msgid ""
+"Validation rule \"%s\" "
+"is not supported."
+msgstr ""
+
+#: helpers/class.validator.php:155
+#, php-format
+msgid ""
+"The %s field is required."
+msgstr ""
+
+#: helpers/class.validator.php:188
+#, php-format
+msgid ""
+"The %s field must be an "
+"array."
+msgstr ""
+
+#: helpers/class.validator.php:202
+#, php-format
+msgid ""
+"The %s field must be a "
+"valid email address."
+msgstr ""
+
+#: helpers/class.validator.php:216
+#, php-format
+msgid ""
+"The %s has already been "
+"taken."
+msgstr ""
+
+#: helpers/class.validator.php:235
+#, php-format
+msgid ""
+"The %1$s field must be "
+"at least %2$d characters "
+"long."
+msgstr ""
+
+#: helpers/class.validator.php:258
+#, php-format
+msgid ""
+"The %1$s field must not "
+"exceed %2$d characters."
+msgstr ""
+
+#: helpers/class.validator.php:276
+#, php-format
+msgid ""
+"The %s field must be a "
+"string."
+msgstr ""
+
+#: helpers/class.validator.php:290
+#, php-format
+msgid ""
+"The %s field must be a "
+"number."
+msgstr ""
+
+#: helpers/class.validator.php:309
+#, php-format
+msgid ""
+"The %1$s field must "
+"match the %2$s field."
+msgstr ""
+
+#: helpers/class.validator.php:327
+#, php-format
+msgid ""
+"The %s field must be an "
+"valid url."
+msgstr ""
+
+#: helpers/class.validator.php:390
+#: helpers/class.validator.php:404
+msgid ""
+"Nonce verification "
+"failed. Please try again."
+msgstr ""
+
+#: helpers/class.validator.php:434
+#: helpers/class.validator.php:442
+msgid ""
+"ReCaptcha verification "
+"failed."
+msgstr ""
+
+#: helpers/class.validator.php:447
+msgid ""
+"ReCaptcha verification "
+"error."
+msgstr ""
+
+#: shortcodes/class.campaign-shortcode.php:142
+msgid ""
+"Payment processing "
+"failed. Please try again."
+msgstr ""
+
+#: shortcodes/class.campaign-shortcode.php:149
+msgid ""
+"Failed to create user. "
+"Please try again."
+msgstr ""
+
+#: shortcodes/class.campaign-shortcode.php:155
+msgid ""
+"Failed to save donation "
+"record. Please try again."
+msgstr ""
+
+#: shortcodes/class.campaign-shortcode.php:167
+msgid ""
+"Donation processed "
+"successfully, please "
+"complete payment."
+msgstr ""
+
+#: views/admin/inc/banner-image.php:17
+msgid "Upload Banner Image"
+msgstr ""
+
+#: views/admin/inc/banner-image.php:17
+msgid "Set Banner Image"
+msgstr ""
+
+#: views/admin/inc/banner-image.php:18
+msgid "Remove"
+msgstr ""
+
+#: views/admin/inc/banner-image.php:39
+msgid "Use this image"
+msgstr ""
+
+#: views/admin/pages/members.php:2
+msgid "Members"
+msgstr ""
+
+#: views/admin/pages/settings.php:30
+#: views/admin/pages/settings.php:80
+msgid "Email notifications"
+msgstr ""
+
+#: views/admin/pages/settings.php:31
+#: views/admin/pages/settings.php:81
+msgid ""
+"Email notifications sent "
+"from Ehx Member are "
+"listed below. Click on "
+"an email to configure "
+"it. Emails should be "
+"sent from an email using "
+"your website's domain "
+"name. We highly "
+"recommend using a SMTP "
+"service email delivery. "
+"Please see this doc for "
+"more information."
+msgstr ""
+
+#: views/admin/pages/settings.php:91
+msgid ""
+"Email sender options"
+msgstr ""
+
+#: views/admin/pages/settings.php:92
+msgid ""
+"How the sender appears "
+"in outgoing Ehx Member "
+"emails."
+msgstr ""
+
+#: views/admin/pages/settings.php:102
+msgid "Email template"
+msgstr ""
+
+#: views/admin/pages/settings.php:103
+msgid ""
+"Section to customize "
+"email templates settings."
+msgstr ""
+
+#: views/admin/pages/settings.php:173
+msgid "Save Settings"
+msgstr ""
+
+#: views/admin/pages/transactions.php:2
+msgid "Transactions"
+msgstr ""
+
+#: views/admin/pages/user-details.php:3
+msgid "Member Details"
+msgstr ""
+
+#: views/admin/pages/user-details.php:58
+msgid "Back to Members"
+msgstr ""
+
+#: views/shortcodes/campaign.php:18
+msgid "1"
+msgstr ""
+
+#: views/shortcodes/campaign.php:18
+msgid "Donation"
+msgstr ""
+
+#: views/shortcodes/campaign.php:19
+msgid "2"
+msgstr ""
+
+#: views/shortcodes/campaign.php:19
+msgid "Personal"
+msgstr ""
+
+#: views/shortcodes/campaign.php:27
+msgid ""
+"Donation Information"
+msgstr ""
+
+#: views/shortcodes/campaign.php:33
+msgid "Select campaign"
+msgstr ""
+
+#: views/shortcodes/campaign.php:34
+msgid ""
+"Please select required "
+"fields."
+msgstr ""
+
+#: views/shortcodes/campaign.php:38
+msgid ""
+"Please select one option."
+msgstr ""
+
+#: views/shortcodes/campaign.php:41
+msgid ""
+"How often would you like "
+"to give?"
+msgstr ""
+
+#: views/shortcodes/campaign.php:45
+msgid "Now choose how much"
+msgstr ""
+
+#: views/shortcodes/campaign.php:63
+msgid "Or enter how much"
+msgstr ""
+
+#: views/shortcodes/campaign.php:75
+msgid ""
+"Total Payable Amount"
+msgstr ""
+
+#: views/shortcodes/campaign.php:83
+#: views/shortcodes/campaign.php:151
+msgid ""
+"Final Payable with Fee"
+msgstr ""
+
+#: views/shortcodes/campaign.php:102
+msgid ""
+"Personal Information"
+msgstr ""
+
+#: views/shortcodes/campaign.php:106
+msgid ""
+"Please fill up required "
+"fields."
+msgstr ""
+
+#: views/shortcodes/campaign.php:110
+msgid "Title"
+msgstr ""
+
+#: views/shortcodes/campaign.php:110
+msgid "Select title"
+msgstr ""
+
+#: views/shortcodes/campaign.php:110
+msgid "Mr"
+msgstr ""
+
+#: views/shortcodes/campaign.php:110
+msgid "Ms"
+msgstr ""
+
+#: views/shortcodes/campaign.php:110
+msgid "Mrs"
+msgstr ""
+
+#: views/shortcodes/campaign.php:110
+msgid "Miss"
+msgstr ""
+
+#: views/shortcodes/campaign.php:110
+msgid "Dr"
+msgstr ""
+
+#: views/shortcodes/campaign.php:111
+msgid "First Name"
+msgstr ""
+
+#: views/shortcodes/campaign.php:111
+msgid "Enter First Name"
+msgstr ""
+
+#: views/shortcodes/campaign.php:112
+msgid "Last Name"
+msgstr ""
+
+#: views/shortcodes/campaign.php:112
+msgid "Enter Last Name"
+msgstr ""
+
+#: views/shortcodes/campaign.php:113
+msgid "Email Address"
+msgstr ""
+
+#: views/shortcodes/campaign.php:113
+msgid "Enter Email Address"
+msgstr ""
+
+#: views/shortcodes/campaign.php:114
+msgid "Phone Number"
+msgstr ""
+
+#: views/shortcodes/campaign.php:114
+msgid "Enter Phone Number"
+msgstr ""
+
+#: views/shortcodes/campaign.php:130
+msgid "Address line 1"
+msgstr ""
+
+#: views/shortcodes/campaign.php:131
+msgid "Address line 2"
+msgstr ""
+
+#: views/shortcodes/campaign.php:132
+msgid "City"
+msgstr ""
+
+#: views/shortcodes/campaign.php:132
+msgid "Enter City"
+msgstr ""
+
+#: views/shortcodes/campaign.php:133
+msgid "State"
+msgstr ""
+
+#: views/shortcodes/campaign.php:133
+msgid "Enter State"
+msgstr ""
+
+#: views/shortcodes/campaign.php:134
+msgid "Country"
+msgstr ""
+
+#: views/shortcodes/campaign.php:134
+msgid "Enter Country"
+msgstr ""
+
+#: views/shortcodes/campaign.php:135
+msgid "Post Code"
+msgstr ""
+
+#: views/shortcodes/campaign.php:135
+msgid "Enter Post Code"
+msgstr ""
+
+#: views/shortcodes/campaign.php:159
+msgid ""
+"Your Contribution with "
+"Gift Aid"
+msgstr ""
+
+#: views/shortcodes/campaign.php:172
+msgid "Please Wait..."
+msgstr ""
+
+#: views/shortcodes/campaign.php:174
+msgid "Submit"
+msgstr ""
+
+#: views/shortcodes/campaign.php:203
+msgid "SUCCESS !"
+msgstr ""
+
+#: views/shortcodes/campaign.php:203
+msgid "CANCEL !"
+msgstr ""
+
+#: views/shortcodes/campaign.php:205
+msgid ""
+"Thank you for your "
+"generous donation!"
+msgstr ""
+
+#: views/shortcodes/campaign.php:205
+msgid ""
+"Your donation are "
+"cancelled."
+msgstr ""

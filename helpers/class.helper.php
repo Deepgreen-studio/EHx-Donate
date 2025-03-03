@@ -118,12 +118,12 @@ if (!class_exists('EHX_Donate_Helper')) {
         public static function display_notice($message, $type = 'success'): void
         {
             add_settings_error(
-                'ehx_member_options', 
-                'ehx_member_message', 
+                'ehx_donate_options', 
+                'ehx_donate_message', 
                 esc_html($message),
                 $type
             );
-            settings_errors('ehx_member_options');
+            settings_errors('ehx_donate_options');
         }
 
         /**
@@ -263,19 +263,6 @@ if (!class_exists('EHX_Donate_Helper')) {
         }
 
         /**
-         * Returns an array of custom roles for the EHX Member plugin.
-         *
-         * @return array An associative array with role slugs as keys and their display names as values.
-         */
-        public static function customRoles()
-        {
-            return [
-                'free_member' => esc_html__("Free Member", 'ehx-donate'),
-                'paid_member' => esc_html__("Paid Member", 'ehx-donate'),
-            ];
-        }
-
-        /**
          * Generate and return customization settings for forms.
          *
          * This method provides a structured object containing customization options for forms,
@@ -292,7 +279,6 @@ if (!class_exists('EHX_Donate_Helper')) {
                             "label" => esc_html__("Goal Amount", 'ehx-donate'),
                             "id" => "goal_amount",
                             "type" => "number",
-                            "options" => self::customRoles(),
                             "placeholder" => esc_html__("Enter Goal Amount", 'ehx-donate'),
                             "value" => 0,
                         ],

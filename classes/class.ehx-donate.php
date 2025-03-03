@@ -41,33 +41,36 @@ class EHX_Donate
      */
     private function include_dependencies() 
     {
-        // Autoload Composer dependencies
-        require_once __DIR__ . '/../vendor/autoload.php';
+        // Check if Composer autoloader is already loaded
+        if (!class_exists('ComposerAutoloaderInitfb011bd338c520415f6fc4c876f2eedd')) {
+            require_once __DIR__ . '/../vendor/autoload.php';
+        }
 
-        // Load helper classes
-        $helper_files = [
-            'class.request.php',
-            'class.response.php',
-            'class.validator.php',
-            'class.helper.php',
-        ];
-        array_map(fn($file) => require_once EHX_DONATE_PLUGIN_DIR . "helpers/{$file}", $helper_files);
-
-        // Load main classes
+        // Load classes
         $class_files = [
-            'class.ehx-donate-menu.php',
-            'class.ehx-donate-actions.php',
-            'class.ehx-donate-scripts.php',
-            'class.ehx-donate-settings.php',
-            'class.ehx-donate-donation.php',
-            'class.ehx-donate-giftaid.php',
-            'class.ehx-donate-campaign.php',
-            'class.ehx-donate-cron-job.php',
-        ];
-        array_map(fn($file) => require_once EHX_DONATE_PLUGIN_DIR . "classes/{$file}", $class_files);
+            // Load helper classes
+            'helpers/class.request.php',
+            'helpers/class.response.php',
+            'helpers/class.validator.php',
+            'helpers/class.helper.php',
 
-        // Load shortcodes
-        require_once EHX_DONATE_PLUGIN_DIR . 'shortcodes/class.campaign-shortcode.php';
+            // Load main classes
+            'classes/class.ehx-donate-menu.php',
+            'classes/class.ehx-donate-actions.php',
+            'classes/class.ehx-donate-scripts.php',
+            'classes/class.ehx-donate-settings.php',
+            'classes/class.ehx-donate-donation.php',
+            'classes/class.ehx-donate-giftaid.php',
+            'classes/class.ehx-donate-cron-job.php',
+            'classes/class.ehx-donate-campaign.php',
+            'classes/class.ehx-donate-transaction.php',
+
+            // Load shortcodes
+            'shortcodes/class.campaign-shortcode.php',
+        ];
+
+        array_map(fn($file) => require_once EHX_DONATE_PLUGIN_DIR . $file, $class_files);
+
 
         // Initialize core components
         new EHX_Donate_Menu();
@@ -81,12 +84,13 @@ class EHX_Donate
     }
     
     /**
-     * Activates the EHX_Donate plugin.
+     * Activates the EHX Donate plugin.
      *
      * This function is called when the plugin is activated. It performs the following tasks:
      * 1. Flushes the rewrite rules to prevent 404 errors.
-     * 2. Calls the self::create_table() method to create the necessary tables for the plugin.
-     * 3. Calls the self::set_default_options() method to set default plugin options.
+     * 2. Creates the required tables for the plugin in the WordPress database.
+     * 3. Adds custom capabilities to the specified WordPress role.
+     * 4. Sets default plugin options (if needed).
      *
      * @return void
      */
@@ -97,9 +101,12 @@ class EHX_Donate
 
         self::create_table();
 
+        self::ehx_capabilities();
+
         // Set default plugin options (if needed)
         self::set_default_options();
     }
+
 
     /**
      * Plugin deactivation hook.
@@ -115,9 +122,12 @@ class EHX_Donate
     }
 
     /**
-     * Uninstalls the plugin and performs necessary cleanup tasks.
+     * Uninstalls the EHX Donate plugin.
      *
-     * This function drops the ehx donate plugin required tables from the database and deletes the plugin's options.
+     * This function is called when the plugin is uninstalled. It performs the following tasks:
+     * 1. Destroys the required tables for the plugin in the WordPress database.
+     * 2. Removes custom capabilities from the specified WordPress role.
+     * 3. Deletes the plugin's options from the database.
      *
      * @return void
      */
@@ -125,9 +135,12 @@ class EHX_Donate
     {
         self::destroy_table();
 
+        self::ehx_capabilities(type: 'remove');
+
         // Delete the plugin's options from the database
-        delete_option('ehx_DONATEs_settings_options');
+        delete_option('ehx_donate_settings_options');
     }
+
     
     /**
      * Loads the plugin's text domain for localization.
@@ -218,6 +231,7 @@ class EHX_Donate
             self::$subscription_table => "
                 id INT(11) NOT NULL AUTO_INCREMENT,
                 user_id BIGINT UNSIGNED DEFAULT NULL,
+                donation_id BIGINT UNSIGNED DEFAULT NULL,
                 title VARCHAR(255) NOT NULL,
                 stripe_subscription_id VARCHAR(255) DEFAULT NULL,
                 stripe_subscription_price_id VARCHAR(255) DEFAULT NULL,
@@ -267,10 +281,39 @@ class EHX_Donate
         ];
 
         foreach ($tables as $table) {
-            $query = $wpdb->prepare("DROP TABLE IF EXISTS %s", $table);
-            $wpdb->query($query);
+            $wpdb->query("DROP TABLE IF EXISTS $table");
         }
     }
+
+    /**
+     * Adds or removes custom capabilities for a specified WordPress role.
+     *
+     * This function retrieves the specified WordPress role and adds or removes custom capabilities
+     * related to donations, gift aid, and transactions. The custom capabilities are defined in the
+     * $capabilities array. The function uses the $type parameter to determine whether to add or
+     * remove the capabilities.
+     *
+     * @param string $role_name The name of the WordPress role to which the capabilities will be added or removed.
+     *                          Default is 'administrator'.
+     * @param string $type      The type of operation to be performed. It can be either 'add' or 'remove'.
+     *                          Default is 'add'.
+     *
+     * @return void
+     */
+    public static function ehx_capabilities($role_name = 'administrator', $type = 'add')
+    {
+        // Retrieve the specified WordPress role
+        $role = get_role($role_name);
+
+        // Define the custom capabilities to be added/removed
+        $capabilities = ['manage_donations', 'manage_gift_aid', 'manage_transactions'];
+
+        $method = "{$type}_cap";
+
+        // Add/Remove the custom capabilities to the specified role
+        array_map(fn($capability) => $role->{$method}($capability), $capabilities);
+    }
+
 
     /**
      * Sets default options for the plugin.

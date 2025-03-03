@@ -222,6 +222,9 @@
         return valid;
     }
     
-    
+    $(".edp-card").on('click', '.edp-modal-close', function () {
+        
+        $('#edp-callback-modal').removeClass('edp-modal-active')
+    });
 
 })(jQuery);

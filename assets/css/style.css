@@ -195,7 +195,7 @@
 .edp-progressbar li {
   list-style-type: none;
   font-size: 15px;
-  width: 33.33333%;
+  width: 50%;
   float: left;
   position: relative;
   font-weight: 400;
@@ -344,3 +344,73 @@
     width: calc(100% / 2 - 16px);
   }
 }
+
+
+
+
+
+
+
+
+.edp-modal-window {
+  position: fixed;
+  background-color: rgba(0, 0, 0, 0.25);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  visibility: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s;
+}
+.edp-modal-window.edp-modal-active {
+  visibility: visible;
+  opacity: 1;
+  pointer-events: auto;
+}
+.edp-modal-window .edp-modal-body {
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 2em;
+  background: white;
+}
+.edp-modal-window .edp-modal-content {
+  text-align: center;
+  padding: 30px 0;
+}
+.edp-modal-window .edp-modal-content .edp-modal-icon {
+  margin-bottom: 24px;
+}
+.edp-modal-window .edp-modal-content .edp-modal-icon .feather-check-circle {
+  color: green;
+}
+.edp-modal-window .edp-modal-content .edp-modal-icon .feather-x-circle {
+  color: red;
+}
+.edp-modal-window h1 {
+  font-size: 150%;
+  margin: 0 0 15px;
+}
+.edp-modal-close {
+  color: #aaa;
+  line-height: 50px;
+  font-size: 80%;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  width: 70px;
+  text-decoration: none;
+}
+.edp-modal-close:hover {
+  color: black;
+}
+.edp-modal-window > div {
+  border-radius: 1rem;
+}
+

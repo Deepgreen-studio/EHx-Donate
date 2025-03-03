@@ -1,12 +1,12 @@
 <?php
 
-if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
+if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
 
     if (!class_exists('WP_List_Table')) {
         require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
     }
     
-    class EHX_Donate_GiftAid_Data_Table extends WP_List_Table 
+    class EHX_Donate_Transaction_Data_Table extends WP_List_Table 
     {   
         private EHX_Donate_Request $request;
 
@@ -20,12 +20,14 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
         public function __construct() 
         {
             parent::__construct([
-                'singular' => 'Gift Aid',
-                'plural'   => 'Gift Aid',
+                'singular' => 'Transaction',
+                'plural'   => 'Transactions',
                 'ajax'     => false
             ]);
 
             $this->request = new EHX_Donate_Request();
+
+            
         }
            
         /**
@@ -37,15 +39,12 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
         {
             return [
                 'cb' => '<input type="checkbox" />',
-                'title'   => 'Title',
-                'first_name'   => 'First Name',
-                'last_name'   => 'Last Name',
-                'address'   => 'House name or number',
-                'post_code'   => 'Postcode',
-                'aggregated_donations'   => 'Aggregated Donations',
-                'sponsored_event'   => 'Sponsored Event',
-                'created_at'   => 'Donation Date',
-                'total_amount' => 'Amount',
+                'created_at'   => 'Date',
+                'display_name' => 'Donor',
+                'post_title' => 'Campaign',
+                'amount' => 'Amount',
+                'status' => 'Status',
+                'type'   => 'Type',
             ];
         }
          
@@ -59,10 +58,11 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
         public function get_sortable_columns(): array 
         {
             return [
-                'title'  => ['title', false],
-                'first_name'     => ['first_name', false],
-                'last_name'     => ['last_name', false],
-                'amount'     => ['total_amount', false],
+                'display_name' => ['display_name', false],
+                'status'   => ['status', false],
+                'type'     => ['type', false],
+                'post_title' => ['post_title', false],
+                'amount'   => ['amount', false],
             ];
         }
          
@@ -97,36 +97,19 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
         public function column_default($item, $column_name): mixed 
         {
             switch ($column_name) {
-                case 'title':
-                    $page = EHX_Donate_Menu::$pages['gift_aid'];
-                    $delete_link = admin_url("admin.php?page={$page}&action=ehx_donations_delete&id={$item['id']}");
+                case 'created_at':
+                    $page = EHX_Donate_Menu::$pages['transaction'];
+                    $delete_link = admin_url("admin.php?page={$page}&action=ehx_transactions_delete&id={$item['id']}");
                     // $view_link = admin_url("admin.php?page={$page}&id={$item['id']}");
 
                     $actions = [
-                        'delete' => '<a href="' . esc_url(wp_nonce_url($delete_link, 'donations_delete_' . $item['id'])) . '" onclick="return confirm(\'Are you sure?\')">Delete</a>',
+                        'delete' => '<a href="' . esc_url(wp_nonce_url($delete_link, 'transactions_delete_' . $item['id'])) . '" onclick="return confirm(\'Are you sure?\')">Delete</a>',
                         // 'view'   => '<a href="' . esc_url($view_link) . '">' . esc_html__('View', 'ehx-member') . '</a>'
                     ];
-
-                    return $item['title'] . $this->row_actions($actions);
-                case 'created_at':
-                    return wp_date('d/m/Y', strtotime($item['created_at']));
-                case 'gift_aid':
-                    return esc_html($item['gift_aid'] ? 'True' : 'False');
-                case 'address':
-                    $address = !empty($item['address']) ? unserialize($item['address']) : [];
-                    $address_line = $address['address_line_1'] ?? null;
-                    $address_line .= $address['city'] ?? null;
-                    $address_line .= $address['state'] ?? null;
-                    $address_line .= $address['country'] ?? null;
-                    return esc_html($address_line);
-                case 'post_code':
-                    $address = !empty($item['address']) ? unserialize($item['address']) : [];
-                    return esc_html($address['post_code'] ?? null);
-                case 'total_amount':
+                    return wp_date('d/m/Y', strtotime($item['created_at'])) . $this->row_actions($actions);
+                case 'amount':
                 case 'charge':
                     return '£' . number_format($item[$column_name] ?? 0, 2);
-                case 'aggregated_donations':
-                    return $item['recurring'] .' Gift Aid donations';
                 default:
                     return $item[$column_name] ?? '';
             }
@@ -155,7 +138,7 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
                 $selected_user = $this->request->input('filter_user');
                 ?>
                 <div class="alignleft actions">
-                    <input type="hidden" name="page" value="<?php echo esc_html(EHX_Donate_Menu::$pages['donation']) ?>">
+                    <input type="hidden" name="page" value="<?php echo esc_html(EHX_Donate_Menu::$pages['transaction']) ?>">
                     
                     <!-- User Filter -->
                     <select name="filter_user">
@@ -168,7 +151,7 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
                     </select>
 
                     <input type="submit" class="button" value="Filter">
-                    <a href="?page=<?php echo esc_html(EHX_Donate_Menu::$pages['gift_aid']) ?>&per_page=-1&export=csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
+                    <a href="?page=<?php echo esc_html(EHX_Donate_Menu::$pages['transaction']) ?>&per_page=-1&export=csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
                 </div>
                 <?php
             }
@@ -183,29 +166,39 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
          *
          * @return void
          */
+        /**
+         * Prepares the items to be displayed in the list table.
+         *
+         * This function retrieves the necessary data from the database, applies filters and sorting,
+         * and sets up pagination for the list table. It then populates the items property with the
+         * retrieved data.
+         *
+         * @return void
+         */
         public function prepare_items(): void 
         {
             global $wpdb;
-            $donation_table = esc_sql(EHX_Donate::$donation_table);
-
+            $transaction_table = esc_sql(EHX_Donate::$transaction_table);
+            
             // Get query results and pagination parameters
             [$data, $per_page, $where] = $this->get_query_results();
 
             // Get total items for pagination
-            $total_items = $wpdb->get_var("SELECT COUNT(*) FROM $donation_table WHERE $where");
+            $total_items = $wpdb->get_var("SELECT COUNT(*) FROM $transaction_table WHERE $where");
 
-            // Set pagination arguments
             $this->set_pagination_args([
                 'total_items' => $total_items,
                 'per_page'    => $per_page,
                 'total_pages' => ceil($total_items / $per_page),
             ]);
 
-            // Set column headers and sortable columns
             $this->_column_headers = [$this->get_columns(), [], $this->get_sortable_columns()];
-
-            // Populate items property with retrieved data
             $this->items = $data;
+        }
+
+        public function ehx_donate_transaction_delete()
+        {
+            EHX_Donate_Helper::dd(true);
         }
 
         /**
@@ -221,12 +214,13 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
         {
             global $wpdb;
             $donation_table = esc_sql(EHX_Donate::$donation_table);
+            $transaction_table = esc_sql(EHX_Donate::$transaction_table);
             $donation_items_table = esc_sql(EHX_Donate::$donation_items_table);
-            $usermeta_table = esc_sql($wpdb->usermeta);
+            $users_table = esc_sql($wpdb->users);
             $posts_table = esc_sql($wpdb->posts);
 
             // Sorting
-            $valid_orderby = ['id', 'created_at', 'total_amount']; // Allowed sorting columns
+            $valid_orderby = ['id', 'amount', 'created_at']; // Allowed sorting columns
             $orderby = esc_sql($this->request->input('orderby', 'id'));
             $orderby = in_array($orderby, $valid_orderby) ? $orderby : 'id';
             $order = esc_sql($this->request->input('order', 'DESC'));
@@ -238,32 +232,24 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
 
             // Build WHERE conditions
             $where = "1=1"; // Always true condition to append other filters easily
-            // $where .= " AND gift_aid = 1 AND payment_status = 'Success'";
-            $where .= " AND payment_status = 'Success'";
+            // $where .= " AND d.gift_aid = 1";
 
             if ($filter_user) {
-                $where .= $wpdb->prepare(" AND d.user_id = %d", $filter_user);
+                $where .= $wpdb->prepare(" AND user_id = %d", $filter_user);
             }
 
             if ($filter_status) {
-                $where .= $wpdb->prepare(" AND d.status = %s", $filter_status);
+                $where .= $wpdb->prepare(" AND payment_status = %s", $filter_status);
             }
 
             // Query: Join with wp_users and wp_usermeta
-            $query = "SELECT 
-                d.*,
-                di.recurring,
-                MAX(CASE WHEN um.meta_key = 'title' THEN um.meta_value END) AS title,
-                MAX(CASE WHEN um.meta_key = 'first_name' THEN um.meta_value END) AS first_name,
-                MAX(CASE WHEN um.meta_key = 'last_name' THEN um.meta_value END) AS last_name,
-                MAX(CASE WHEN um.meta_key = 'address' THEN um.meta_value END) AS address,
-                p.post_title AS cause
-                FROM $donation_table d 
-                LEFT JOIN $donation_items_table di ON d.id = di.donation_id
-                LEFT JOIN $usermeta_table um ON um.user_id = d.user_id 
-                LEFT JOIN $posts_table p ON di.campaign_id = p.id
+            $query = "SELECT t.*, d.gift_aid, u.display_name, di.recurring, p.post_title 
+                FROM $transaction_table t 
+                LEFT JOIN $donation_table d ON t.donation_id = d.id 
+                LEFT JOIN $users_table u ON d.user_id = u.ID 
+                LEFT JOIN $donation_items_table di ON d.id = di.donation_id 
+                LEFT JOIN $posts_table p ON di.campaign_id = p.id 
                 WHERE $where 
-                GROUP BY d.id 
                 ORDER BY $orderby $order";
 
             // Pagination setup

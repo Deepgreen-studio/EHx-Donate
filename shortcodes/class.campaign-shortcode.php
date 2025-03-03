@@ -339,14 +339,12 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
 
             $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE browser_session = %s AND payment_status = 'pending'", $browser_session));
 
-            
             if($donation != null) {
                 $recurring = $input['recurring'];
 
                 $wpdb->insert(EHX_Donate::$donation_items_table, [
                     'donation_id' => $donation->id,
                     'campaign_id' => $campaign->ID,
-                    'subscription_id' => $subscriptionId ?? null,
                     'amount'  => $donation->total_amount,
                     'gift_aid' => $donation->gift_aid,
                     'recurring' => $recurring,
@@ -366,6 +364,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
 
                         $subscriptionId = $wpdb->insert(EHX_Donate::$subscription_table, [
                             'user_id' => $donation->user_id,
+                            'donation_id' => $donation->id,
                             'title' => $campaign->post_title,
                             'stripe_subscription_id' => rand(),
                             'stripe_subscription_price_id' => null,
@@ -442,11 +441,9 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                         </select>
 
                     <?php elseif($isType == 'textarea'): ?>
-                        <textarea name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" placeholder="<?php echo esc_attr($placeholder) ?>" class="edp-input-field" <?php echo $isRequired; ?>>
-
-                        </textarea>
+                        <textarea name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" class="edp-input-field" <?php echo $isRequired; ?>></textarea>
                     <?php else: ?>
-                        <input type="text" name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" placeholder="<?php echo esc_attr($placeholder) ?>" class="edp-input-field"  <?php echo $isRequired; ?> /> 
+                        <input type="text" name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" class="edp-input-field"  <?php echo $isRequired; ?> /> 
                     <?php endif ?>
                     <div id="invalid_<?php echo esc_html($htmlFor) ?>"></div>
                 </div>

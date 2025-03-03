@@ -20,7 +20,7 @@ if (!class_exists('EHX_Donate_Actions')) {
             // Hook CSV export into WordPress before any output starts
             add_action('admin_init', [$this, 'export_csv']);
 
-            add_action('admin_init', [$this, 'ehx_donate_donation_delete']);
+            add_action('admin_init', [$this, 'ehx_donate_table_row_delete']);
         }
 
         /**
@@ -38,12 +38,16 @@ if (!class_exists('EHX_Donate_Actions')) {
          */
         public function export_csv()
         {
+            if (!current_user_can('manage_donations')) {
+                wp_die(__('Permission denied', 'ehx-donate'));
+            }
+
             $export = $this->request->input('export');
 
             if ($export === 'csv') {
                 $page  = $this->request->input('page');
 
-                if($page == 'ehx_donate_admin_gift_aid') {
+                if($page == EHX_Donate_Menu::$pages['gift_aid']) {
                     [$data] = (new EHX_Donate_GiftAid_Data_Table)->get_query_results();
 
                     $header_fields = [
@@ -60,6 +64,20 @@ if (!class_exists('EHX_Donate_Actions')) {
 
                     $filename = 'gift_aid.xlsx';
                 }
+                else if($page == EHX_Donate_Menu::$pages['transaction']) {
+                    [$data] = (new EHX_Donate_Transaction_Data_Table)->get_query_results();
+
+                    $header_fields = [
+                        'Date', 
+                        'Donor', 
+                        'Campaign',
+                        'Amount',
+                        'Status', 
+                        'Type',
+                    ];
+
+                    $filename = 'transactions.csv';
+                } 
                 else {
                     [$data] = (new EHX_Donate_Donation_Data_Table)->get_query_results();
 
@@ -94,7 +112,7 @@ if (!class_exists('EHX_Donate_Actions')) {
 
                 // Add data rows
                 foreach ($data as $row) {
-                    if($page == 'ehx_donate_admin_gift_aid') {
+                    if($page == EHX_Donate_Menu::$pages['gift_aid']) {
                         $address = !empty($row['address']) ? unserialize($row['address']) : [];
 
                         $address_line = $address['address_line_1'] ?? null;
@@ -110,13 +128,23 @@ if (!class_exists('EHX_Donate_Actions')) {
                             $address['post_code'] ?? null,
                             $row['recurring'] .' Gift Aid donations',
                             '',
-                            date('d/m/Y', strtotime($row['created_at'])),
+                            wp_date('d/m/Y', strtotime($row['created_at'])),
                             $row['total_amount']
                         ];
                     }
+                    else if($page == EHX_Donate_Menu::$pages['transaction']) {
+                        $field = [
+                            wp_date('d F Y', strtotime($row['created_at'])),
+                            $row['display_name'],
+                            $row['post_title'],
+                            $row['amount'],
+                            $row['status'],
+                            $row['type'],
+                        ];
+                    } 
                     else {
                         $field = [
-                            date('d F Y', strtotime($row['created_at'])),
+                            wp_date('d F Y', strtotime($row['created_at'])),
                             $row['display_name'],
                             $row['total_amount'],
                             $row['post_title'],
@@ -135,35 +163,44 @@ if (!class_exists('EHX_Donate_Actions')) {
         }
 
         /**
-         * Deletes a donation record from the database.
+         * Deletes a donation or transaction record from the database.
          *
-         * This function handles the deletion of a donation record from the WordPress database.
-         * It checks if the current user has the necessary permissions and performs a database query to delete the record.
+         * This function handles the deletion of donation or transaction records based on the provided action and ID.
+         * It checks user capabilities, verifies the action, and performs the deletion using the WordPress database API.
          *
-         * @param int $id The ID of the donation record to be deleted.
-         * @param string $action The action parameter passed from the admin page.
-         * @param string $page The page parameter passed from the admin page.
+         * @param int $id The ID of the record to be deleted.
+         * @param string $action The action to be performed (ehx_donations_delete or ehx_transactions_delete).
          *
          * @return void
          */
-        public function ehx_donate_donation_delete()
+        public function ehx_donate_table_row_delete()
         {
             $id = $this->request->integer('id');
             $action  = $this->request->input('action');
 
-            if ($action === 'ehx_donations_delete') {
-                $page  = $this->request->input('page');
-                if (!current_user_can('delete_users', $id)) {
-                    wp_die('Permission denied');
-                }
+            if (!current_user_can('manage_donations', $id) || !current_user_can('manage_transactions', $id)) {
+                wp_die(__('Permission denied', 'ehx-donate'));
+            }
 
+            if ($action === 'ehx_donations_delete') {
                 check_admin_referer("donations_delete_{$id}");
+
+                $table = esc_sql(EHX_Donate::$donation_table);
+            }
+
+            if ($action === 'ehx_transactions_delete') {
+
+                check_admin_referer("transactions_delete_{$id}");
+
+                $table = esc_sql(EHX_Donate::$transaction_table);
+            }
+
+            if(isset($table)) {
+                $page  = $this->request->input('page');
 
                 global $wpdb;
 
-                $donation_table = esc_sql(EHX_Donate::$donation_table);
-
-                $wpdb->query($wpdb->prepare("DELETE FROM $donation_table WHERE id = %d", $id));
+                $wpdb->query($wpdb->prepare("DELETE FROM $table WHERE id = %d", $id));
 
                 wp_redirect(admin_url("admin.php?page={$page}&deleted=1"));
 
