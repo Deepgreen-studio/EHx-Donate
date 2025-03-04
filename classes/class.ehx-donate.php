@@ -6,6 +6,7 @@ class EHX_Donate
     public static $donation_items_table;
     public static $transaction_table;
     public static $subscription_table;
+    public static $booking_table;
 
     /**
      * Constructor for the EHX_Donate class.
@@ -23,6 +24,7 @@ class EHX_Donate
         self::$donation_items_table = $wpdb->prefix . 'ehx_donation_items';
         self::$transaction_table = $wpdb->prefix . 'ehx_transactions';
         self::$subscription_table = $wpdb->prefix . 'ehx_subscriptions';
+        self::$booking_table = $wpdb->prefix . 'ehx_bookings';
 
         add_action('plugins_loaded', [$this, 'load_textdomain']);
 
@@ -62,11 +64,15 @@ class EHX_Donate
             'classes/class.ehx-donate-donation.php',
             'classes/class.ehx-donate-giftaid.php',
             'classes/class.ehx-donate-cron-job.php',
-            'classes/class.ehx-donate-campaign.php',
             'classes/class.ehx-donate-transaction.php',
+
+            // Load post types classes
+            'post-types/class.ehx-donate-campaign.php',
+            'post-types/class.ehx-donate-event.php',
 
             // Load shortcodes
             'shortcodes/class.campaign-shortcode.php',
+            'shortcodes/class.event-shortcode.php',
         ];
 
         array_map(fn($file) => require_once EHX_DONATE_PLUGIN_DIR . $file, $class_files);
@@ -77,10 +83,13 @@ class EHX_Donate
         new EHX_Donate_Actions();
         new EHX_Donate_Register_Scripts();
         new EHX_Donate_Settings();
-        new EHX_Donate_Campaign();
         new EHX_Donate_Cron_Job();
 
+        new EHX_Donate_Campaign();
+        new EHX_Donate_Event();
+
         new EHX_Donate_Campaign_Shortcode();
+        new EHX_Donate_Event_Shortcode();
     }
     
     /**
@@ -231,7 +240,6 @@ class EHX_Donate
             self::$subscription_table => "
                 id INT(11) NOT NULL AUTO_INCREMENT,
                 user_id BIGINT UNSIGNED DEFAULT NULL,
-                donation_id BIGINT UNSIGNED DEFAULT NULL,
                 title VARCHAR(255) NOT NULL,
                 stripe_subscription_id VARCHAR(255) DEFAULT NULL,
                 stripe_subscription_price_id VARCHAR(255) DEFAULT NULL,
@@ -244,6 +252,20 @@ class EHX_Donate
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
                 KEY user_id (user_id)
+            ",
+            self::$booking_table => "
+                id INT(11) NOT NULL AUTO_INCREMENT,
+                user_id BIGINT UNSIGNED DEFAULT NULL,
+                event_id BIGINT UNSIGNED DEFAULT NULL,
+                ticket_price DECIMAL(8,2) NOT NULL,
+                quantity INT(11) NOT NULL,
+                discount DECIMAL(8,2) NOT NULL,
+                subtotal DECIMAL(8,2) NOT NULL,
+                order_note TEXT DEFAULT NULL,
+                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                PRIMARY KEY (id),
+                KEY user_id (user_id)
+                KEY event_id (event_id)
             "
         ];
 

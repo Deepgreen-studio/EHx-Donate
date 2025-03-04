@@ -1,4 +1,4 @@
-.ehx-admin-drag-fld {
+.edp-admin-drag-fld {
     display: block;
     position: relative;
     border: 1px solid #ddd;
@@ -6,7 +6,7 @@
     background: #f5f5f5;
     cursor: move !important;
 }
-.ehx-admin-drag-fld-title {
+.edp-admin-drag-fld-title {
     float: left;
     font-weight: 700;
     font-size: 13px;
@@ -15,7 +15,7 @@
     line-height: 30px;
     margin: 0 0 0 20px;
 }
-.ehx-admin-drag-fld-type {
+.edp-admin-drag-fld-type {
     float: left;
     font-size: 13px;
     height: 30px;
@@ -24,10 +24,10 @@
     font-weight: 400;
     color: #999;
 }
-.ehx-admin-drag-fld-icons {
+.edp-admin-drag-fld-icons {
     float: right;
 }
-.ehx-admin-drag-fld-icons a {
+.edp-admin-drag-fld-icons a {
     text-decoration: none;
     color: #fff;
     width: 40px;

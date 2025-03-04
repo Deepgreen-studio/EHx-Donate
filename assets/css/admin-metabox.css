@@ -1,20 +1,24 @@
-.ehx-member-metabox .ehx-forms-line th {
+.edp-member-metabox .edp-forms-line th {
     width: 33%;
 }
-.ehx-admin-metabox label {
+.edp-admin-metabox .edp-forms-line label {
     display: block;
     cursor: default;
-    padding: 0 !important;
     font-size: 13px;
     color: #666;
+    margin-bottom: 4px;
 }
-.ehx_tooltip.dashicons {
+.edp-admin-metabox .edp-forms-line .edp-forms-field {
+    width: 100%;
+    padding: 4px 12px;
+}
+.edp_tooltip.dashicons {
     height: 22px;
 }
-.ehx_tooltip {
+.edp_tooltip {
     cursor: pointer;
     vertical-align: middle;
 }
-.ehx-form-table .ehx-forms-line[data-conditional] {
+.edp-form-table .edp-forms-line[data-conditional] {
     display: none;
 }

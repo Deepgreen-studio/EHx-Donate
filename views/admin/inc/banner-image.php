@@ -6,7 +6,7 @@
         cursor: pointer;
     }
 </style>
-<div class="ehx-admin-metabox">
+<div class="edp-admin-metabox">
     <?php
         $ehx_campaign = get_post_meta($post->ID, '_ehx_campaign', true);
         $banner_image = isset($ehx_campaign['banner_image']) ? $ehx_campaign['banner_image'] : null;
@@ -14,7 +14,7 @@
     <img src="<?php echo wp_get_attachment_image_url($banner_image, 'medium'); ?>" style="max-width:100%; display:<?php echo !empty($banner_image) ? 'block' : 'none'; ?>;">
     <br>
 
-    <button type="button" class="thickbox" id="upload-image" data-title="<?php _e('Upload Banner Image', 'ehx-donate'); ?>"><?php _e('Set Banner Image', 'exh-donate'); ?></button>
+    <button type="button" class="thickbox" id="upload-image" data-title="<?php _e('Upload Banner Image', 'edp-donate'); ?>"><?php _e('Set Banner Image', 'exh-donate'); ?></button>
     <button type="button" class="thickbox" id="remove-image" style="display:<?php echo $banner_image ? 'inline-block' : 'none'; ?>;color: #b32d2e;"><?php _e('Remove', 'exh-donate'); ?></button>
 
     <input type="hidden" id="banner_image" name="_ehx_campaign[banner_image]" value="<?php echo esc_attr($banner_image); ?>">
@@ -23,7 +23,7 @@
 <script>
     jQuery(document).ready(function($) {
 		var frame;
-		$('.ehx-admin-metabox').on('click', '#upload-image', function(e) {
+		$('.edp-admin-metabox').on('click', '#upload-image', function(e) {
 			e.preventDefault();
 
 			let btn = $(this);
@@ -36,7 +36,7 @@
 			
 			frame = wp.media({
 				title: title,
-				button: { text: '<?php _e('Use this image', 'ehx-donate'); ?>' },
+				button: { text: '<?php _e('Use this image', 'edp-donate'); ?>' },
 				multiple: false
 			});
 			frame.on('select', function() {

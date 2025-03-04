@@ -273,7 +273,7 @@ if (!class_exists('EHX_Donate_Helper')) {
         public static function customize()
         {
             return (object) [
-                "memberships" => (object) [
+                "campaigns" => (object) [
                     (object) [
                         (object) [
                             "label" => esc_html__("Goal Amount", 'ehx-donate'),
@@ -312,6 +312,80 @@ if (!class_exists('EHX_Donate_Helper')) {
                             "value" => 0,
                         ]
                     ]
+                ],
+                "events" => (object) [
+                    (object) [
+                        "label" => esc_html__("Refund Policy", 'ehx-donate'),
+                        "id" => "refund_policy",
+                        "type" => "textarea",
+                        "placeholder" => esc_html__("Enter Refund Policy", 'ehx-donate'),
+                        "value" => '',
+                        "width" => '100%',
+                    ],
+                    (object) [
+                        "label" => esc_html__("Location", 'ehx-donate'),
+                        "id" => "location",
+                        "type" => "text",
+                        "placeholder" => esc_html__("Enter Location", 'ehx-donate'),
+                        "value" => '',
+                        "width" => '100%',
+                    ],
+                    (object) [
+                        "label" => esc_html__("Organized by", 'ehx-donate'),
+                        "id" => "organized_by",
+                        "type" => "text",
+                        "placeholder" => esc_html__("Enter Organized by", 'ehx-donate'),
+                        "value" => '',
+                        "width" => '50%',
+                    ],
+                    (object) [
+                        "label" => esc_html__("Date", 'ehx-donate'),
+                        "id" => "date",
+                        "type" => "date",
+                        "placeholder" => esc_html__("Choice date", 'ehx-donate'),
+                        "value" => '',
+                        "width" => '50%',
+                    ],
+                    (object) [
+                        "label" => esc_html__("Start Time", 'ehx-donate'),
+                        "id" => "start_time",
+                        "type" => "time",
+                        "placeholder" => esc_html__("Choice Start Time", 'ehx-donate'),
+                        "value" => 0,
+                        "width" => '50%',
+                    ],
+                    (object) [
+                        "label" => esc_html__("End Time", 'ehx-donate'),
+                        "id" => "end_time",
+                        "type" => "time",
+                        "placeholder" => esc_html__("Choice End Time", 'ehx-donate'),
+                        "value" => 0,
+                        "width" => '50%',
+                    ],
+                    (object) [
+                        "label" => esc_html__("Sit Capacity", 'ehx-donate'),
+                        "id" => "sit_capacity",
+                        "type" => "number",
+                        "placeholder" => esc_html__("Enter Sit Capacity", 'ehx-donate'),
+                        "value" => '',
+                        "width" => '100%',
+                    ],
+                    (object) [
+                        "label" => esc_html__("Ticket Price", 'ehx-donate'),
+                        "id" => "ticket_price",
+                        "type" => "number",
+                        "placeholder" => esc_html__("Enter Ticket Price", 'ehx-donate'),
+                        "value" => 0,
+                        "width" => '100%',
+                    ],
+                    (object) [
+                        "label" => esc_html__("Booking Deadline", 'ehx-donate'),
+                        "id" => "booking_deadline",
+                        "type" => "date",
+                        "placeholder" => esc_html__("Enter Booking Deadline", 'ehx-donate'),
+                        "value" => '',
+                        "width" => '100%',
+                    ],
                 ]
             ];
         }

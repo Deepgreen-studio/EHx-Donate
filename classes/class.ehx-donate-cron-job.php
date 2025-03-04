@@ -50,7 +50,7 @@ class EHX_Donate_Cron_Job
         $donation_items_table = EHX_Donate::$donation_items_table;
         $subscription_table = EHX_Donate::$subscription_table;
 
-        $query = "SELECT s.*, di.subscription_id, di.processing_fee, di.campaign_id, d.id as donation_id, d.payment_method, o.gift_aid 
+        $query = "SELECT s.*, di.subscription_id, di.processing_fee, di.campaign_id, d.id as donation_id, d.total_amount, o.gift_aid 
             FROM $subscription_table s
             LEFT JOIN $donation_items_table di ON s.id = di.subscription_id
             LEFT JOIN $donation_table d ON di.donation_id = d.id
@@ -76,7 +76,7 @@ class EHX_Donate_Cron_Job
                     'donation_id' => $subscription->donation_id,
                     'campaign_id' => $subscription->campaign_id,
                     'subscription_id' => $subscription->id,
-                    'amount'  => $subscription->amount,
+                    'amount'  => $subscription->total_amount,
                     'gift_aid' => $subscription->gift_aid,
                     'recurring' => $subscription->recurring,
                     'status' => 1,

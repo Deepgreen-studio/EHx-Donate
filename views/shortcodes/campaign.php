@@ -180,33 +180,38 @@
     </form>
 
     <?php if(isset($payment_callback) && $payment_callback): ?>
-        <div id="edp-callback-modal" class="edp-modal-window edp-modal-active">
-            <div class="edp-modal-body">
-                <a href="#" title="Close" class="edp-modal-close">Close</a>
-                
+        <div id="edp-callback-modal" class="edp-modal-window edp-modal-active edp-callback-modal">
+            <div class="edp-modal-dialog edp-modal-sm">
                 <div class="edp-modal-content">
-                    <div class="edp-modal-icon">
-                        <?php if($status == 'success'): ?>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
-                                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                                <polyline points="22 4 12 14.01 9 11.01"></polyline>
-                            </svg>
-                        <?php else: ?>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
-                                <circle cx="12" cy="12" r="10"></circle>
-                                <line x1="15" y1="9" x2="9" y2="15"></line>
-                                <line x1="9" y1="9" x2="15" y2="15"></line>
-                            </svg>
-                        <?php endif ?>
+
+                    <div class="edp-modal-header">
+                        <a href="#" title="Close" class="edp-modal-close"><?php esc_html_e('Close', 'ehx-donate') ?></a>
+                    </div>
+                    
+                    <div class="edp-modal-body">
+                        <div class="edp-modal-icon">
+                            <?php if($status == 'success'): ?>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-check-circle">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
+                            <?php else: ?>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-x-circle">
+                                    <circle cx="12" cy="12" r="10"></circle>
+                                    <line x1="15" y1="9" x2="9" y2="15"></line>
+                                    <line x1="9" y1="9" x2="15" y2="15"></line>
+                                </svg>
+                            <?php endif ?>
+                        </div>
+
+                        <h1><?php echo $status == 'success' ? __('SUCCESS !', 'ehx-donate') : __('CANCEL !', 'ehx-donate'); ?></h1>
+                        <div>
+                            <?php echo $status == 'success' ? __('Thank you for your generous donation!', 'ehx-donate') : __('Your donation are cancelled.', 'ehx-donate'); ?>
+                        </div>
                     </div>
 
-                    <h1><?php echo $status == 'success' ? __('SUCCESS !', 'ehx-donate') : __('CANCEL !', 'ehx-donate'); ?></h1>
-                    <div>
-                        <?php echo $status == 'success' ? __('Thank you for your generous donation!', 'ehx-donate') : __('Your donation are cancelled.', 'ehx-donate'); ?>
-                    </div>
                 </div>
             </div>
         </div>
     <?php endif ?>
-
 </div>

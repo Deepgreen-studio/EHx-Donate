@@ -1,7 +1,7 @@
 <div class="wrap">
     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
     
-    <nav class="nav-tab-wrapper ehx-tab-wrapper">
+    <nav class="nav-tab-wrapper edp-tab-wrapper">
         <?php foreach (EHX_Donate_Settings::$tabs as $key => $tab): ?>
             <a href="#<?php echo esc_attr($tab['slug']); ?>" class="nav-tab <?php echo $key == 0 ? 'nav-tab-active' : ''; ?>">
                 <?php echo esc_html($tab['label']); ?>
@@ -9,12 +9,12 @@
         <?php endforeach; ?>
     </nav>
 
-    <div class="notice" id="ehx-notice" style="display: none;">
+    <div class="notice" id="edp-notice" style="display: none;">
         <p></p>
     </div>
 
     <!-- Form for Settings -->
-    <form id="ehx_member_form_submit" action="<?php echo esc_url(admin_url('admin-ajax.php')) ?>" method="post">
+    <form id="edp_member_form_submit" action="<?php echo esc_url(admin_url('admin-ajax.php')) ?>" method="post">
         <!-- <?php
             // settings_fields('ehx_members_settings_group')
         ?> -->
@@ -23,7 +23,7 @@
 
         <input type="hidden" name="action" value="ehx_save_settings">
 
-        <div class="tab-content ehx-main-tab-content">
+        <div class="tab-content edp-main-tab-content">
 
             <div id="general" class="tab-panel tab-panel-active">
 
@@ -42,14 +42,14 @@
 
             <div id="access" class="tab-panel">
 
-                <ul class="subsubsub ehx-sub-tab-wrapper">
+                <ul class="subsubsub edp-sub-tab-wrapper">
                     <?php EHX_Donate_Settings::get_sub_tabs('access') ?>
                 </ul>
                 <div class="clear"></div>
                 
                 <?php EHX_Donate_Settings::get_tab_heading_description('access') ?>
                 
-                <div class="tab-content ehx-sub-tab-content">
+                <div class="tab-content edp-sub-tab-content">
 
                     <div id="restriction_content" class="tab-panel tab-panel-active">
                         <table class="form-table">
@@ -114,14 +114,14 @@
 
             <div id="integration" class="tab-panel">
 
-                <ul class="subsubsub ehx-sub-tab-wrapper">
+                <ul class="subsubsub edp-sub-tab-wrapper">
                     <?php EHX_Donate_Settings::get_sub_tabs('integration') ?>
                 </ul>
                 <div class="clear"></div>
                 
                 <?php EHX_Donate_Settings::get_tab_heading_description('integration') ?>
                 
-                <div class="tab-content ehx-sub-tab-content">
+                <div class="tab-content edp-sub-tab-content">
 
                     <div id="stripe" class="tab-panel tab-panel-active">
                         <table class="form-table">

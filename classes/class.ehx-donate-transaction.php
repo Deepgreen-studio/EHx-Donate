@@ -109,7 +109,7 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
                     return wp_date('d/m/Y', strtotime($item['created_at'])) . $this->row_actions($actions);
                 case 'amount':
                 case 'charge':
-                    return '£' . number_format($item[$column_name] ?? 0, 2);
+                    return EHX_Donate_Helper::currencyFormat($item[$column_name] ?? 0);
                 default:
                     return $item[$column_name] ?? '';
             }
