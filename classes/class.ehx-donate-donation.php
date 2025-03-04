@@ -119,7 +119,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                     return sprintf('<span style="%s">%s</span>', $status_classes[$item['payment_status']], ucfirst($item['payment_status']));
                 case 'total_amount':
                 case 'charge':
-                    return '£' . number_format($item[$column_name] ?? 0, 2);
+                    return EHX_Donate_Helper::currencyFormat($item[$column_name] ?? 0);
                 default:
                     return $item[$column_name];
             }

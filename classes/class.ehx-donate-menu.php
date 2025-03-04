@@ -105,6 +105,12 @@ if (!class_exists('EHX_Donate_Menu')) {
                             'menu_slug'  => self::$pages['transaction'],
                             'callback'   => [$this, 'ehx_donate_transactions_page'],
                         ],
+                        [
+                            'page_title' => esc_html__('Events', 'ehx-member'),
+                            'menu_title' => esc_html__('Events', 'ehx-member'),
+                            'menu_slug'  => 'edit.php?post_type=ehx-event',
+                            'callback'   => null,
+                        ],
                     ]
                 ],
             ];

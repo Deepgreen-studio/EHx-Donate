@@ -1,3 +1,5 @@
+@import "modal.css";
+
 /* Define variables for primary colors */
 :root {
   --primary-color: #000;
@@ -346,71 +348,154 @@
 }
 
 
-
-
-
-
-
-
-.edp-modal-window {
-  position: fixed;
-  background-color: rgba(0, 0, 0, 0.25);
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 999;
-  visibility: hidden;
-  opacity: 0;
-  pointer-events: none;
-  transition: all 0.3s;
-}
-.edp-modal-window.edp-modal-active {
-  visibility: visible;
-  opacity: 1;
-  pointer-events: auto;
-}
-.edp-modal-window .edp-modal-body {
-  width: 400px;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  padding: 2em;
-  background: white;
-}
-.edp-modal-window .edp-modal-content {
+/* PAYMENT CALLBACK MODAL START */
+.edp-callback-modal .edp-modal-content {
   text-align: center;
   padding: 30px 0;
 }
-.edp-modal-window .edp-modal-content .edp-modal-icon {
+.edp-callback-modal .edp-modal-content .edp-modal-icon {
   margin-bottom: 24px;
 }
-.edp-modal-window .edp-modal-content .edp-modal-icon .feather-check-circle {
+.edp-callback-modal .edp-modal-content .edp-modal-icon .feather-check-circle {
   color: green;
 }
-.edp-modal-window .edp-modal-content .edp-modal-icon .feather-x-circle {
+.edp-callback-modal .edp-modal-content .edp-modal-icon .feather-x-circle {
   color: red;
 }
-.edp-modal-window h1 {
+.edp-callback-modal h1 {
   font-size: 150%;
   margin: 0 0 15px;
 }
-.edp-modal-close {
-  color: #aaa;
-  line-height: 50px;
-  font-size: 80%;
-  position: absolute;
-  right: 0;
-  text-align: center;
-  top: 0;
-  width: 70px;
-  text-decoration: none;
-}
-.edp-modal-close:hover {
-  color: black;
-}
-.edp-modal-window > div {
-  border-radius: 1rem;
-}
+/* PAYMENT CALLBACK MODAL END */
 
+
+/* EVENT AREA START */
+.edp-ticket-area {
+  border: 1px solid #333;
+  padding: 24px;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  border-radius: 12px;
+}
+/* @media (max-width: 575px) {
+  .edp-ticket-area {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    background: #fff;
+    shadow: 5px 5px 5px #fff;
+    border-radius: 0;
+    border-color: none;
+    width: 100%;
+  }
+} */
+.edp-ticket-area .edp-ticket-name-area {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.edp-ticket-area .edp-ticket-name-area p {
+  font-weight: 600;
+  margin-bottom: 0;
+}
+.edp-ticket-area .edp-ticket-qty-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.edp-ticket-area .edp-ticket-qty-area .edp-ticket-qty-btn {
+  width: 35px;
+  height: 35px;
+  border-radius: 50%;
+  background-color: #333;
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+}
+.edp-ticket-area .edp-ticket-qty-area .edp-ticket-qty-input {
+  width: 100px;
+  height: 38px;
+  border-radius: 16px;
+  border: 1px solid #cdcdcd;
+  text-align: center;
+  font-size: 20px;
+}
+.edp-ticket-area .edp-ticket-btn-area .edp-ticket-btn {
+  background-color: #000;
+  width: 100%;
+  text-transform: uppercase;
+  border-radius: 12px;
+}
+/* EVENT AREA END */
+
+/* EVENT MODAL START */
+.edp-event-modal .edp-modal-dialog .edp-modal-content .edp-modal-header .edp-modal-close {
+  background-color: #fff;
+  border-radius: 40px;
+  height: 40px;
+  padding: 8px;
+  -webkit-transition: all .4 scubic-bezier(.4,0,.3,1);
+  transition: all .4 scubic-bezier(.4,0,.3,1);
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 12px;
+  right: 12px;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+.edp-event-modal .edp-modal-body {
+  padding: 0 !important;
+}
+.edp-event-modal .edp-modal-body .edp-body-content {
+  display: flex;
+}
+.edp-event-modal .edp-modal-body .edp-body-content .edp-body-left {
+  width: 70%;
+}
+.edp-event-modal .edp-modal-body .edp-body-content .edp-body-right {
+  width: 30%;
+  background-color: #f7f7f7;
+}
+/* .edp-event-modal .edp-modal-body .edp-body-content .edp-body-right .edp-body-right-content .edp-body-right-thumbnail {
+  max-height: 280px;
+}
+.edp-event-modal .edp-modal-body .edp-body-content .edp-body-right .edp-body-right-content .edp-body-right-thumbnail img {
+  height: 100%;
+  object-fit: cover;
+} */
+.edp-event-modal .edp-modal-body .edp-body-content .edp-body-right .edp-body-right-content .edp-body-content-summary {
+  padding: 24px;
+}
+.edp-event-modal .edp-modal-body .edp-body-content .edp-body-right .edp-body-right-content .edp-body-content-summary .edp-content-summary-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.5rem;
+  color: #1e0a3c;
+}
+.edp-event-modal .edp-modal-body .edp-body-content .edp-body-right .edp-body-right-content .edp-body-content-summary .edp-content-summary-subtitle {
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+}
+.edp-event-modal .edp-modal-body .edp-body-content .edp-body-right .edp-body-right-content .edp-body-content-summary .edp-content-summary-items .edp-content-summary-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  border-bottom: 1px solid #dddddd;
+}
+.edp-event-modal .edp-modal-body .edp-body-content .edp-body-right .edp-body-right-content .edp-body-content-summary .edp-content-summary-total {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  font-size: 1rem;
+  font-weight: 600;
+}
+/* EVENT MODAL END */

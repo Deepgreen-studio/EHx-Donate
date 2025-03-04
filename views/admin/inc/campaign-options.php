@@ -1,12 +1,12 @@
-<div class="ehx-admin-metabox">
+<div class="edp-admin-metabox">
 	<input type="hidden" name="<?php echo esc_html(self::NONCE_ACTION) ?>" value="<?php echo esc_html(wp_create_nonce(self::NONCE_ACTION)) ?>">
-    <table class="form-table ehx-form-table ehx-form-register-gdpr ehx-top-label">
+    <table class="form-table edp-form-table edp-form-register-gdpr edp-top-label">
         <tbody>
 			<?php
 				$ehx_campaign = get_post_meta($post->ID, '_ehx_campaign', true);
 			?>
-            <?php foreach($fields->memberships as $fields): ?>
-				<tr class="ehx-forms-line">
+            <?php foreach($fields->campaigns as $fields): ?>
+				<tr class="edp-forms-line">
 					<?php foreach($fields as $field): ?>
 						<td style="padding:16px;display: table-cell;">
 							<label for="<?php echo esc_attr($field->id); ?>">
@@ -17,7 +17,7 @@
 							</label>
 							
 							<?php if($field->type === 'select'): ?>
-								<select id="<?php echo esc_attr($field->id); ?>" name="_ehx_campaign[<?php echo esc_attr($field->id); ?>]" class="ehx-forms-field ehx-long-field">
+								<select id="<?php echo esc_attr($field->id); ?>" name="_ehx_campaign[<?php echo esc_attr($field->id); ?>]" class="edp-forms-field edp-long-field">
 									<?php if(gettype($field->options) === 'string'): ?>
 										<?php foreach(get_pages() as $page): ?>
 											<option value="<?php echo esc_html($page->ID); ?>" <?php echo selected($page->ID, $ehx_campaign[$field->id] ?? null) ?>><?php echo esc_html($page->post_title); ?></option>
@@ -29,7 +29,7 @@
 									<?php endif ?>
 								</select>
 							<?php else: ?>
-								<input type="<?php echo esc_attr($field->type); ?>" id="<?php echo esc_attr($field->id); ?>" name="_ehx_campaign[<?php echo esc_attr($field->id); ?>]" placeholder="<?php echo esc_attr($field->placeholder ?? ''); ?>" class="ehx-forms-field ehx-long-field" value="<?php echo esc_html($ehx_campaign[$field->id] ?? $field->value) ?>">
+								<input type="<?php echo esc_attr($field->type); ?>" id="<?php echo esc_attr($field->id); ?>" name="_ehx_campaign[<?php echo esc_attr($field->id); ?>]" placeholder="<?php echo esc_attr($field->placeholder ?? ''); ?>" class="edp-forms-field edp-long-field" value="<?php echo esc_html($ehx_campaign[$field->id] ?? $field->value) ?>">
 							<?php endif ?>
 						</td>
 					<?php endforeach ?>

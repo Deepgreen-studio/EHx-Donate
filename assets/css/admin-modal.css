@@ -1,4 +1,4 @@
-.ehx-admin-modal {
+.edp-admin-modal {
     border-radius: 3px;
     background: #fff;
     position: fixed;
@@ -10,25 +10,25 @@
     width: 730px;
     margin-left: -365px;
 }
-.ehx-admin-modal.normal {
+.edp-admin-modal.normal {
     width: 730px;
     margin-left: -365px;
     margin-top: -274.805px;
     display: block;
 }
-.ehx-admin-modal-head {
+.edp-admin-modal-head {
     padding: 4px 20px;
     background: #0085ba;
     position: relative;
     border-radius: 3px 3px 0 0;
 }
-.ehx-admin-modal h3 {
+.edp-admin-modal h3 {
     font-size: 14px;
     line-height: 14px;
     font-weight: 400;
     color: #fff;
 }
-.ehx-admin-modal-close {
+.edp-admin-modal-close {
     position: absolute;
     color: #fff !important;
     right: 16px;
@@ -37,7 +37,7 @@
     text-decoration: none;
     opacity: .4;
 }
-.ehx-admin-modal .ehx-admin-modal-body {
+.edp-admin-modal .edp-admin-modal-body {
     padding: 10px 20px 10px 20px;
     max-height: 500px;
     overflow: auto;
@@ -45,10 +45,10 @@
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 18px;
 }
-.ehx-admin-modal h4 {
+.edp-admin-modal h4 {
     margin: 0 0 10px 0 !important;
 }
-.ehx-admin-btns {
+.edp-admin-btns {
     line-height: 1.5em;
     margin: 0 0 5px 0;
     display: flex;
@@ -57,11 +57,11 @@
     align-items: baseline;
     flex-wrap: wrap;
 }
-.ehx-admin-modal a.button {
+.edp-admin-modal a.button {
     padding: 0 12px !important;
     vertical-align: middle !important;
 }
-.ehx-admin-btns a {
+.edp-admin-btns a {
     margin: 0 3px 8px 0 !important;
     font-size: 12px !important;
     display: flex;
@@ -71,7 +71,7 @@
     flex-wrap: nowrap;
     display: flex !important;
 }
-.ehx-admin-overlay {
+.edp-admin-overlay {
     background: rgba(0, 0, 0, .7);
     width: 100%;
     height: 100%;
@@ -81,59 +81,59 @@
     z-index: 10000;
     display: none;
 }
-.ehx-admin-overlay.active {
+.edp-admin-overlay.active {
     display: block;
 }
 
-.ehx-admin-half {
+.edp-admin-half {
     float: left;
     width: 48%;
 }
-.ehx-admin-half.ehx-admin-right {
+.edp-admin-half.edp-admin-right {
     float: right;
 }
-.ehx-admin-half {
+.edp-admin-half {
     float: left;
     width: 48%;
 }
-.ehx-admin-half p:first-child {
+.edp-admin-half p:first-child {
     margin-top: 0;
 }
-.ehx-admin-modal p {
+.edp-admin-modal p {
     font-size: 13px;
     color: #aaa;
 }
-.ehx-admin-modal .ehx-admin-modal-body.ehx-admin-metabox label {
+.edp-admin-modal .edp-admin-modal-body.edp-admin-metabox label {
     margin: 0 !important;
 }
-.ehx-admin-modal label {
+.edp-admin-modal label {
     font-size: 13px;
     color: #aaa;
 }
-.ehx-admin-metabox label {
+.edp-admin-metabox label {
     display: block;
     cursor: default;
     padding: 0 !important;
     font-size: 13px;
     color: #666;
 }
-.ehx_tooltip.dashicons {
+.edp_tooltip.dashicons {
     height: 22px;
 }
-.ehx_tooltip {
+.edp_tooltip {
     cursor: pointer;
     vertical-align: middle;
 }
-.ehx_tooltip.dashicons-editor-help:before {
+.edp_tooltip.dashicons-editor-help:before {
     float: left;
     font-size: 20px;
     line-height: 20px;
     color: rgba(0, 0, 0, .85) !important;
 }
-.ehx_tooltip.dashicons:before {
+.edp_tooltip.dashicons:before {
     height: 22px;
 }
-.ehx-admin-metabox input[type=text] {
+.edp-admin-metabox input[type=text] {
     height: auto !important;
     width: 100%;
     max-width: 100%;
@@ -143,23 +143,23 @@
     line-height: 1.4em !important;
     padding: 4px 10px !important;
 }
-.ehx-admin-modal input[type=color], 
-.ehx-admin-modal input[type=number], 
-.ehx-admin-modal input[type=date], 
-.ehx-admin-modal input[type=datetime-local], 
-.ehx-admin-modal input[type=datetime], 
-.ehx-admin-modal input[type=email], 
-.ehx-admin-modal input[type=month], 
-.ehx-admin-modal input[type=nehxber], 
-.ehx-admin-modal input[type=password], 
-.ehx-admin-modal input[type=search], 
-.ehx-admin-modal input[type=tel], 
-.ehx-admin-modal input[type=text], 
-.ehx-admin-modal input[type=time], 
-.ehx-admin-modal input[type=url], 
-.ehx-admin-modal input[type=week], 
-.ehx-admin-modal select, 
-.ehx-admin-modal textarea {
+.edp-admin-modal input[type=color], 
+.edp-admin-modal input[type=number], 
+.edp-admin-modal input[type=date], 
+.edp-admin-modal input[type=datetime-local], 
+.edp-admin-modal input[type=datetime], 
+.edp-admin-modal input[type=email], 
+.edp-admin-modal input[type=month], 
+.edp-admin-modal input[type=nedpber], 
+.edp-admin-modal input[type=password], 
+.edp-admin-modal input[type=search], 
+.edp-admin-modal input[type=tel], 
+.edp-admin-modal input[type=text], 
+.edp-admin-modal input[type=time], 
+.edp-admin-modal input[type=url], 
+.edp-admin-modal input[type=week], 
+.edp-admin-modal select, 
+.edp-admin-modal textarea {
     padding: 0 8px;
     line-height: 2;
     min-height: 30px;
@@ -170,97 +170,97 @@
     color: #2c3338;
     width: 100%;
 }
-.ehx-admin-modal input, .ehx-admin-modal select {
+.edp-admin-modal input, .edp-admin-modal select {
     margin: 0 1px;
 }
-.ehx-admin-tri {
+.edp-admin-tri {
     float: left;
     width: 33%;
     position: relative;
 }
-.ehx-admin-tri {
+.edp-admin-tri {
     float: left;
     width: 33%;
     position: relative;
 }
-.ehx-admin-btn-toggle {
+.edp-admin-btn-toggle {
     padding: 10px 0;
 }
-.ehx-admin-btn-toggle a.active {
+.edp-admin-btn-toggle a.active {
     color: #0085ba;
 }
 
-.ehx-admin-btn-toggle a {
+.edp-admin-btn-toggle a {
     text-decoration: none;
     color: #999;
 }
-.ehx_tooltip.dashicons {
+.edp_tooltip.dashicons {
     height: 22px;
 }
-.ehx_tooltip {
+.edp_tooltip {
     cursor: pointer;
     vertical-align: middle;
 }
-.ehx-admin-btn-content {
+.edp-admin-btn-content {
     /* display: none; */
     padding: 5px 0 0 0;
 }
-.ehx-admin-cur-condition-template {
+.edp-admin-cur-condition-template {
     /* display: none; */
 }
-.ehx-admin-btn-content p.ehx-admin-conditions-notice {
+.edp-admin-btn-content p.edp-admin-conditions-notice {
     width: 100%;
     margin: 0 0 9px 0 !important;
 }
-.ehx-admin-btn-content p {
+.edp-admin-btn-content p {
     float: left;
     margin-right: 10px !important;
     padding: 0 !important;
 }
-.ehx-admin-btn-toggle p {
+.edp-admin-btn-toggle p {
     margin: 0 5px 0 0 !important;
 }
-.ehx-admin-btn-content p {
+.edp-admin-btn-content p {
     float: left;
     margin-right: 10px !important;
     padding: 0 !important;
 }
-.ehx-admin-btn-toggle p {
+.edp-admin-btn-toggle p {
     margin: 0 5px 0 0 !important;
 }
-.ehx-admin-btn-toggle a.ehx-admin-new-condition {
+.edp-admin-btn-toggle a.edp-admin-new-condition {
     margin-bottom: 5px;
 }
-.ehx-admin-modal a.button {
+.edp-admin-modal a.button {
     padding: 0 12px !important;
     vertical-align: middle !important;
 }
-.ehx-admin-modal a.button-primary {
+.edp-admin-modal a.button-primary {
     padding: 0 12px !important;
     vertical-align: middle !important;
 }
-.ehx-admin-btn-content p {
+.edp-admin-btn-content p {
     float: left;
     margin-right: 10px !important;
     padding: 0 !important;
 }
-.ehx-admin-modal-foot {
+.edp-admin-modal-foot {
     padding: 20px 0 !important;
     border-top: 1px solid #ddd;
     text-align: center;
     background: #eee;
     border-radius: 0 0 3px 3px;
 }
-.ehx-admin-modal input[type=submit].button-primary {
+.edp-admin-modal input[type=submit].button-primary {
     padding: 0 12px !important;
     vertical-align: middle !important;
     line-height: 24px !important;
 }
-.ehx-admin-modal-foot a, .ehx-admin-modal-foot input {
+.edp-admin-modal-foot a, .edp-admin-modal-foot input {
     margin: 0 10px !important;
     font-size: 14px !important;
 }
-.ehx-admin-modal a.button {
+.edp-admin-modal a.button {
     padding: 0 12px !important;
     vertical-align: middle !important;
 }
