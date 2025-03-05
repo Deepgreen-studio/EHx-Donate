@@ -28,18 +28,20 @@
                     </div>
                 </div> 
 
-                <?php
-                    if (count($campaigns)) {
-                        self::input_field(label: 'campaign', isType: 'select', placeholder: esc_html__('Select campaign'), data: $campaigns);
-                        echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select required fields.', 'ehx-donate') .'</p>';
-                    }
-                    else {
-                        echo "<input type='hidden' name='campaign' id='campaign' value='{$post->post_name}' />";
-                        echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select one option.', 'ehx-donate') .'</p>';
-                    }
+                <div class="edp-input-fields">
+                    <?php
+                        if (count($campaigns)) {
+                            self::input_field(label: 'campaign', isType: 'select', placeholder: esc_html__('Select campaign'), data: $campaigns, column: 'edp-field-full');
+                            echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select required fields.', 'ehx-donate') .'</p>';
+                        }
+                        else {
+                            echo "<input type='hidden' name='campaign' id='campaign' value='{$post->post_name}' />";
+                            echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select one option.', 'ehx-donate') .'</p>';
+                        }
 
-                    self::input_field(label: esc_html__('How often would you like to give?'), for: 'recurring', isType: 'select', data: $recurring);
-                ?>
+                        self::input_field(label: esc_html__('How often would you like to give?'), for: 'recurring', isType: 'select', data: $recurring, column: 'edp-field-full');
+                    ?>
+                </div>
 
                 <div>
                     <label class="edp-field-labels"><?php esc_html_e('Now choose how much', 'ehx-donate') ?>.</label>
@@ -113,16 +115,18 @@
                         self::input_field(label: __('Email Address', 'ehx-donate'), for: 'email', placeholder: __('Enter Email Address', 'ehx-donate'));
                         self::input_field(label: __('Phone Number', 'ehx-donate'), for: 'phone', placeholder: __('Enter Phone Number', 'ehx-donate'));
                     ?>
+
+                    <div class="edp-field-100 edp-input-checkbox">
+                        <input type="checkbox" name="gift_aid" id="gift_aid" /> 
+                        <label for="gift_aid" class="edp-field-labels" style="display: inline-block;">
+                            <?php esc_html_e('Gift Aid', 'ehx-donate') ?>
+                            <img src="<?php echo EHX_DONATE_PLUGIN_URL ?>assets/images/gift-aid.png" alt="" srcset="">
+                        </label> 
+                    </div>
                 </div>
                 
 
-                <div style="margin-bottom: 24px;">
-                    <input type="checkbox" name="gift_aid" id="gift_aid" /> 
-                    <label for="gift_aid" class="edp-field-labels" style="display: inline-block;">
-                        <?php esc_html_e('Gift Aid', 'ehx-donate') ?>
-                        <img src="<?php echo EHX_DONATE_PLUGIN_URL ?>assets/images/gift-aid.png" alt="" srcset="">
-                    </label> 
-                </div>
+                
 
                 <div id="gift_aid_fields" style="display: none;">   
                     <div class="edp-input-fields">
