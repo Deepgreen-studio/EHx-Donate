@@ -68,11 +68,9 @@ class EHX_Donate
 
             // Load post types classes
             'post-types/class.ehx-donate-campaign.php',
-            'post-types/class.ehx-donate-event.php',
 
             // Load shortcodes
             'shortcodes/class.campaign-shortcode.php',
-            'shortcodes/class.event-shortcode.php',
         ];
 
         array_map(fn($file) => require_once EHX_DONATE_PLUGIN_DIR . $file, $class_files);
@@ -86,10 +84,8 @@ class EHX_Donate
         new EHX_Donate_Cron_Job();
 
         new EHX_Donate_Campaign();
-        new EHX_Donate_Event();
 
         new EHX_Donate_Campaign_Shortcode();
-        new EHX_Donate_Event_Shortcode();
     }
     
     /**
