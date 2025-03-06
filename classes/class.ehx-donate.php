@@ -63,7 +63,7 @@ class EHX_Donate
             'classes/class.ehx-donate-settings.php',
             'classes/class.ehx-donate-donation.php',
             'classes/class.ehx-donate-giftaid.php',
-            'classes/class.ehx-donate-cron-job.php',
+            // 'classes/class.ehx-donate-cron-job.php',
             'classes/class.ehx-donate-transaction.php',
 
             // Load post types classes
@@ -81,7 +81,7 @@ class EHX_Donate
         new EHX_Donate_Actions();
         new EHX_Donate_Register_Scripts();
         new EHX_Donate_Settings();
-        new EHX_Donate_Cron_Job();
+        // new EHX_Donate_Cron_Job();
 
         new EHX_Donate_Campaign();
 

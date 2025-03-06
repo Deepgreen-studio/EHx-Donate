@@ -185,14 +185,8 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
          */
         public function prepare_items(): void 
         {
-            global $wpdb;
-            $donation_table = esc_sql(EHX_Donate::$donation_table);
-
             // Get query results and pagination parameters
-            [$data, $per_page, $where] = $this->get_query_results();
-
-            // Get total items for pagination
-            $total_items = $wpdb->get_var("SELECT COUNT(*) FROM $donation_table WHERE $where");
+            [$data, $per_page, $total_items] = $this->get_query_results();
 
             // Set pagination arguments
             $this->set_pagination_args([
@@ -264,7 +258,10 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
                 LEFT JOIN $posts_table p ON di.campaign_id = p.id
                 WHERE $where 
                 GROUP BY d.id 
-                ORDER BY $orderby $order";
+                ORDER BY $orderby $order
+            ";
+            
+            $total_items = count($wpdb->get_col($query));
 
             // Pagination setup
             $per_page = esc_sql($this->request->input('per_page', 10));
@@ -277,7 +274,7 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
 
             $data = $wpdb->get_results($query, ARRAY_A);
 
-            return [$data, $per_page, $where];
+            return [$data, $per_page, $total_items];
         }
 
     }

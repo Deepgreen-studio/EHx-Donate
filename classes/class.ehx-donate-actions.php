@@ -38,13 +38,14 @@ if (!class_exists('EHX_Donate_Actions')) {
          */
         public function export_csv()
         {
-            if (!current_user_can('manage_donations')) {
-                wp_die(__('Permission denied', 'ehx-donate'));
-            }
-
             $export = $this->request->input('export');
 
             if ($export === 'csv') {
+
+                if (!current_user_can('manage_donations')) {
+                    wp_die(__('Permission denied', 'ehx-donate'));
+                }
+
                 $page  = $this->request->input('page');
 
                 if($page == EHX_Donate_Menu::$pages['gift_aid']) {
@@ -178,8 +179,10 @@ if (!class_exists('EHX_Donate_Actions')) {
             $id = $this->request->integer('id');
             $action  = $this->request->input('action');
 
-            if (!current_user_can('manage_donations', $id) || !current_user_can('manage_transactions', $id)) {
-                wp_die(__('Permission denied', 'ehx-donate'));
+            if(!empty($id) && !empty($action)) {
+                if (!current_user_can('manage_donations', $id) || !current_user_can('manage_transactions', $id)) {
+                    wp_die(__('Permission denied', 'ehx-donate'));
+                }
             }
 
             if ($action === 'ehx_donations_delete') {
