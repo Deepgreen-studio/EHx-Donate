@@ -260,7 +260,7 @@ class EHX_Donate
                 order_note TEXT DEFAULT NULL,
                 created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
                 PRIMARY KEY (id),
-                KEY user_id (user_id)
+                KEY user_id (user_id),
                 KEY event_id (event_id)
             "
         ];
@@ -344,6 +344,7 @@ class EHX_Donate
     {
         // Define default payment gateway settings
         $options = [
+            'enable_gift_aid' => true,
             'stripe_enable' => true,
             'stripe_client_key' => 'pk_test_51MiBHEKVOOxRoCcVTL0ZVEuPjbMxPARb7MmEPF37YwZyxnn5vvghF6f9Z6kCBuFzYWQqP8RXYXEQjpuzBdf4khDW004kzM6OS6',
             'stripe_client_secret' => 'sk_test_51MiBHEKVOOxRoCcVds9KeZ2B8YgkPm9XldAbegtt7OClqd9XMM5CChYSvI5g41fxQkURsUoLHcpVzSccQ99iOOi000rszEAiU5',

@@ -20,8 +20,8 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
         public function __construct() 
         {
             parent::__construct([
-                'singular' => 'Payment',
-                'plural'   => 'Payments',
+                'singular' => 'Donation',
+                'plural'   => 'Donations',
                 'ajax'     => false
             ]);
 
@@ -271,6 +271,47 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
             $data = $wpdb->get_results($query, ARRAY_A);
 
             return [$data, $per_page, $total_items];
+        }
+
+        /**
+         * Retrieves donation data for the current user.
+         *
+         * This function connects to the WordPress database, retrieves donation data for the current user,
+         * and returns the results as an associative array. The retrieved data includes donation details,
+         * campaign information, and whether the donation is recurring.
+         *
+         * @global wpdb $wpdb The WordPress database object.
+         *
+         * @return array An associative array containing the donation data for the current user.
+         *               If no data is found, an empty array is returned.
+         */
+        public static function get_data()
+        {
+            global $wpdb;
+
+            // Define table names
+            $donation_table = esc_sql(EHX_Donate::$donation_table);
+            $donation_items_table = esc_sql(EHX_Donate::$donation_items_table);
+            $posts_table = esc_sql($wpdb->posts);
+
+            // Get the current user ID
+            $user_id = get_current_user_id();
+
+            // Prepare the SQL query
+            $query = $wpdb->prepare(
+                "SELECT d.*, di.recurring, p.post_title 
+                 FROM $donation_table d 
+                 LEFT JOIN $donation_items_table di ON d.id = di.donation_id 
+                 LEFT JOIN $posts_table p ON di.campaign_id = p.id 
+                 WHERE user_id = %d",
+                $user_id
+            );
+
+            // Execute the query and retrieve the results
+            $data = $wpdb->get_results($query);
+
+            // Return the data or an empty array if no data is found
+            return $data ?? [];
         }
 
     }

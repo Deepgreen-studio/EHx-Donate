@@ -36,7 +36,7 @@
             },
             success: (response) => {
                 form.trigger("reset");
-                // handleSuccess(response);
+                handleSuccess(response);
             },
             complete: () => {
                 submitBtn.attr("disabled", false);
@@ -44,7 +44,7 @@
                 btnTextEl.text(btnLoaderCurrTxt);
             },
             error: function (e) {
-                // handleError(e);
+                handleError(e);
             },
         });
     });
