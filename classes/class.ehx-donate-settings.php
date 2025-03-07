@@ -26,7 +26,7 @@ if (!class_exists('EHX_Donate_Settings')) {
             // Define tabs
             self::$tabs = [
                 ['label' => __('General', 'ehx-member'), 'slug' => 'general', 'subtab' => 'pages'],
-                ['label' => __('Access', 'ehx-member'), 'slug' => 'access', 'subtab' => 'restriction_content'],
+                // ['label' => __('Access', 'ehx-member'), 'slug' => 'access', 'subtab' => 'restriction_content'],
                 ['label' => __('Email', 'ehx-member'), 'slug' => 'email', 'subtab' => null],
                 ['label' => __('Integration', 'ehx-member'), 'slug' => 'integration', 'subtab' => 'stripe'],
                 // ['label' => __('Appearance', 'ehx-member'), 'slug' => 'appearance', 'subtab' => 'profile'],

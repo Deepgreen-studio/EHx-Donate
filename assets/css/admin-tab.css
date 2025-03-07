@@ -1,9 +1,9 @@
-.nav-tab-wrapper {
+.edp-wrapper .nav-tab-wrapper {
     margin-bottom: 20px;
     border-bottom: 1px solid #ccc;
 }
 
-.nav-tab {
+.edp-wrapper .nav-tab {
     display: inline-block;
     padding: 10px 20px;
     text-decoration: none;
@@ -13,11 +13,11 @@
     cursor: pointer;
 }
 
-.nav-tab:hover {
+.edp-wrapper .nav-tab:hover {
     background-color: #f1f1f1;
 }
 
-.nav-tab-active {
+.edp-wrapper .nav-tab-active {
     background-color: #fff;
     border: 1px solid #ccc;
     border-bottom: 1px solid #fff;
@@ -25,16 +25,26 @@
 }
 
 /* Tab Content */
-.tab-content {
+.edp-wrapper .tab-content {
     border: 1px solid #ccc;
     padding: 20px;
     background: #fff;
 }
 
-.tab-panel {
+.edp-wrapper .tab-panel {
     display: none; /* Hide inactive panels */
 }
 
-.tab-panel-active {
+.edp-wrapper .tab-panel-active {
     display: block; /* Show active panel */
+}
+
+.edp-wrapper .edp-main-tab-content .form-table input[type="text"],
+.edp-wrapper .edp-main-tab-content .form-table input[type="password"],
+.edp-wrapper .edp-main-tab-content .form-table input[type="number"],
+.edp-wrapper .edp-main-tab-content .form-table input[type="url"],
+.edp-wrapper .edp-main-tab-content .form-table input[type="tel"],
+.edp-wrapper .edp-main-tab-content .form-table input[type="email"] {
+    width: 100%;
+    padding: 4px 12px;
 }

@@ -102,6 +102,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
             $new_columns = array(
                 'goal_amount' => __('Goal Amount', 'ehx-donate'),
                 'recurring' => __('Recurring', 'ehx-donate'),
+                'progress' => __('Progress', 'ehx-donate'),
                 'start_and_end_date' => __('Start & End Date', 'ehx-donate'),
             );
             return array_merge($columns, $new_columns);
@@ -119,12 +120,42 @@ if (!class_exists('EHX_Donate_Campaign')) {
         {
             $ehx_campaign = get_post_meta($post_id, '_ehx_campaign', true);
 
-            echo match($column) {
-                'goal_amount' => esc_html('£' . $ehx_campaign['goal_amount'] ?? ''),
-                'recurring'   => esc_html($ehx_campaign['recurring'] ?? ''),
-                'start_and_end_date' => esc_html($ehx_campaign['start_date']. '-'. $ehx_campaign['end_date']),
-                default => '',
-            };
+            switch ($column) {
+                case 'goal_amount':
+                    echo esc_html('£' . $ehx_campaign['goal_amount'] ?? '');
+                    break;
+                case 'progress':
+                    global $wpdb;
+
+                    // Get the donation table name
+                    $donation_table = EHX_Donate::$donation_items_table;
+
+                    // Query to calculate the total donations for the campaign
+                    $sum_total_amount = $wpdb->get_var($wpdb->prepare("SELECT SUM(amount) FROM $donation_table WHERE campaign_id = %d", $post_id));
+
+                    // Ensure $sum_total_amount is a valid number
+                    $sum_total_amount = floatval($sum_total_amount);
+
+                    // Get the goal amount
+                    $goal_amount = isset($ehx_campaign['goal_amount']) ? floatval($ehx_campaign['goal_amount']) : 0;
+
+                    // Calculate progress percentage
+                    $progress = $goal_amount > 0 ? ($sum_total_amount / $goal_amount) * 100 : 0;
+
+                    // Ensure progress does not exceed 100%
+                    $progress = min($progress, 100);
+
+                    // Display progress bar
+                    echo '<div class="edp-progress-container"><div class="edp-progress html" style="width: ' . esc_attr($progress) . '%;"></div></div>';
+                    echo '<p>'. EHX_Donate_Helper::currencyFormat($sum_total_amount) .' ('.esc_html(round($progress, 2) . '%').')</p>';
+                    break;
+                case'start_and_end_date':
+                    echo esc_html($ehx_campaign['start_date']. '-'. $ehx_campaign['end_date']);
+                    break;
+                default:
+                    echo esc_html($ehx_campaign[$column] ?? '');
+                    break;
+            }
         }
 
         /**

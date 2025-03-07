@@ -31,7 +31,7 @@
         }
 
         if ((typeof response.data?.redirect !== 'undefined' && response.data?.redirect !== null) || (typeof redirect !== 'undefined' && redirect !== null)) {
-            location.replace(redirect || response.data.redirect);
+            location.replace(response.data.redirect || redirect);
         }
     }
 
@@ -43,7 +43,7 @@
         if (e.status === 0) {
             message = 'Not connected Please verify your network connection.'
         }
-        else if (e.status === 200 && typeof redirect !== 'undefined') {
+        else if (e.status === 200 && typeof redirect !== null && typeof redirect !== 'undefined') {
             location.replace(redirect);
         }
         else if (e.status === 404) {
@@ -88,7 +88,7 @@
 
     function toastrAlert(message, type = 'success') {
         if (location.pathname == '/wp-admin/admin.php') {
-            const element = $('#ehx-notice');
+            const element = $('#edp-notice');
 
             const alert = {
                 success: 'notice-success',

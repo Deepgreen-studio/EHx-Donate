@@ -59,6 +59,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                 }
             }
 
+            $enable_gift_aid = (bool) EHX_Donate_Settings::extract_setting_value('enable_gift_aid', false);
             $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
 
             ob_start();
@@ -103,7 +104,10 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
             // Validate nonce to prevent CSRF
             $validator->validate_nonce(self::NONCE_NAME, self::NONCE_ACTION);
 
+            $enable_gift_aid = (bool) EHX_Donate_Settings::extract_setting_value('enable_gift_aid', false);
             $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
+
+            $required = $enable_gift_aid ? 'required' : 'nullable';
 
             // Validate input data
             $validator->validate([
@@ -114,12 +118,12 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
                 'last_name' => 'required|string|min:2|max:30',
                 'email' => 'required|string|email|max:255',
                 'phone' => 'required|string|min:9|max:20',
-                'address_line_1' => 'nullable|string|max:50',
+                'address_line_1' => $required . '|string|max:50',
                 'address_line_2' => 'nullable|string|max:50',
-                'city' => 'nullable|string|max:50',
-                'state' => 'nullable|string|max:50',
-                'country' => 'nullable|string|max:50',
-                'post_code' => 'nullable|string|max:50',
+                'city' => $required . '|string|max:50',
+                'state' => $required . '|string|max:50',
+                'country' => $required . '|string|max:50',
+                'post_code' => $required . '|string|max:50',
                 // 'g-recaptcha-response' => $enable_recaptcha ? 'required' : 'nullable',
             ]);
 
@@ -329,6 +333,8 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
             if ($browser_session != $txid) {
                 return home_url('/');
             }
+
+            // $browser_session = '67ca9c9a270dd';
 
             $campaign = EHX_Donate_Helper::sessionGet('campaign');
             $input = EHX_Donate_Helper::sessionGet('input');
