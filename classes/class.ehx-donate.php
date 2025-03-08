@@ -70,11 +70,11 @@ class EHX_Donate
             'post-types/class.ehx-donate-campaign.php',
 
             // Load shortcodes
-            'shortcodes/class.campaign-shortcode.php',
+            'shortcodes/class.donation-form-shortcode.php',
+            'shortcodes/class.donation-table-shortcode.php',
         ];
 
         array_map(fn($file) => require_once EHX_DONATE_PLUGIN_DIR . $file, $class_files);
-
 
         // Initialize core components
         new EHX_Donate_Menu();
@@ -85,7 +85,8 @@ class EHX_Donate
 
         new EHX_Donate_Campaign();
 
-        new EHX_Donate_Campaign_Shortcode();
+        new EHX_Donate_Donation_Form_Shortcode();
+        new EHX_Donate_Donation_Table_Shortcode();
     }
     
     /**

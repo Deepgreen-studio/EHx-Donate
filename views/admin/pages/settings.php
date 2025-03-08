@@ -34,18 +34,28 @@
 
                     <tr valign="top">
                         <th scope="row">
-                            <?php esc_html_e('Campaign Shortcode', 'ehx-donate'); ?>
+                            <?php esc_html_e('Donation Form Shortcode', 'ehx-donate'); ?>
                         </th>
                         <td>
-                            <code>[ehx_campaigns /]</code>
+                            <code>[ehx_donate_donation_form /]</code>
                             <p class="description">
-                                <?php esc_html_e('Use this shortcode to display your donation campaigns on any page or post. Simply copy and paste it into the content editor.', 'ehx-donate'); ?>
+                                <?php esc_html_e('Insert this shortcode on any page or post to display the donation form. Simply copy and paste it into the content editor.', 'ehx-donate'); ?>
                             </p>
-                            <!-- <p class="description">
-                                <?php esc_html_e('You can customize the shortcode with attributes like `id`, `category`, or `style` to filter or style the campaigns. Example: `[ehx_campaigns category="education" style="grid"]`.', 'ehx-donate'); ?>
-                            </p> -->
                         </td>
                     </tr>
+
+                    <tr valign="top">
+                        <th scope="row">
+                            <?php esc_html_e('Donation Table Shortcode', 'ehx-donate'); ?>
+                        </th>
+                        <td>
+                            <code>[ehx_donate_donation_table /]</code>
+                            <p class="description">
+                                <?php esc_html_e('Insert this shortcode on any page or post to display the donation table. Simply copy and paste it into the content editor.', 'ehx-donate'); ?>
+                            </p>
+                        </td>
+                    </tr>
+
                 </table>
                 
             </div>
