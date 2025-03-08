@@ -1,8 +1,8 @@
 <?php
 
-if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
+if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
 
-    class EHX_Donate_Campaign_Shortcode
+    class EHX_Donate_Donation_Form_Shortcode
     {
         public EHX_Donate_Response $response;
         public EHX_Donate_Request $request;
@@ -24,7 +24,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
             $this->request = new EHX_Donate_Request();
 
             // Add the shortcode for the member form
-            add_shortcode('ehx_campaigns', [$this, 'add_shortcode']);
+            add_shortcode('ehx_donate_donation_form', [$this, 'add_shortcode']);
 
             // Set up the AJAX actions for handling form submissions
             add_action('wp_ajax_ehx_donate_from_submit', [$this, 'handle_form']); // When user is logged in
@@ -83,7 +83,7 @@ if (!class_exists('EHX_Donate_Campaign_Shortcode')) {
             global $wp;
             $callback = home_url($wp->request);
 
-            require EHX_DONATE_PLUGIN_DIR . 'views/shortcodes/campaign.php';
+            require EHX_DONATE_PLUGIN_DIR . 'views/shortcodes/donation-form.php';
 
             return ob_get_clean();
         }

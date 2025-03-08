@@ -1,5 +1,9 @@
 (function ($) {
 
+    if($('.edp-datatable').length) {
+        new DataTable('.edp-datatable');
+    }
+
     $(document).on("submit", "form#ehx_donate_form_submit", async function (e) {
         e.preventDefault();
 
