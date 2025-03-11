@@ -1,5 +1,5 @@
 <div>
-    <p><?php esc_html_e('Donations.', 'ehx-member') ?></p>
+    <p><?php esc_html_e('Donations.', 'ehx-donate') ?></p>
 
     <table class="edp-datatable">
         <thead>

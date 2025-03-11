@@ -103,7 +103,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
 
                     $actions = [
                         'delete' => '<a href="' . esc_url(wp_nonce_url($delete_link, 'donations_delete_' . $item['id'])) . '" onclick="return confirm(\'Are you sure?\')">Delete</a>',
-                        // 'view'   => '<a href="' . esc_url($view_link) . '">' . esc_html__('View', 'ehx-member') . '</a>'
+                        // 'view'   => '<a href="' . esc_url($view_link) . '">' . esc_html__('View', 'ehx-donate') . '</a>'
                     ];
 
                     return wp_date('d F Y', strtotime($item['created_at']))

@@ -58,7 +58,7 @@
         $parentContent.siblings('p').text($clickedSubTab.data('description'));
     });
 
-    $(document).on('submit', 'form#edp_member_form_submit', function (e) {
+    $(document).on('submit', 'form#edp_donate_form_submit', function (e) {
         e.preventDefault();
 
         const form     = $(this);

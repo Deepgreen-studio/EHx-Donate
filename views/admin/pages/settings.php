@@ -12,7 +12,7 @@
     <div class="notice" id="edp-notice" style="display: none;"><p></p></div>
 
     <!-- Form for Settings -->
-    <form id="edp_member_form_submit" action="<?php echo esc_url(admin_url('admin-ajax.php')) ?>" method="post">
+    <form id="edp_donate_form_submit" action="<?php echo esc_url(admin_url('admin-ajax.php')) ?>" method="post">
 
         <?php wp_nonce_field(EHX_Donate_Settings::NONCE_ACTION, EHX_Donate_Settings::NONCE_NAME); ?>
 
@@ -63,7 +63,7 @@
             <div id="email" class="tab-panel">
 
                 <h2><?php esc_html_e('Email notifications', 'ehx-donate'); ?></h2>
-                <p><?php esc_html_e("Email notifications sent from Ehx Member are listed below. Click on an email to configure it. Emails should be sent from an email using your website's domain name. We highly recommend using a SMTP service email delivery. Please see this doc for more information.", 'ehx-donate') ?></p>
+                <p><?php esc_html_e("Email notifications sent from Ehx Donate are listed below. Click on an email to configure it. Emails should be sent from an email using your website's domain name. We highly recommend using a SMTP service email delivery. Please see this doc for more information.", 'ehx-donate') ?></p>
                 
                 <table class="form-table">
                     <?php
@@ -74,7 +74,7 @@
                 </table>
 
                 <h2><?php esc_html_e('Email sender options', 'ehx-donate'); ?></h2>
-                <p><?php esc_html_e("How the sender appears in outgoing Ehx Member emails.", 'ehx-donate') ?></p>
+                <p><?php esc_html_e("How the sender appears in outgoing Ehx donate emails.", 'ehx-donate') ?></p>
                 
                 <table class="form-table">
                     <?php

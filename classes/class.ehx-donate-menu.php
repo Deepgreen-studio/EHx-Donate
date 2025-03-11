@@ -69,39 +69,39 @@ if (!class_exists('EHX_Donate_Menu')) {
         {
             return [
                 [
-                    'page_title' => esc_html__('EHx Donate', 'ehx-member'),
-                    'menu_title' => esc_html__('EHx Donates', 'ehx-member'),
+                    'page_title' => esc_html__('EHx Donate', 'ehx-donate'),
+                    'menu_title' => esc_html__('EHx Donates', 'ehx-donate'),
                     'menu_slug'  => self::$pages['admin'],
                     'callback'   => [$this, 'ehx_donate_settings_page'],
                     'icon_url'   => 'dashicons-admin-users',
                     'submenus'  => [
                         [
-                            'page_title' => esc_html__('Settings', 'ehx-member'),
-                            'menu_title' => esc_html__('Settings', 'ehx-member'),
+                            'page_title' => esc_html__('Settings', 'ehx-donate'),
+                            'menu_title' => esc_html__('Settings', 'ehx-donate'),
                             'menu_slug'  => self::$pages['setting'],
                             'callback'   => [$this, 'ehx_donate_settings_page'],
                         ],
                         [
-                            'page_title' => esc_html__('Donations', 'ehx-member'),
-                            'menu_title' => esc_html__('Donations', 'ehx-member'),
+                            'page_title' => esc_html__('Donations', 'ehx-donate'),
+                            'menu_title' => esc_html__('Donations', 'ehx-donate'),
                             'menu_slug'  => self::$pages['donation'],
                             'callback'   => [$this, 'ehx_donate_donations_page'],
                         ],
                         [
-                            'page_title' => esc_html__('Gift Aid', 'ehx-member'),
-                            'menu_title' => esc_html__('Gift Aid', 'ehx-member'),
+                            'page_title' => esc_html__('Gift Aid', 'ehx-donate'),
+                            'menu_title' => esc_html__('Gift Aid', 'ehx-donate'),
                             'menu_slug'  => self::$pages['gift_aid'],
                             'callback'   => [$this, 'ehx_donate_gift_aid_page'],
                         ],
                         [
-                            'page_title' => esc_html__('Campaigns', 'ehx-member'),
-                            'menu_title' => esc_html__('Campaigns', 'ehx-member'),
+                            'page_title' => esc_html__('Campaigns', 'ehx-donate'),
+                            'menu_title' => esc_html__('Campaigns', 'ehx-donate'),
                             'menu_slug'  => 'edit.php?post_type=ehx-campaign',
                             'callback'   => null,
                         ],
                         [
-                            'page_title' => esc_html__('Gift Aid Transaction', 'ehx-member'),
-                            'menu_title' => esc_html__('Gift Aid Transaction', 'ehx-member'),
+                            'page_title' => esc_html__('Gift Aid Transaction', 'ehx-donate'),
+                            'menu_title' => esc_html__('Gift Aid Transaction', 'ehx-donate'),
                             'menu_slug'  => self::$pages['transaction'],
                             'callback'   => [$this, 'ehx_donate_transactions_page'],
                         ]
@@ -177,7 +177,7 @@ if (!class_exists('EHX_Donate_Menu')) {
 
             $request = new EHX_Donate_Request();
             if ($request->filled('settings-updated')) {
-                EHX_Donate_Helper::display_notice(esc_html__('Setting Updated Successfully.', 'ehx-member'));
+                EHX_Donate_Helper::display_notice(esc_html__('Setting Updated Successfully.', 'ehx-donate'));
             }
 
             // Render the settings page
@@ -229,11 +229,11 @@ if (!class_exists('EHX_Donate_Menu')) {
         }
 
         /**
-         * Callback function for the members page.
+         * Callback function for the donates page.
          *
-         * This function checks if the current user has the necessary capabilities to access the members page.
-         * If the user has the required capabilities, it processes any form submissions related to member deletion and status update.
-         * Then, it initializes and displays the members table.
+         * This function checks if the current user has the necessary capabilities to access the donates page.
+         * If the user has the required capabilities, it processes any form submissions related to donate deletion and status update.
+         * Then, it initializes and displays the donates table.
          *
          * @return void
          */
@@ -247,7 +247,7 @@ if (!class_exists('EHX_Donate_Menu')) {
                 EHX_Donate_Helper::display_notice(esc_html__('Transaction Deleted Successfully.', 'ehx-donate'));
             }
 
-            // Initialize and display the members table
+            // Initialize and display the donates table
             $this->render_table_page('EHX_Donate_Transaction_Data_Table', 'transactions');
         }
 
