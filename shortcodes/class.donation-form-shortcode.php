@@ -12,9 +12,9 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
         public $form_id;
 
         /**
-         * Constructor for the EHX_Member class.
+         * Constructor for the EHX_Donate class.
          *
-         * Initializes the response object and adds the shortcode for the member form.
+         * Initializes the response object and adds the shortcode for the donate form.
          * Also sets up the AJAX actions for handling form submissions.
          */
         public function __construct()
@@ -23,7 +23,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             $this->response = new EHX_Donate_Response();
             $this->request = new EHX_Donate_Request();
 
-            // Add the shortcode for the member form
+            // Add the shortcode for the donate form
             add_shortcode('ehx_donate_donation_form', [$this, 'add_shortcode']);
 
             // Set up the AJAX actions for handling form submissions
@@ -104,7 +104,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             // Validate nonce to prevent CSRF
             $validator->validate_nonce(self::NONCE_NAME, self::NONCE_ACTION);
 
-            $enable_gift_aid = (bool) EHX_Donate_Settings::extract_setting_value('enable_gift_aid', false);
+            $enable_gift_aid = $this->request->boolean('gift_aid');
             $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
 
             $required = $enable_gift_aid ? 'required' : 'nullable';

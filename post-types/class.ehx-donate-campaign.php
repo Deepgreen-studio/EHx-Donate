@@ -262,7 +262,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
         public function customize_add_new_post_title($translated_text, $text, $domain)
         {
             if (is_admin() && get_post_type() === 'ehx-campaign' && $text === 'Add New Post') {
-                return esc_html__('Add New Campaign', 'ehx-member');
+                return esc_html__('Add New Campaign', 'ehx-donate');
             }
             return $translated_text;
         }
@@ -272,7 +272,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
          */
         public function customize_title_placeholder($placeholder, $post)
         {
-            return $post->post_type === 'ehx-campaign' ? esc_html__('Enter Campaign Title', 'ehx-member') : $placeholder;
+            return $post->post_type === 'ehx-campaign' ? esc_html__('Enter Campaign Title', 'ehx-donate') : $placeholder;
         }
 
         /**
@@ -283,14 +283,14 @@ if (!class_exists('EHX_Donate_Campaign')) {
             $meta_boxes = [
                 [
                     'id' => 'ehx_campaign_banner_image_meta_box',
-                    'title' => esc_html__('Banner image', 'ehx-member'),
+                    'title' => esc_html__('Banner image', 'ehx-donate'),
                     'context' => 'side',
                     'priority' => 'low',
                     'view' => 'admin/inc/banner-image.php',
                 ],
                 [
                     'id' => 'ehx_campaign_field_meta_box',
-                    'title' => esc_html__('Options', 'ehx-member'),
+                    'title' => esc_html__('Options', 'ehx-donate'),
                     'context' => 'advanced',
                     'priority' => 'low',
                     'view' => 'admin/inc/campaign-options.php',

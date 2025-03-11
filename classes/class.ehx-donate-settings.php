@@ -25,11 +25,11 @@ if (!class_exists('EHX_Donate_Settings')) {
 
             // Define tabs
             self::$tabs = [
-                ['label' => __('General', 'ehx-member'), 'slug' => 'general', 'subtab' => 'pages'],
-                // ['label' => __('Access', 'ehx-member'), 'slug' => 'access', 'subtab' => 'restriction_content'],
-                ['label' => __('Email', 'ehx-member'), 'slug' => 'email', 'subtab' => null],
-                ['label' => __('Integration', 'ehx-member'), 'slug' => 'integration', 'subtab' => 'stripe'],
-                // ['label' => __('Appearance', 'ehx-member'), 'slug' => 'appearance', 'subtab' => 'profile'],
+                ['label' => __('General', 'ehx-donate'), 'slug' => 'general', 'subtab' => 'pages'],
+                // ['label' => __('Access', 'ehx-donate'), 'slug' => 'access', 'subtab' => 'restriction_content'],
+                ['label' => __('Email', 'ehx-donate'), 'slug' => 'email', 'subtab' => null],
+                ['label' => __('Integration', 'ehx-donate'), 'slug' => 'integration', 'subtab' => 'stripe'],
+                // ['label' => __('Appearance', 'ehx-donate'), 'slug' => 'appearance', 'subtab' => 'profile'],
             ];
 
             $pages = get_pages();
@@ -291,7 +291,7 @@ if (!class_exists('EHX_Donate_Settings')) {
             update_option('ehx_donate_settings_options', $inputs);
         
             // // Return success response
-            return $response->success(esc_html__('Settings saved successfully.', 'ehx-member'));
+            return $response->success(esc_html__('Settings saved successfully.', 'ehx-donate'));
         }        
     }
 

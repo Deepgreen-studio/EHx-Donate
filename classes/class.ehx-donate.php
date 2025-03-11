@@ -152,7 +152,7 @@ class EHX_Donate
      * Loads the plugin's text domain for localization.
      *
      * This function uses the load_plugin_textdomain() function to load the translations for the plugin's text strings.
-     * It sets the text domain to 'ehx-member', specifies that the translations should not be loaded from the main WordPress
+     * It sets the text domain to 'ehx-donate', specifies that the translations should not be loaded from the main WordPress
      * installation, and specifies the directory where the translations are located.
      *
      * @return void
@@ -160,7 +160,7 @@ class EHX_Donate
     public function load_textdomain() 
     {
         load_plugin_textdomain(
-            'ehx-member',
+            'ehx-donate',
             false,
             dirname(plugin_basename(__FILE__)) . '/../languages'
         );
