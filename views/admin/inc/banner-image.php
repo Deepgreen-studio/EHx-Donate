@@ -11,11 +11,11 @@
         $ehx_campaign = get_post_meta($post->ID, '_ehx_campaign', true);
         $banner_image = isset($ehx_campaign['banner_image']) ? $ehx_campaign['banner_image'] : null;
     ?>
-    <img src="<?php echo wp_get_attachment_image_url($banner_image, 'medium'); ?>" style="max-width:100%; display:<?php echo !empty($banner_image) ? 'block' : 'none'; ?>;">
+    <img src="<?php echo esc_url(wp_get_attachment_image_url($banner_image, 'medium')); ?>" style="max-width:100%; display:<?php echo !empty($banner_image) ? 'block' : 'none'; ?>;">
     <br>
 
-    <button type="button" class="thickbox" id="upload-image" data-title="<?php _e('Upload Banner Image', 'edp-donate'); ?>"><?php _e('Set Banner Image', 'exh-donate'); ?></button>
-    <button type="button" class="thickbox" id="remove-image" style="display:<?php echo $banner_image ? 'inline-block' : 'none'; ?>;color: #b32d2e;"><?php _e('Remove', 'exh-donate'); ?></button>
+    <button type="button" class="thickbox" id="upload-image" data-title="<?php esc_html__('Upload Banner Image', 'ehx-donate'); ?>"><?php esc_html__('Set Banner Image', 'ehx-donate'); ?></button>
+    <button type="button" class="thickbox" id="remove-image" style="display:<?php echo $banner_image ? 'inline-block' : 'none'; ?>;color: #b32d2e;"><?php esc_html__('Remove', 'ehx-donate'); ?></button>
 
     <input type="hidden" id="banner_image" name="_ehx_campaign[banner_image]" value="<?php echo esc_attr($banner_image); ?>">
 </div>
@@ -36,7 +36,7 @@
 			
 			frame = wp.media({
 				title: title,
-				button: { text: '<?php _e('Use this image', 'edp-donate'); ?>' },
+				button: { text: '<?php esc_html__('Use this image', 'ehx-donate'); ?>' },
 				multiple: false
 			});
 			frame.on('select', function() {

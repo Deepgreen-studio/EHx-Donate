@@ -376,3 +376,56 @@
   margin: 0 0 15px;
 }
 /* PAYMENT CALLBACK MODAL END */
+
+/* CAMPAIGN START END */
+.edp-campaign-list.edp-layout-grid {
+  display: grid;
+  gap: 24px;
+}
+.edp-layout-grid.edp-columns-1 {
+  grid-template-columns: repeat(1, 1fr);
+}
+.edp-layout-grid.edp-columns-2 {
+  grid-template-columns: repeat(2, 1fr);
+}
+.edp-layout-grid.edp-columns-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+.edp-layout-grid.edp-columns-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+.edp-layout-grid.edp-columns-5 {
+  grid-template-columns: repeat(5, 1fr);
+}
+.edp-campaign-list .edp-campaign-item {
+  border: 1px solid #e9e9e9;
+  border-radius: 16px;
+}
+.edp-campaign-list .edp-campaign-item .edp-campaign-card {
+  color: inherit;
+  text-decoration: none;
+}
+.edp-campaign-list .edp-campaign-item .edp-campaign-thumbnail {
+  
+}
+.edp-campaign-list .edp-campaign-item .edp-campaign-thumbnail img {
+  width: 100%;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+.edp-campaign-list .edp-campaign-item .edp-campaign-content {
+  padding: 30px;
+}
+.edp-campaign-list .edp-campaign-item .edp-campaign-content .edp-content-title {
+  line-height: 1.44;
+  font-size: 24px;
+  font-weight: 500;
+  transition: all 0.2s cubic-bezier(0.455, 0.03, 0.515, 0.955);
+}
+.edp-campaign-list .edp-campaign-item .edp-campaign-content .edp-content-text {
+  font-size: 16px;
+  font-weight: 400;
+  color: #696F8C;
+  line-height: 1.5;
+}
+/* CAMPAIGN LIST END */

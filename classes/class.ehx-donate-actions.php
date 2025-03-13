@@ -43,7 +43,7 @@ if (!class_exists('EHX_Donate_Actions')) {
             if ($export === 'csv') {
 
                 if (!current_user_can('manage_donations')) {
-                    wp_die(__('Permission denied', 'ehx-donate'));
+                    wp_die(esc_html__('Permission denied', 'ehx-donate'));
                 }
 
                 $page  = $this->request->input('page');
@@ -96,7 +96,7 @@ if (!class_exists('EHX_Donate_Actions')) {
                 }
 
                 if (empty($data)) {
-                    wp_die('No data found to export.');
+                    wp_die(esc_html__('No data found to export.', 'ehx-donate'));
                 }
 
                 // Set headers for CSV download
@@ -181,7 +181,7 @@ if (!class_exists('EHX_Donate_Actions')) {
 
             if(!empty($id) && !empty($action)) {
                 if (!current_user_can('manage_donations', $id) || !current_user_can('manage_transactions', $id)) {
-                    wp_die(__('Permission denied', 'ehx-donate'));
+                    wp_die(esc_html__('Permission denied', 'ehx-donate'));
                 }
             }
 

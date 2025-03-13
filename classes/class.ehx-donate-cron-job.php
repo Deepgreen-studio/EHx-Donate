@@ -50,27 +50,17 @@ class EHX_Donate_Cron_Job
         $donation_items_table = EHX_Donate::$donation_items_table;
         $subscription_table = EHX_Donate::$subscription_table;
 
-        $query = "SELECT s.*, di.subscription_id, di.processing_fee, di.campaign_id, d.id as donation_id, d.total_amount, o.gift_aid 
+        $query = $wpdb->prepare("SELECT s.*, di.subscription_id, di.processing_fee, di.campaign_id, d.id as donation_id, d.total_amount, o.gift_aid 
             FROM $subscription_table s
             LEFT JOIN $donation_items_table di ON s.id = di.subscription_id
             LEFT JOIN $donation_table d ON di.donation_id = d.id
-            WHERE DATE(s.next_payment_date) = CURDATE()
-        ";
+            WHERE DATE(s.next_payment_date) = %s
+        ", gmdate('Y-m-d'));
 
         $subscriptions = $wpdb->get_results($query);
 
         foreach ($subscriptions as $subscription) {
             try {
-                // Extract subscription name and details
-                // $subscription_name = explode(' -> ', $subscription->subscription_name);
-
-                // Get campaign
-                // $campaign = $wpdb->get_row($wpdb->prepare("SELECT * FROM {$wpdb->prefix}campaigns WHERE title = %s LIMIT 1", $type));
-
-                // if ($campaign) {
-                //     $wpdb->query($wpdb->prepare("UPDATE {$wpdb->prefix}campaigns SET amount_raised = amount_raised + %f WHERE id = %d", $subscription->amount, $campaign->id));
-                // }
-
                 // Insert new donation item record
                 $wpdb->insert(EHX_Donate::$donation_items_table, [
                     'donation_id' => $subscription->donation_id,
@@ -85,10 +75,10 @@ class EHX_Donate_Cron_Job
 
                 // Determine next payment date
                 $next_payment_date = match($subscription->recurring) {
-                    'weekly' => date('Y-m-d H:i:s', strtotime('+1 week')),
-                    'quarterly' => date('Y-m-d H:i:s', strtotime('+3 months')),
-                    'yearly' => date('Y-m-d H:i:s', strtotime('+1 year')),
-                    default => date('Y-m-d H:i:s', strtotime('+1 month')),
+                    'weekly' => gmdate('Y-m-d H:i:s', strtotime('+1 week')),
+                    'quarterly' => gmdate('Y-m-d H:i:s', strtotime('+3 months')),
+                    'yearly' => gmdate('Y-m-d H:i:s', strtotime('+1 year')),
+                    default => gmdate('Y-m-d H:i:s', strtotime('+1 month')),
                 };
 
                 // Update subscription next payment date

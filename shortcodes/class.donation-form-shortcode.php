@@ -362,22 +362,22 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                     if ($recurring !== 'One-off') {
 
                         $next_payment_date = match($recurring) {
-                            'weekly' => date('Y-m-d H:i:s', strtotime('+1 week')),
-                            'quarterly' => date('Y-m-d H:i:s', strtotime('+3 months')),
-                            'yearly' => date('Y-m-d H:i:s', strtotime('+1 year')),
-                            default => date('Y-m-d H:i:s', strtotime('+1 month')),
+                            'weekly' => gmdate('Y-m-d H:i:s', strtotime('+1 week')),
+                            'quarterly' => gmdate('Y-m-d H:i:s', strtotime('+3 months')),
+                            'yearly' => gmdate('Y-m-d H:i:s', strtotime('+1 year')),
+                            default => gmdate('Y-m-d H:i:s', strtotime('+1 month')),
                         };
 
                         $subscriptionId = $wpdb->insert(EHX_Donate::$subscription_table, [
                             'user_id' => $donation->user_id,
                             'donation_id' => $donation->id,
                             'title' => $campaign->post_title,
-                            'stripe_subscription_id' => rand(),
+                            'stripe_subscription_id' => wp_rand(),
                             'stripe_subscription_price_id' => null,
                             'amount' => $donation->total_amount,
                             'recurring' => $recurring,
                             'next_payment_date'  => $next_payment_date,
-                            'invoice_no' => rand(),
+                            'invoice_no' => wp_rand(),
                             'status' => 'active',
                             'payment_method' => $donation->payment_method,
                             'created_at' => gmdate('Y-m-d H:i:s'),
@@ -436,7 +436,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                     <?php endif ?>
 
                     <?php if($isType == 'select'): ?>
-                        <select name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" class="edp-input-field" <?php echo $isRequired; ?>>
+                        <select name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" class="edp-input-field" <?php echo esc_attr($isRequired); ?>>
                             <?php if(!empty($placeholder)): ?>
                                 <option value=""><?php echo esc_html($placeholder) ?></option>
                             <?php endif ?>
@@ -447,9 +447,9 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                         </select>
 
                     <?php elseif($isType == 'textarea'): ?>
-                        <textarea name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" class="edp-input-field" <?php echo $isRequired; ?>></textarea>
+                        <textarea name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" class="edp-input-field" <?php echo esc_attr($isRequired); ?>></textarea>
                     <?php else: ?>
-                        <input type="text" name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" class="edp-input-field"  <?php echo $isRequired; ?> /> 
+                        <input type="text" name="<?php echo esc_attr($htmlFor) ?>" id="<?php echo esc_attr($htmlFor) ?>" class="edp-input-field"  <?php echo esc_attr($isRequired); ?> /> 
                     <?php endif ?>
                     <div id="invalid_<?php echo esc_html($htmlFor) ?>"></div>
                 </div>

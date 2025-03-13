@@ -31,15 +31,15 @@
                 <div class="edp-input-fields" style="margin-bottom: 40px;">
                     <?php
                         if (count($campaigns)) {
-                            self::input_field(label: 'campaign', isType: 'select', placeholder: esc_html__('Select campaign'), data: $campaigns, column: 'edp-field-full');
+                            self::input_field(label: 'campaign', isType: 'select', placeholder: esc_html__('Select campaign', 'ehx-donate'), data: $campaigns, column: 'edp-field-full');
                             echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select required fields.', 'ehx-donate') .'</p>';
                         }
                         else {
-                            echo "<input type='hidden' name='campaign' id='campaign' value='{$post->post_name}' />";
+                            echo "<input type='hidden' name='campaign' id='campaign' value='".esc_html($post->post_name)."' />";
                             echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select one option.', 'ehx-donate') .'</p>';
                         }
 
-                        self::input_field(label: esc_html__('How often would you like to give?'), for: 'recurring', isType: 'select', data: $recurring, column: 'edp-field-full');
+                        self::input_field(label: esc_html__('How often would you like to give?', 'ehx-donate'), for: 'recurring', isType: 'select', data: $recurring, column: 'edp-field-full');
                     ?>
                 </div>
 
@@ -122,7 +122,7 @@
                             <input type="checkbox" name="gift_aid" id="gift_aid" /> 
                             <label for="gift_aid" class="edp-field-labels" style="display: inline-block;">
                                 <?php esc_html_e('Gift Aid', 'ehx-donate') ?>
-                                <img src="<?php echo EHX_DONATE_PLUGIN_URL ?>assets/images/gift-aid.png" alt="" srcset="">
+                                <img src="<?php echo esc_url(EHX_DONATE_PLUGIN_URL .'assets/images/gift-aid.png') ?>" alt="" srcset="">
                             </label> 
                         </div>
                     <?php endif ?>
@@ -211,9 +211,9 @@
                             <?php endif ?>
                         </div>
 
-                        <h3><?php echo $status == 'success' ? __('SUCCESS !', 'ehx-donate') : __('CANCEL !', 'ehx-donate'); ?></h3>
+                        <h3><?php echo $status == 'success' ? esc_html__('SUCCESS !', 'ehx-donate') : esc_html__('CANCEL !', 'ehx-donate'); ?></h3>
                         <div>
-                            <?php echo $status == 'success' ? __('Thank you for your generous donation!', 'ehx-donate') : __('Your donation are cancelled.', 'ehx-donate'); ?>
+                            <?php echo $status == 'success' ? esc_html__('Thank you for your generous donation!', 'ehx-donate') : esc_html__('Your donation are cancelled.', 'ehx-donate'); ?>
                         </div>
                     </div>
 
