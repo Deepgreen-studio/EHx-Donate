@@ -72,6 +72,7 @@ class EHX_Donate
             // Load shortcodes
             'shortcodes/class.donation-form-shortcode.php',
             'shortcodes/class.donation-table-shortcode.php',
+            'shortcodes/class.campaign-list-shortcode.php',
         ];
 
         array_map(fn($file) => require_once EHX_DONATE_PLUGIN_DIR . $file, $class_files);
@@ -87,6 +88,7 @@ class EHX_Donate
 
         new EHX_Donate_Donation_Form_Shortcode();
         new EHX_Donate_Donation_Table_Shortcode();
+        new EHX_Donate_Campaign_List_Shortcode();
     }
     
     /**

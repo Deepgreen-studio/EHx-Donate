@@ -147,7 +147,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
 
                     // Display progress bar
                     echo '<div class="edp-progress-container"><div class="edp-progress html" style="width: ' . esc_attr($progress) . '%;"></div></div>';
-                    echo '<p>'. EHX_Donate_Helper::currencyFormat($sum_total_amount) .' ('.esc_html(round($progress, 2) . '%').')</p>';
+                    echo '<p>'. esc_html(EHX_Donate_Helper::currencyFormat($sum_total_amount)) .' ('.esc_html(round($progress, 2) . '%').')</p>';
                     break;
                 case'start_and_end_date':
                     echo esc_html($ehx_campaign['start_date']. '-'. $ehx_campaign['end_date']);
