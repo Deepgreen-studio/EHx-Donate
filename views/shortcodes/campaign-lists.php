@@ -6,18 +6,23 @@
                 <a href="<?php echo esc_url(get_permalink()); ?>" class="edp-campaign-card">
                     <?php
                         if (has_post_thumbnail()) {
-                            echo '<div class="edp-campaign-thumbnail"><div>';
+                            echo '<div class="edp-campaign-thumbnail">';
                             the_post_thumbnail($atts['image_size']);
-                            echo '</div></div>';
+                            echo '</div>';
                         }
                     ?>
                     <div class="edp-campaign-content">
-                        <h3 class="edp-content-title"><?php echo esc_html(get_the_title()) ?></h3>
+                        <div class="edp-campaign-content-body">
+                            <h3 class="edp-content-title"><?php echo esc_html(get_the_title()) ?></h3>
 
-                        <p class="edp-content-text"><?php echo wp_trim_words(get_the_excerpt(), intval($atts['excerpt_length']), '...') ?></p>
-                    </div>
-                    <div class="edp-campaign-content">
-                        
+                            <p class="edp-content-text"><?php echo wp_trim_words(get_the_excerpt(), intval($atts['excerpt_length']), '...') ?></p>
+                        </div>
+
+                        <?php if($atts['show_button']): ?>
+                            <div class="edp-campaign-btns">
+                                <button class="edp-campaign-btn"><?php echo esc_html($atts['button_text']) ?></button>
+                            </div>
+                        <?php endif ?>
                     </div>
                 </a>
             </div>
@@ -28,13 +33,13 @@
         // Pagination
         if ($atts['pagination'] == 'true') {
             echo '<div class="pagination">';
-            echo paginate_links(array(
+            echo paginate_links([
                 'total' => $query->max_num_pages,
-            ));
+            ]);
             echo '</div>';
         }
     ?>
 
 <?php else: ?>
-    <p>No posts found.</p>
+    <p><?php esc_html_e('No posts found.', 'ehx-donate') ?></p>
 <?php endif ?>
