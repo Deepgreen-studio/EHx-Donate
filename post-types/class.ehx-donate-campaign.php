@@ -40,6 +40,8 @@ if (!class_exists('EHX_Donate_Campaign')) {
 
             // // Customize "Add New" post title and placeholder
             $this->customize_post_ui();
+
+            add_filter('template_include', [$this, 'customize_campaign_details']);
         }
         
         
@@ -81,6 +83,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
                 'publicly_queryable' => true,
                 'show_in_rest' => true,
                 'menu_icon' => 'dashicons-images-alt2',
+                'taxonomies'  => ['category', 'post_tag'],
                 'register_meta_box_cb' => [$this, 'add_meta_boxes'],
             ]);
         }
@@ -244,7 +247,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
         {
             $meta_boxes_to_remove = [
                 'generate_layout_options_meta_box' => 'side',
-                'categorydiv' => 'side',
+                // 'categorydiv' => 'side',
                 // 'tagsdiv-post_tag' => 'side',
                 // 'postimagediv' => 'side',
                 // 'submitdiv' => 'side',
@@ -378,5 +381,25 @@ if (!class_exists('EHX_Donate_Campaign')) {
             $screen = get_current_screen();
             return $screen && $screen->post_type === 'ehx-campaign';
         }
+
+        /**
+         * Customizes the template for the single 'ehx-campaign' post type.
+         *
+         * This function checks if the current page is a singular 'ehx-campaign' post type.
+         * If it is, it returns the custom template located at 'EHX_DONATE_PLUGIN_DIR/views/frontend/campaign-details.php'.
+         * If it's not a singular 'ehx-campaign' post type, it returns the original template.
+         *
+         * @param string $template The original template file.
+         *
+         * @return string The modified template file.
+         */
+        public function customize_campaign_details($template)
+        {
+            if (is_singular('ehx-campaign')) {
+                return EHX_DONATE_PLUGIN_DIR . 'views/frontend/campaign-details.php';
+            }
+            return $template;
+        }
+
     }
 }
