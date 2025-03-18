@@ -20,8 +20,8 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
         public function __construct() 
         {
             parent::__construct([
-                'singular' => 'Gift Aid',
-                'plural'   => 'Gift Aid',
+                'singular' => esc_html__('Gift Aid', 'ehx-donate'),
+                'plural'   => esc_html__('Gift Aid', 'ehx-donate'),
                 'ajax'     => false
             ]);
 
@@ -37,15 +37,15 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
         {
             return [
                 'cb' => '<input type="checkbox" />',
-                'title'   => 'Title',
-                'first_name'   => 'First Name',
-                'last_name'   => 'Last Name',
-                'address'   => 'House name or number',
-                'post_code'   => 'Postcode',
-                'aggregated_donations'   => 'Aggregated Donations',
-                'sponsored_event'   => 'Sponsored Event',
-                'created_at'   => 'Donation Date',
-                'total_amount' => 'Amount',
+                'title'   => esc_html__('Title', 'ehx-donate'),
+                'first_name'   => esc_html__('First Name', 'ehx-donate'),
+                'last_name'   => esc_html__('Last Name', 'ehx-donate'),
+                'address'   => esc_html__('House name or number', 'ehx-donate'),
+                'post_code'   => esc_html__('Postcode', 'ehx-donate'),
+                'aggregated_donations'   => esc_html__('Aggregated Donations', 'ehx-donate'),
+                'sponsored_event'   => esc_html__('Sponsored Event', 'ehx-donate'),
+                'created_at'   => esc_html__('Donation Date', 'ehx-donate'),
+                'total_amount' => esc_html__('Amount', 'ehx-donate'),
             ];
         }
          
@@ -60,9 +60,10 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
         {
             return [
                 'title'  => ['title', false],
-                'first_name'     => ['first_name', false],
-                'last_name'     => ['last_name', false],
-                'amount'     => ['total_amount', false],
+                'first_name'   => ['first_name', false],
+                'last_name'    => ['last_name', false],
+                'created_at' => ['created_at', false],
+                'total_amount' => ['total_amount', false],
             ];
         }
          
@@ -124,9 +125,9 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
                     return esc_html($address['post_code'] ?? null);
                 case 'total_amount':
                 case 'charge':
-                    return '£' . number_format($item[$column_name] ?? 0, 2);
+                    return EHX_Donate_Helper::currencyFormat($item[$column_name] ?? 0);
                 case 'aggregated_donations':
-                    return $item['recurring'] .' Gift Aid donations';
+                    return $item['recurring'] .' '. esc_html__('Gift Aid donations', 'ehx-donate');
                 default:
                     return $item[$column_name] ?? '';
             }
@@ -232,7 +233,7 @@ if (!class_exists('classes/EHX_Donate_GiftAid_Data_Table')) {
 
             // Build WHERE conditions
             $where = "1=1"; // Always true condition to append other filters easily
-            // $where .= " AND gift_aid = 1 AND payment_status = 'Success'";
+            $where .= " AND d.gift_aid = 1 AND d.payment_status = 'Success'";
             $where .= " AND payment_status = 'Success'";
 
             if ($filter_user) {

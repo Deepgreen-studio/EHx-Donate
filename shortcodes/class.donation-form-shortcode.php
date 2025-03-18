@@ -265,7 +265,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                     'currency' => 'gbp',
                     'unit_amount' => round($total_amount, 2) * 100,
                     'product_data' => [
-                        'name' => $campaign->post_title,
+                        'name' => $campaign->post_title ?? esc_html__('Quick Donation', 'ehx-donate'),
                         // 'description' => substr(strip_tags($campaign->post_content), 20),
                     ],
                 ];
@@ -350,7 +350,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
 
                 $wpdb->insert(EHX_Donate::$donation_items_table, [
                     'donation_id' => $donation->id,
-                    'campaign_id' => $campaign->ID,
+                    'campaign_id' => $campaign->ID ?? null,
                     'amount'  => $donation->total_amount,
                     'gift_aid' => $donation->gift_aid,
                     'recurring' => $recurring,
@@ -371,7 +371,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                         $subscriptionId = $wpdb->insert(EHX_Donate::$subscription_table, [
                             'user_id' => $donation->user_id,
                             'donation_id' => $donation->id,
-                            'title' => $campaign->post_title,
+                            'title' => $campaign->post_title ?? esc_html__('Quick Donation', 'ehx-donate'),
                             'stripe_subscription_id' => wp_rand(),
                             'stripe_subscription_price_id' => null,
                             'amount' => $donation->total_amount,

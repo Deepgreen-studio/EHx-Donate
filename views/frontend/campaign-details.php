@@ -4,11 +4,11 @@
 ?>
 
 <section class="edp-campaign-section">
-    <div class="container">
+    <div class="edp-campaign-container">
         <div class="edp-campaign-content">
 
             <div class="edp-campaign-contents">
-                <?php if (has_post_thumbnail()): ?>
+                <?php if (!empty($ehx_campaign['banner_image'])): ?>
                     <div class="edp-campaign-cover">
                         <?php echo wp_get_attachment_image($ehx_campaign['banner_image']); ?>
                     </div>
