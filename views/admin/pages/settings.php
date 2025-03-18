@@ -84,8 +84,8 @@
                                     <li><code>image_size</code> - <?php esc_html_e('Image size for thumbnails (default: thumbnail).', 'ehx-donate'); ?></li>
                                     <li><code>show_excerpt</code> - <?php esc_html_e('Show excerpt (true or false, default: true).', 'ehx-donate'); ?></li>
                                     <li><code>excerpt_length</code> - <?php esc_html_e('Number of words in excerpt (default: 10).', 'ehx-donate'); ?></li>
-                                    <li><code>show_button</code> - <?php esc_html_e('Show "Donate Now" button (true or false, default: true).', 'ehx-donate'); ?></li>
-                                    <li><code>button_text</code> - <?php esc_html_e('Text for "Donate Now" button (default: Donate Now).', 'ehx-donate'); ?></li>
+                                    <li><code>show_button</code> - <?php esc_html_e('Show button (true or false, default: true).', 'ehx-donate'); ?></li>
+                                    <li><code>button_text</code> - <?php esc_html_e('Text for button (default: Donate Now).', 'ehx-donate'); ?></li>
                                     <li><code>pagination</code> - <?php esc_html_e('Enable pagination (true or false, default: true).', 'ehx-donate'); ?></li>
                                 </ul>
                             </p>

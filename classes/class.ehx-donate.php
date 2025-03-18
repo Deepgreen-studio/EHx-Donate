@@ -349,8 +349,8 @@ class EHX_Donate
         $options = [
             'enable_gift_aid' => true,
             'stripe_enable' => true,
-            'stripe_client_key' => 'pk_test_51MiBHEKVOOxRoCcVTL0ZVEuPjbMxPARb7MmEPF37YwZyxnn5vvghF6f9Z6kCBuFzYWQqP8RXYXEQjpuzBdf4khDW004kzM6OS6',
-            'stripe_client_secret' => 'sk_test_51MiBHEKVOOxRoCcVds9KeZ2B8YgkPm9XldAbegtt7OClqd9XMM5CChYSvI5g41fxQkURsUoLHcpVzSccQ99iOOi000rszEAiU5',
+            'stripe_client_key' => 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot',
+            'stripe_client_secret' => 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK',
             'stripe_callback_url' => null,
             'google_recaptcha_enable' => true,
             'google_recaptcha_site_key' => '6LePvtQqAAAAABdeaktZv79QZCLUCqxVn5Wt64w8',

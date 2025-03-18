@@ -20,8 +20,8 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
         public function __construct() 
         {
             parent::__construct([
-                'singular' => 'Donation',
-                'plural'   => 'Donations',
+                'singular' => esc_html__('Donation', 'exh-donate'),
+                'plural'   => esc_html__('Donations', 'exh-donate'),
                 'ajax'     => false
             ]);
 
@@ -37,13 +37,13 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
         {
             return [
                 'cb' => '<input type="checkbox" />',
-                'created_at'   => 'Date',
-                'display_name' => 'Donor',
-                'amount' => 'Amount',
-                'post_title' => 'Campaign',
-                'gift_aid' => 'Gift Aid Enabled',
-                'recurring' => 'Recurring',
-                'payment_status' => 'Payment',
+                'created_at'   => esc_html__('Date', 'ehx-donate'),
+                'display_name' => esc_html__('Donor', 'ehx-donate'),
+                'amount' => esc_html__('Amount', 'ehx-donate'),
+                'post_title' => esc_html__('Campaign', 'ehx-donate'),
+                'gift_aid' => esc_html__('Gift Aid Enabled', 'ehx-donate'),
+                'recurring' => esc_html__('Recurring', 'ehx-donate'),
+                'payment_status' => esc_html__('Payment', 'ehx-donate'),
             ];
         }
          
@@ -109,7 +109,9 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                     return wp_date('d F Y', strtotime($item['created_at']))
                     . $this->row_actions($actions);
                 case 'gift_aid':
-                    return esc_html($item['gift_aid'] ? 'True' : 'False');
+                    return esc_html($item[$column_name] ? 'True' : 'False');
+                case 'post_title':
+                    return !empty($item[$column_name]) ? esc_html($item[$column_name]) : esc_html__('Quick Donation', 'ehx-donate');
                 case 'payment_status':
                     $status_classes = [
                         'Pending' => 'background: orange; color: white; padding: 4px 8px; border-radius: 4px;',
@@ -117,7 +119,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                         'Cancel'  => 'background: red; color: white; padding: 4px 8px; border-radius: 4px;',
                     ];
                     return sprintf('<span style="%s">%s</span>', $status_classes[$item['payment_status']], ucfirst($item['payment_status']));
-                case 'total_amount':
+                case 'amount':
                 case 'charge':
                     return EHX_Donate_Helper::currencyFormat($item[$column_name] ?? 0);
                 default:

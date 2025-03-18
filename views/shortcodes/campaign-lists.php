@@ -15,7 +15,7 @@
                         <div class="edp-campaign-content-body">
                             <h3 class="edp-content-title"><?php echo esc_html(get_the_title()) ?></h3>
 
-                            <p class="edp-content-text"><?php echo wp_trim_words(get_the_excerpt(), intval($atts['excerpt_length']), '...') ?></p>
+                            <p class="edp-content-text"><?php echo esc_html(wp_trim_words(get_the_excerpt(), intval($atts['excerpt_length']), '...')) ?></p>
                         </div>
 
                         <?php if($atts['show_button']): ?>
