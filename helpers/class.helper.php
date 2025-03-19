@@ -91,19 +91,83 @@ if (!class_exists('EHX_Donate_Helper')) {
         }
         
         /**
-         * Sends an email to the specified recipient.
+         * Sends an email using WordPress's wp_mail function.
          *
-         * @param string $to The email address of the recipient.
-         * @param string $subject The subject line of the email.
-         * @param string $message The content of the email.
+         * @param string|array $to          Email address or array of email addresses to send the email to.
+         * @param string       $subject     The subject of the email.
+         * @param string       $message     The body of the email. Can be HTML or plain text.
+         * @param string|array $headers     Optional. Additional headers to send with the email.
+         * @param string|array $attachments Optional. Files to attach to the email.
+         * @param bool         $is_html     Optional. Whether the email is HTML. Default true.
+         * @param string|array $cc          Optional. CC email address or array of CC email addresses.
+         * @param string|array $bcc         Optional. BCC email address or array of BCC email addresses.
+         * @param string       $reply_to    Optional. Reply-To email address.
          *
-         * @return void
+         * @return bool Whether the email was sent successfully.
          */
-        public static function send_email($to, $subject, $message) 
-        {
-            $headers = ['Content-Type: text/html; charset=UTF-8'];
-        
-            wp_mail($to, $subject, $message, $headers);
+        public static function send_email($to, $subject, $message, $headers = [], $attachments = [], $is_html = true, $cc = [], $bcc = [], $reply_to = '') {
+            // Validate email addresses
+            if (!is_email($to)) {
+                error_log('Invalid recipient email address: ' . $to);
+                return false;
+            }
+
+            // Set the default headers
+            $default_headers = [
+                "Content-Type: " . ($is_html ? "text/html" : "text/plain") . "; charset=UTF-8"
+            ];
+
+            // Set the default "From" name and email
+            $fromName  = EHX_Donate_Settings::extract_setting_value('mail_appears_from', get_bloginfo('name'));
+            $fromEmail = EHX_Donate_Settings::extract_setting_value('mail_appears_from_address', get_option('admin_email'));
+
+            if (is_email($fromEmail)) {
+                $default_headers[] = "From: {$fromName} <{$fromEmail}>";
+            }
+
+            // Add Reply-To header if provided
+            if (!empty($reply_to) && is_email($reply_to)) {
+                $default_headers[] = "Reply-To: {$reply_to}";
+            }
+
+            // Add CC headers if provided
+            if (!empty($cc)) {
+                $cc = is_array($cc) ? $cc : [$cc];
+                foreach ($cc as $cc_email) {
+                    if (is_email($cc_email)) {
+                        $default_headers[] = "Cc: {$cc_email}";
+                    }
+                }
+            }
+
+            // Add BCC headers if provided
+            if (!empty($bcc)) {
+                $bcc = is_array($bcc) ? $bcc : [$bcc];
+                foreach ($bcc as $bcc_email) {
+                    if (is_email($bcc_email)) {
+                        $default_headers[] = "Bcc: {$bcc_email}";
+                    }
+                }
+            }
+
+            // Merge default headers with custom headers
+            $headers = array_merge($default_headers, (array)$headers);
+
+            // Allow filtering of headers
+            $headers = apply_filters('ehx_donate_email_headers', $headers, $to, $subject, $message);
+
+            // Allow filtering of message
+            $message = apply_filters('ehx_donate_email_message', $message, $to, $subject, $headers);
+
+            // Send the email
+            $result = wp_mail($to, $subject, $message, $headers, $attachments);
+
+            // Log errors if the email fails to send
+            if (!$result) {
+                error_log('Failed to send email to: ' . $to);
+            }
+
+            return $result;
         }
 
         /**

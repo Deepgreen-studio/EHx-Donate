@@ -347,6 +347,9 @@ class EHX_Donate
     {
         // Define default payment gateway settings
         $options = [
+            'admin_email_address' => 'example@eh.studio',
+            'mail_appears_from' => 'EHx Studio',
+            'mail_appears_from_address' => 'example@eh.studio',
             'enable_gift_aid' => true,
             'stripe_enable' => true,
             'stripe_client_key' => 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot',

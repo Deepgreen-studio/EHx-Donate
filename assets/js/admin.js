@@ -97,7 +97,9 @@
                 $(btnText).text('Please wait...')
             },
             success: (response) => {
-                handleSuccess(response, redirect)
+                console.log(response);
+                
+                edpHandleSuccess(response, redirect)
             },
             complete: () => {
                 $(spinner).addClass('d-none')
@@ -105,7 +107,7 @@
                 $(btnText).text($(btn).data('text'))
             },
             error: (e) => {
-                handleError(e, redirect)
+                edpHandleError(e, redirect)
             }
         });
     });

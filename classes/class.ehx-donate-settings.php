@@ -42,7 +42,7 @@ if (!class_exists('EHX_Donate_Settings')) {
 
             add_action('admin_init', [$this, 'admin_init']);
 
-            add_action('wp_ajax_ehx_save_settings', [$this, 'ehx_save_settings']);
+            add_action('wp_ajax_ehx_donate_save_settings', [$this, 'ehx_donate_save_settings']);
         }
         
         
@@ -276,7 +276,7 @@ if (!class_exists('EHX_Donate_Settings')) {
          *
          * @return void This function does not return any value. It outputs a success response using the EHX_Response class.
          */
-        public function ehx_save_settings() 
+        public function ehx_donate_save_settings() 
         {
             $response  = new EHX_Donate_Response();
             $request   = new EHX_Donate_Request();

@@ -18,7 +18,7 @@
 
         let options = {
             type: "POST",
-            url: ehx_donate_object.ajax_url,
+            url: edp_object.ajax_url,
             dataType: "JSON",
         };
 
@@ -40,7 +40,7 @@
             },
             success: (response) => {
                 form.trigger("reset");
-                handleSuccess(response);
+                edpHandleSuccess(response);
             },
             complete: () => {
                 submitBtn.attr("disabled", false);
@@ -48,7 +48,7 @@
                 btnTextEl.text(btnLoaderCurrTxt);
             },
             error: function (e) {
-                handleError(e);
+                edpHandleError(e);
             },
         });
     });
@@ -142,12 +142,12 @@
 
         if(amount > 0) {
             $('#edp-donation-amounts').css('display', 'block');
-            $('#edp-donation-amounts #edp_donation_amount').text(convertAmount(amount));
-            $('#edp-donation-amounts #edp_donation_pay').text(convertAmount(payable_amount));
+            $('#edp-donation-amounts #edp_donation_amount').text(edpConvertAmount(amount));
+            $('#edp-donation-amounts #edp_donation_pay').text(edpConvertAmount(payable_amount));
 
             $('#edp-pay-amounts').css('display', 'block');
-            $('#edp-pay-amounts #edp_donation_payable_amount').text(convertAmount(payable_amount));
-            $('#edp-pay-amounts #edp_donation_pay').text(convertAmount(gift_aid));
+            $('#edp-pay-amounts #edp_donation_payable_amount').text(edpConvertAmount(payable_amount));
+            $('#edp-pay-amounts #edp_donation_pay').text(edpConvertAmount(gift_aid));
         }
 
         $('.edp-card input[name="amount"]').val(amount)
@@ -164,12 +164,12 @@
         
         if(amount > 0) {
             $('#edp-donation-amounts').css('display', 'block');
-            $('#edp-donation-amounts #edp_donation_amount').text(convertAmount(amount));
-            $('#edp-donation-amounts #edp_donation_pay').text(convertAmount(payable_amount));
+            $('#edp-donation-amounts #edp_donation_amount').text(edpConvertAmount(amount));
+            $('#edp-donation-amounts #edp_donation_pay').text(edpConvertAmount(payable_amount));
 
             $('#edp-pay-amounts').css('display', 'block');
-            $('#edp-pay-amounts #edp_donation_payable_amount').text(convertAmount(payable_amount));
-            $('#edp-pay-amounts #edp_donation_pay').text(convertAmount(gift_aid));
+            $('#edp-pay-amounts #edp_donation_payable_amount').text(edpConvertAmount(payable_amount));
+            $('#edp-pay-amounts #edp_donation_pay').text(edpConvertAmount(gift_aid));
         }
 
         $('.edp-card input[name="amount"]').val(amount)

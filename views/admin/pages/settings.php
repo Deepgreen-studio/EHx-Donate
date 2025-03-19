@@ -16,7 +16,7 @@
 
         <?php wp_nonce_field(EHX_Donate_Settings::NONCE_ACTION, EHX_Donate_Settings::NONCE_NAME); ?>
 
-        <input type="hidden" name="action" value="ehx_save_settings">
+        <input type="hidden" name="action" value="ehx_donate_save_settings">
 
         <div class="tab-content edp-main-tab-content">
 
