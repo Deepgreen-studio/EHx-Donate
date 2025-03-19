@@ -19,13 +19,14 @@
             s[1] += new Array(prec - s[1].length + 1).join('0');
         }
     
-        return `${ehx_donate_object.currency}${s.join(dec)}`;
+        return `${edp_object.currency}${s.join(dec)}`;
     }
 
-    window.convertAmount = convertAmount
+    window.edpConvertAmount = convertAmount
 
     /* Handle success request response */
     function handleSuccess(response, redirect = null) {
+        
         if (typeof response.data?.message !== 'undefined') {
             toastrAlert(response.data?.message, response.success ? 'success' : 'error')
         }
@@ -35,7 +36,7 @@
         }
     }
 
-    window.handleSuccess = handleSuccess
+    window.edpHandleSuccess = handleSuccess
 
     /* Handle error request response */
     function handleError(e, redirect = null) {
@@ -84,9 +85,10 @@
 
         return true;
     }
-    window.handleError = handleError
+    window.edpHandleError = handleError
 
     function toastrAlert(message, type = 'success') {
+        
         if (location.pathname == '/wp-admin/admin.php') {
             const element = $('#edp-notice');
 
@@ -103,26 +105,26 @@
             setTimeout(() => element.css('display', 'none'), 10000)
         } 
         else {
-            const element = $('#ehx-alert-message');
+            const element = $('#edp-alert-message');
 
             const alert = {
                 success: {
-                    color: 'ehx-alert-primary',
+                    color: 'edp-alert-primary',
                     icon: 'fa-regular fa-circle-question',
                 },
                 error: {
-                    color: 'ehx-alert-danger',
+                    color: 'edp-alert-danger',
                     icon: 'fa-solid fa-triangle-exclamation',
                 },
                 info: {
-                    color: 'ehx-alert-info',
+                    color: 'edp-alert-info',
                     icon: 'fa-regular fa-circle-question',
                 },
             }[type]
 
             element.parent().removeClass('d-none')
 
-            element.attr('class', `ehx-alert ${alert.color} text-center rounded-0`)
+            element.attr('class', `edp-alert ${alert.color} text-center rounded-0`)
             element.find('i').attr('class', `${alert.icon}`)
             element.find('span').html(message)
 

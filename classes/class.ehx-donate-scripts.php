@@ -155,7 +155,7 @@ class EHX_Donate_Register_Scripts
             ver: EHX_DONATE_VERSION,
             args: true
         );
-        wp_localize_script('ehx-donate-main-js', 'ehx_donate_object', [
+        wp_localize_script('ehx-donate-main-js', 'edp_object', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'currency' => '£',
         ]);

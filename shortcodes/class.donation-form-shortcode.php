@@ -273,9 +273,9 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                 $recurring = $this->request->input('recurring');
                 if ($recurring !== 'One-off') {
                     $interval = match ($recurring) {
-                        'weekly' => ['interval' => 'week'],
-                        'quarterly' => ['interval' => 'day', 'interval_count' => 15],
-                        'yearly' => ['interval' => 'year'],
+                        'Weekly' => ['interval' => 'week'],
+                        'Quarterly' => ['interval' => 'day', 'interval_count' => 15],
+                        'Yearly' => ['interval' => 'year'],
                         default => ['interval' => 'month']
                     };
                     $priceData['recurring'] = $interval;
@@ -362,15 +362,15 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                     if ($recurring !== 'One-off') {
 
                         $next_payment_date = match($recurring) {
-                            'weekly' => gmdate('Y-m-d H:i:s', strtotime('+1 week')),
-                            'quarterly' => gmdate('Y-m-d H:i:s', strtotime('+3 months')),
-                            'yearly' => gmdate('Y-m-d H:i:s', strtotime('+1 year')),
+                            'Weekly' => gmdate('Y-m-d H:i:s', strtotime('+1 week')),
+                            'Quarterly' => gmdate('Y-m-d H:i:s', strtotime('+3 months')),
+                            'Yearly' => gmdate('Y-m-d H:i:s', strtotime('+1 year')),
                             default => gmdate('Y-m-d H:i:s', strtotime('+1 month')),
                         };
 
                         $subscriptionId = $wpdb->insert(EHX_Donate::$subscription_table, [
                             'user_id' => $donation->user_id,
-                            'donation_id' => $donation->id,
+                            // 'donation_id' => $donation->id,
                             'title' => $campaign->post_title ?? esc_html__('Quick Donation', 'ehx-donate'),
                             'stripe_subscription_id' => wp_rand(),
                             'stripe_subscription_price_id' => null,
