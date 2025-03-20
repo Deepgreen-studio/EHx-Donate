@@ -185,10 +185,24 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                 $display_name .= ' ' . $this->request->input('last_name');
             }
 
+            $user_email = $this->request->input('email');
+
+            $user = get_user_by('email', $user_email);
+            if($user) {
+                return $user->ID;
+            }
+
+            $user_login = str_replace(' ', '-', strtolower($display_name));
+            $user = get_user_by('login', $user_login);
+
+            if($user) {
+                $user_login .= rand();
+            }
+
             return wp_insert_user([
-                'user_login' => str_replace(' ', '-', strtolower($display_name)),
+                'user_login' => $user_login,
                 'user_pass' => wp_generate_password(),
-                'user_email' => $this->request->input('email'),
+                'user_email' => $user_email,
                 'display_name' => $display_name,
             ]);
         }

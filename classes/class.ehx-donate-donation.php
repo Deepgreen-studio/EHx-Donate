@@ -106,10 +106,11 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                         // 'view'   => '<a href="' . esc_url($view_link) . '">' . esc_html__('View', 'ehx-donate') . '</a>'
                     ];
 
-                    return wp_date('d F Y', strtotime($item['created_at']))
-                    . $this->row_actions($actions);
+                    return wp_date('d F Y', strtotime($item['created_at'])) . $this->row_actions($actions);
                 case 'gift_aid':
                     return esc_html($item[$column_name] ? 'True' : 'False');
+                case 'display_name':
+                    return esc_html($item[$column_name]) . '<br/>' . esc_html($item['user_email']);
                 case 'post_title':
                     return !empty($item[$column_name]) ? esc_html($item[$column_name]) : esc_html__('Quick Donation', 'ehx-donate');
                 case 'payment_status':
@@ -251,7 +252,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
             }
 
             // Query: Join with wp_users and wp_usermeta
-            $query = "SELECT d.*, u.display_name, di.recurring, p.post_title 
+            $query = "SELECT d.*, u.display_name, u.user_email, di.recurring, p.post_title 
                 FROM $donation_table d 
                 LEFT JOIN $users_table u ON d.user_id = u.ID 
                 LEFT JOIN $donation_items_table di ON d.id = di.donation_id 

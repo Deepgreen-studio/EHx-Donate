@@ -25,6 +25,7 @@
     border-radius: 1rem;
 }
 .edp-modal-window .edp-modal-dialog.edp-modal-sm {
+    width: 330px;
     max-width: 400px;
 }
 @media (min-width: 991px) {
