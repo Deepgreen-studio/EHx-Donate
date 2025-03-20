@@ -121,8 +121,13 @@ if (!class_exists('EHX_Donate_Helper')) {
             $fromName  = EHX_Donate_Settings::extract_setting_value('mail_appears_from', get_bloginfo('name'));
             $fromEmail = EHX_Donate_Settings::extract_setting_value('mail_appears_from_address', get_option('admin_email'));
 
-            if (is_email($fromEmail)) {
-                $default_headers[] = "From: {$fromName} <{$fromEmail}>";
+            if (!empty($fromName)) {
+                $from = "From: {$fromName}";
+                if(is_email($fromEmail)) {
+                    $from .= " <{$fromEmail}>";
+                }
+
+                $default_headers[] = $from;
             }
 
             // Add Reply-To header if provided

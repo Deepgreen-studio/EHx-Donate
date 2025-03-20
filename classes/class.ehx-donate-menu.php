@@ -70,7 +70,7 @@ if (!class_exists('EHX_Donate_Menu')) {
             return [
                 [
                     'page_title' => esc_html__('EHx Donate', 'ehx-donate'),
-                    'menu_title' => esc_html__('EHx Donates', 'ehx-donate'),
+                    'menu_title' => esc_html__('EHx Donate', 'ehx-donate'),
                     'menu_slug'  => self::$pages['admin'],
                     'callback'   => [$this, 'ehx_donate_settings_page'],
                     'icon_url'   => 'dashicons-admin-users',
@@ -100,8 +100,8 @@ if (!class_exists('EHX_Donate_Menu')) {
                             'callback'   => null,
                         ],
                         [
-                            'page_title' => esc_html__('Gift Aid Transaction', 'ehx-donate'),
-                            'menu_title' => esc_html__('Gift Aid Transaction', 'ehx-donate'),
+                            'page_title' => esc_html__('Transactions', 'ehx-donate'),
+                            'menu_title' => esc_html__('Transactions', 'ehx-donate'),
                             'menu_slug'  => self::$pages['transaction'],
                             'callback'   => [$this, 'ehx_donate_transactions_page'],
                         ]

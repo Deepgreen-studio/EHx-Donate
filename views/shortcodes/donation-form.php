@@ -1,7 +1,9 @@
 <style>
-    .edp-card select[name="campaign"],
-    .edp-card select[name="recurring"] {
-        width: 50%;
+    @media (min-width: 576px) {
+        .edp-card select[name="campaign"],
+        .edp-card select[name="recurring"] {
+            width: 50%;
+        }
     }
 </style>
 <div class="edp-card" id="edp-card-element">
