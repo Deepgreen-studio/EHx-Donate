@@ -124,13 +124,13 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                 'state' => $required . '|string|max:50',
                 'country' => $required . '|string|max:50',
                 'post_code' => $required . '|string|max:50',
-                // 'g-recaptcha-response' => $enable_recaptcha ? 'required' : 'nullable',
+                'g-recaptcha-response' => $enable_recaptcha ? 'required' : 'nullable',
             ]);
 
             // Validate reCAPTCHA if enabled
-            // if ($enable_recaptcha) {
-            //     $validator->validate_recaptcha($this->request->input('g-recaptcha-response'));
-            // }
+            if ($enable_recaptcha) {
+                $validator->validate_recaptcha($this->request->input('g-recaptcha-response'));
+            }
 
             // Calculate total amount with service charge
             $amount = (float) $this->request->input('amount');
@@ -164,6 +164,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
 
             // Store validated input and browser session in session
             EHX_Donate_Helper::sessionSet('input', $validator->validated());
+
             EHX_Donate_Helper::sessionSet('browser_session', $browser_session);
 
             // Return success response
@@ -196,7 +197,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             $user = get_user_by('login', $user_login);
 
             if($user) {
-                $user_login .= rand();
+                $user_login .= wp_rand();
             }
 
             return wp_insert_user([
@@ -405,10 +406,8 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                         'created_at' => gmdate('Y-m-d H:i:s'),
                     ]);
 
-                    $subject = 'Donation Receipt for Your Generous Contribution.';
-                    $message = "Your donation has been successfully received! With your kind contribution, we're one step closer to achieving our goals and making a positive change. Thank you for your generosity and support. We couldn't do it without you!";
                     
-                    EHX_Donate_Helper::send_email($input['email'], $subject, $message);
+                    $this->sendConfirmationMail($input, $donation->total_amount, $donation->browser_session);
                 }
 
                 $wpdb->query($wpdb->prepare("UPDATE $donation_table SET payment_status = %s WHERE browser_session = %s", $status, $browser_session));
@@ -484,5 +483,70 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             
             return [$post, $ehx_campaign];
         }
+ 
+        /**
+         * Sends a confirmation email to the donor after a successful donation.
+         *
+         * @param array $input The input data containing the donor's details.
+         * @param float $total_amount The total amount donated.
+         * @param string $trx The unique transaction identifier.
+         *
+         * @return bool Whether the email was sent successfully.
+         */
+        private function sendConfirmationMail($input, $total_amount, $trx)
+        {
+            $fromName  = EHX_Donate_Settings::extract_setting_value('mail_appears_from', get_bloginfo('name'));
+
+            $subject = esc_html__('Thank You for Your Generous Donation!', 'ehx-donate');
+            $name = $input['first_name'] . ' ' . $input['last_name'];
+            $total_amount = EHX_Donate_Helper::currencyFormat($total_amount);
+
+            $home_url = home_url();
+
+            $message = "
+                <html>
+                    <head>
+                        <style>
+                            body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
+                            .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; }
+                            h2 { color: #0073aa; }
+                            .details { background: #fff; padding: 15px; border-radius: 6px; margin: 15px 0; }
+                            .footer { font-size: 12px; color: #666; margin-top: 20px; }
+                        </style>
+                    </head>
+                    <body>
+                        <div class='container'>
+                            <h2>{$subject}</h2>
+                            <p>Dear <strong>{$name}</strong>,</p>
+
+                            <p>We sincerely appreciate your generous donation to <strong>{$fromName}</strong>. Your support is making a real difference in the lives of those we serve.</p>
+
+                            <div class='details'>
+                                <p><strong>Donation Details:</strong></p>
+                                <p><strong>Amount:</strong> {$total_amount}</p>
+                                <p><strong>Date:</strong> " . wp_date('F j, Y') . "</p>
+                                <p><strong>Transaction ID:</strong> {$trx}</p>
+                            </div>
+
+                            <p>With your help, we are able to provide essential resources to underprivileged communities.</p>
+
+                            <p>We are incredibly grateful for your kindness and commitment to our cause. If you have any questions or need a receipt for tax purposes, feel free to reply to this email.</p>
+
+                            <p>Thank you again for being part of our mission. Together, we can create a better future!</p>
+
+                            <p>Best Regards,</p>
+                            <p><strong>{$fromName}</strong><br>
+                            <a href='{$home_url}'>{$home_url}</a>
+
+                            <p class='footer'>This is an automated message. Please do not reply directly to this email.</p>
+                        </div>
+                    </body>
+                </html>";
+
+            EHX_Donate_Helper::send_email($input['email'], $subject, $message);
+
+            return true;
+        }
+
     }
 }

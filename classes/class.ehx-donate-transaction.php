@@ -20,8 +20,8 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
         public function __construct() 
         {
             parent::__construct([
-                'singular' => esc_html__('Transaction', 'exh-donate'),
-                'plural'   => esc_html__('Transactions', 'exh-donate'),
+                'singular' => esc_html__('Transaction', 'ehx-donate'),
+                'plural'   => esc_html__('Transactions', 'ehx-donate'),
                 'ajax'     => false
             ]);
 
@@ -37,12 +37,12 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
         {
             return [
                 'cb' => '<input type="checkbox" />',
-                'created_at'   => esc_html__('Date', 'exh-donate'),
-                'display_name' => esc_html__('Donor', 'exh-donate'),
-                'post_title' => esc_html__('Campaign', 'exh-donate'),
-                'amount' => esc_html__('Amount', 'exh-donate'),
-                'status' => esc_html__('Status', 'exh-donate'),
-                'type'   => esc_html__('Type', 'exh-donate'),
+                'created_at'   => esc_html__('Date', 'ehx-donate'),
+                'display_name' => esc_html__('Donor', 'ehx-donate'),
+                'post_title' => esc_html__('Campaign', 'ehx-donate'),
+                'amount' => esc_html__('Amount', 'ehx-donate'),
+                'status' => esc_html__('Status', 'ehx-donate'),
+                'type'   => esc_html__('Type', 'ehx-donate'),
             ];
         }
          
