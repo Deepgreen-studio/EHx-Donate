@@ -105,7 +105,8 @@ if (!class_exists('EHX_Donate_Helper')) {
          *
          * @return bool Whether the email was sent successfully.
          */
-        public static function send_email($to, $subject, $message, $headers = [], $attachments = [], $is_html = true, $cc = [], $bcc = [], $reply_to = '') {
+        public static function send_email($to, $subject, $message, $headers = [], $attachments = [], $is_html = true, $cc = [], $bcc = [], $reply_to = '') 
+        {
             // Validate email addresses
             if (!is_email($to)) {
                 error_log('Invalid recipient email address: ' . $to);
@@ -119,10 +120,10 @@ if (!class_exists('EHX_Donate_Helper')) {
 
             // Set the default "From" name and email
             $fromName  = EHX_Donate_Settings::extract_setting_value('mail_appears_from', get_bloginfo('name'));
-            $fromEmail = EHX_Donate_Settings::extract_setting_value('mail_appears_from_address', get_option('admin_email'));
 
             if (!empty($fromName)) {
                 $from = "From: {$fromName}";
+                $fromEmail = EHX_Donate_Settings::extract_setting_value('mail_appears_from_address', get_option('admin_email'));
                 if(is_email($fromEmail)) {
                     $from .= " <{$fromEmail}>";
                 }

@@ -20,8 +20,8 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
         public function __construct() 
         {
             parent::__construct([
-                'singular' => esc_html__('Donation', 'exh-donate'),
-                'plural'   => esc_html__('Donations', 'exh-donate'),
+                'singular' => esc_html__('Donation', 'ehx-donate'),
+                'plural'   => esc_html__('Donations', 'ehx-donate'),
                 'ajax'     => false
             ]);
 
