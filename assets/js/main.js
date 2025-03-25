@@ -124,11 +124,6 @@
         );
 
         --current
-
-    });
-
-    $(".edp-card").on('change', 'select#recurring', function (e) {
-        $('.edp-plan-list .edp-plan-list-text').text(e.target.value)
     });
 
     $(".edp-card").on('click', '.edp-plan-list', function (e) {

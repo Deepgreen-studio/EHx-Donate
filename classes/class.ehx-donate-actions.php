@@ -48,24 +48,7 @@ if (!class_exists('EHX_Donate_Actions')) {
 
                 $page  = $this->request->input('page');
 
-                if($page == EHX_Donate_Menu::$pages['gift_aid']) {
-                    [$data] = (new EHX_Donate_GiftAid_Data_Table)->get_query_results();
-
-                    $header_fields = [
-                        'Title', 
-                        'First Name', 
-                        'Last Name', 
-                        'Address', 
-                        'Postcode', 
-                        'Aggregated Donations', 
-                        'Sponsored Event', 
-                        'Donation Date', 
-                        'Amount'
-                    ];
-
-                    $filename = 'gift_aid.xlsx';
-                }
-                else if($page == EHX_Donate_Menu::$pages['transaction']) {
+                if($page == EHX_Donate_Menu::$pages['transaction']) {
                     [$data] = (new EHX_Donate_Transaction_Data_Table)->get_query_results();
 
                     $header_fields = [
@@ -113,27 +96,7 @@ if (!class_exists('EHX_Donate_Actions')) {
 
                 // Add data rows
                 foreach ($data as $row) {
-                    if($page == EHX_Donate_Menu::$pages['gift_aid']) {
-                        $address = !empty($row['address']) ? unserialize($row['address']) : [];
-
-                        $address_line = $address['address_line_1'] ?? null;
-                        $address_line .= $address['city'] ?? null;
-                        $address_line .= $address['state'] ?? null;
-                        $address_line .= $address['country'] ?? null;
-
-                        $field = [
-                            $row['title'],
-                            $row['first_name'],
-                            $row['last_name'],
-                            $address_line,
-                            $address['post_code'] ?? null,
-                            $row['recurring'] .' Gift Aid donations',
-                            '',
-                            wp_date('d/m/Y', strtotime($row['created_at'])),
-                            $row['total_amount']
-                        ];
-                    }
-                    else if($page == EHX_Donate_Menu::$pages['transaction']) {
+                    if($page == EHX_Donate_Menu::$pages['transaction']) {
                         $field = [
                             wp_date('d F Y', strtotime($row['created_at'])),
                             $row['display_name'],

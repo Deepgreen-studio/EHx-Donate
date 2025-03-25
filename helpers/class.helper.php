@@ -202,8 +202,10 @@ if (!class_exists('EHX_Donate_Helper')) {
          * @param array  $args   Configuration for the input field.
          * @param string $option Option group name for WordPress settings.
          */
-        public static function input_group($args, $option = 'ehx_donate_settings_options')
+        public static function input_group($args, $option = null)
         {
+                $option = $option ? $option : EHX_Donate_Settings::$option;
+                
                 // Extract field properties
                 $field_name = isset($args['field_name']) ? $args['field_name'] : '';
                 $field_name = strtolower(str_replace(' ', '_', $field_name));
@@ -384,6 +386,20 @@ if (!class_exists('EHX_Donate_Helper')) {
                     ]
                 ],
             ];
+        }
+
+        /**
+         * Checks if a specific plugin is active.
+         *
+         * @param string $name The name of the plugin to check.
+         *
+         * @return string|bool Returns the name of the plugin if it is active, or false if it is not active.
+         */
+        public static function check_addons(string $name): string|bool
+        {
+            $active_plugins = get_option('active_plugins');
+
+            return in_array($name, $active_plugins);
         }
 
         /**

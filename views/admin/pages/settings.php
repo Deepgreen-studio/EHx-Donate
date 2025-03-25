@@ -174,16 +174,6 @@
                         </table>
                     </div>
 
-                    <div id="google_map" class="tab-panel">
-                        <table class="form-table">
-                            <?php
-                                foreach (EHX_Donate_Settings::get_integration_fields('map') as $field) {
-                                    EHX_Donate_Helper::input_group($field);
-                                }
-                            ?>
-                        </table>
-                    </div>
-
                 </div>
                 
             </div>

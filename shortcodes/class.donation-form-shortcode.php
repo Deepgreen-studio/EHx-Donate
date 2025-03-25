@@ -64,14 +64,6 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
 
             ob_start();
 
-            $recurring = [
-                esc_html__('One-off', 'ehx-donate'),
-                esc_html__('Weekly', 'ehx-donate'),
-                esc_html__('Monthly', 'ehx-donate'),
-                esc_html__('Quarterly', 'ehx-donate'),
-                esc_html__('Yearly', 'ehx-donate'),
-            ];
-
             $status = $this->request->input('status');
             $txid = $this->request->input('txid');
             if (!empty($status) && !empty($txid)) {
@@ -82,6 +74,10 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
 
             global $wp;
             $callback = home_url($wp->request);
+
+            if ($enable_recaptcha) {
+                wp_enqueue_script('ehx-donate-recaptcha');
+            }
 
             require EHX_DONATE_PLUGIN_DIR . 'views/shortcodes/donation-form.php';
 
@@ -104,26 +100,16 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             // Validate nonce to prevent CSRF
             $validator->validate_nonce(self::NONCE_NAME, self::NONCE_ACTION);
 
-            $enable_gift_aid = $this->request->boolean('gift_aid');
             $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
-
-            $required = $enable_gift_aid ? 'required' : 'nullable';
 
             // Validate input data
             $validator->validate([
                 'campaign' => 'required|string|max:255',
-                'recurring' => 'required|string|max:255',
                 'amount' => 'required|numeric',
                 'first_name' => 'required|string|min:2|max:30',
                 'last_name' => 'required|string|min:2|max:30',
                 'email' => 'required|string|email|max:255',
                 'phone' => 'required|string|min:9|max:20',
-                'address_line_1' => $required . '|string|max:50',
-                'address_line_2' => 'nullable|string|max:50',
-                'city' => $required . '|string|max:50',
-                'state' => $required . '|string|max:50',
-                'country' => $required . '|string|max:50',
-                'post_code' => $required . '|string|max:50',
                 'g-recaptcha-response' => $enable_recaptcha ? 'required' : 'nullable',
             ]);
 
@@ -285,19 +271,6 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                     ],
                 ];
 
-                $recurring = $this->request->input('recurring');
-                if ($recurring !== 'One-off') {
-                    $interval = match ($recurring) {
-                        'Weekly' => ['interval' => 'week'],
-                        'Quarterly' => ['interval' => 'day', 'interval_count' => 15],
-                        'Yearly' => ['interval' => 'year'],
-                        default => ['interval' => 'month']
-                    };
-                    $priceData['recurring'] = $interval;
-
-                    $mode = 'subscription';
-                }
-
                 $items[] = [
                     'price_data' => $priceData,
                     'quantity' => 1,
@@ -305,12 +278,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
 
                 \Stripe\Stripe::setApiKey(esc_html(EHX_Donate_Settings::extract_setting_value('stripe_client_secret')));
 
-                $payment_method_types = match ($this->request->input('payment_method')) {
-                    'paypal' => ['paypal'],
-                    'applepay' => ['applepay'],
-                    'googlepay' => ['googlepay'],
-                    default => ['card'],
-                };
+                $payment_method_types = ['card'];
 
                 $callback = $this->request->input('callback');
                 $cancel_url  = add_query_arg(array('status' => 'cancel', 'txid' => $browser_session), $callback);
@@ -349,8 +317,6 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                 return home_url('/');
             }
 
-            // $browser_session = '67ca9c9a270dd';
-
             $campaign = EHX_Donate_Helper::sessionGet('campaign');
             $input = EHX_Donate_Helper::sessionGet('input');
 
@@ -361,7 +327,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE browser_session = %s AND payment_status = 'pending'", $browser_session));
 
             if($donation != null) {
-                $recurring = $input['recurring'];
+                $recurring = $input['recurring'] ?? esc_html('One-off');
 
                 $wpdb->insert(EHX_Donate::$donation_items_table, [
                     'donation_id' => $donation->id,
@@ -370,48 +336,21 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                     'gift_aid' => $donation->gift_aid,
                     'recurring' => $recurring,
                     'status' => 1,
-                    'created_at' => gmdate('Y-m-d H:i:s'),
+                    'created_at' => wp_date('Y-m-d H:i:s'),
                 ]);
 
                 if ($status == 'success') {
-                    if ($recurring !== 'One-off') {
-
-                        $next_payment_date = match($recurring) {
-                            'Weekly' => gmdate('Y-m-d H:i:s', strtotime('+1 week')),
-                            'Quarterly' => gmdate('Y-m-d H:i:s', strtotime('+3 months')),
-                            'Yearly' => gmdate('Y-m-d H:i:s', strtotime('+1 year')),
-                            default => gmdate('Y-m-d H:i:s', strtotime('+1 month')),
-                        };
-
-                        $subscriptionId = $wpdb->insert(EHX_Donate::$subscription_table, [
-                            'user_id' => $donation->user_id,
-                            // 'donation_id' => $donation->id,
-                            'title' => $campaign->post_title ?? esc_html__('Quick Donation', 'ehx-donate'),
-                            'stripe_subscription_id' => wp_rand(),
-                            'stripe_subscription_price_id' => null,
-                            'amount' => $donation->total_amount,
-                            'recurring' => $recurring,
-                            'next_payment_date'  => $next_payment_date,
-                            'invoice_no' => wp_rand(),
-                            'status' => 'active',
-                            'payment_method' => $donation->payment_method,
-                            'created_at' => gmdate('Y-m-d H:i:s'),
-                        ]);
-                    }
-
                     $wpdb->insert(EHX_Donate::$transaction_table, [
                         'donation_id' => $donation->id,
                         'amount'  => $donation->total_amount,
                         'balance'  => $donation->total_amount,
-                        'created_at' => gmdate('Y-m-d H:i:s'),
+                        'created_at' => wp_date('Y-m-d H:i:s'),
                     ]);
 
-                    
                     $this->sendConfirmationMail($input, $donation->total_amount, $donation->browser_session);
                 }
 
                 $wpdb->query($wpdb->prepare("UPDATE $donation_table SET payment_status = %s WHERE browser_session = %s", $status, $browser_session));
-
             }
 
             EHX_Donate_Helper::sessionForget('campaign');

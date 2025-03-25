@@ -40,8 +40,6 @@
                             echo "<input type='hidden' name='campaign' id='campaign' value='".esc_html($post->post_name)."' />";
                             echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select one option.', 'ehx-donate') .'</p>';
                         }
-
-                        self::input_field(label: esc_html__('How often would you like to give?', 'ehx-donate'), for: 'recurring', isType: 'select', data: $recurring, column: 'edp-field-full');
                     ?>
                 </div>
 
@@ -117,39 +115,11 @@
                         self::input_field(label: __('Email Address', 'ehx-donate'), for: 'email', placeholder: __('Enter Email Address', 'ehx-donate'));
                         self::input_field(label: __('Phone Number', 'ehx-donate'), for: 'phone', placeholder: __('Enter Phone Number', 'ehx-donate'));
                     ?>
-
-                    <?php if($enable_gift_aid): ?>
-                    
-                        <div class="edp-field-100 edp-input-checkbox">
-                            <input type="checkbox" name="gift_aid" id="gift_aid" /> 
-                            <label for="gift_aid" class="edp-field-labels" style="display: inline-block;">
-                                <?php esc_html_e('Gift Aid', 'ehx-donate') ?>
-                                <img src="<?php echo esc_url(EHX_DONATE_PLUGIN_URL .'assets/images/gift-aid.png') ?>" alt="" srcset="">
-                            </label> 
-                        </div>
-                    <?php endif ?>
                 </div>
-                
-                <?php if($enable_gift_aid): ?>
-                    <div id="gift_aid_fields" style="display: none;">   
-                        <div class="edp-input-fields">
-                            <?php
-                                self::input_field(label: __('Address line 1', 'ehx-donate'), for: 'address_line_1', placeholder: __('Address line 1', 'ehx-donate'), required: false);
-                                self::input_field(label: __('Address line 2', 'ehx-donate'), for: 'address_line_2', placeholder: __('Address line 2', 'ehx-donate'), required: false);
-                                self::input_field(label: __('City', 'ehx-donate'), for: 'city', placeholder: __('Enter City', 'ehx-donate'), required: false);
-                                self::input_field(label: __('State', 'ehx-donate'), for: 'state', placeholder: __('Enter State', 'ehx-donate'), required: false);
-                                self::input_field(label: __('Country', 'ehx-donate'), for: 'country', placeholder: __('Enter Country', 'ehx-donate'), required: false);
-                                self::input_field(label: __('Post Code', 'ehx-donate'), for: 'post_code', placeholder: __('Enter Post Code', 'ehx-donate'), required: false);
-                            ?>
-                        </div>
-                    </div>
-                <?php endif ?>
-                
 
                 <div>
                     <?php if($enable_recaptcha): ?>
                         <div style="margin-top: 24px;">
-                            <script src="https://www.google.com/recaptcha/api.js" async defer></script>
                             <div class="g-recaptcha mb-3" id="feedback-recaptcha" data-sitekey="<?php echo esc_attr(EHX_Donate_Settings::extract_setting_value('google_recaptcha_site_key')) ?>"></div>
                         </div>
                     <?php endif ?>
