@@ -15,7 +15,6 @@ if (!class_exists('EHX_Donate_Donation_Table_Shortcode')) {
             add_shortcode('ehx_donate_donation_table', [$this, 'add_shortcode']);
         }
 
-        
         /**
          * Adds the donation table shortcode.
          *

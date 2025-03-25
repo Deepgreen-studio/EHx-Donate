@@ -133,6 +133,20 @@ class EHX_Donate_Register_Scripts
             );
         }
 
+        $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
+        if ($enable_recaptcha) {
+            wp_register_script(
+                handle: 'ehx-donate-recaptcha',
+                src: 'https://www.google.com/recaptcha/api.js',
+                deps: [],
+                ver: EHX_DONATE_VERSION,
+                args: [
+                    'async' => true,
+                    'defer' => true,
+                ]
+            );
+        }
+
         wp_register_script(
             handle: 'ehx-donate-datatable',
             src: EHX_DONATE_PLUGIN_URL . 'assets/libs/datatables/datatable.js',

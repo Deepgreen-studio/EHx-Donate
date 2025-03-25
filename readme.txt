@@ -1,5 +1,6 @@
 === EHx Donate ===
 Contributors: EH Studio
+Short Description: EHx Donate – WordPress Donation Plugin. A feature-rich donation management plugin with AJAX forms, custom roles, and seamless integration with WordPress.
 Tags: donation, fundraising, membership, payment, charity
 Requires at least: 5.8
 Tested up to: 6.8

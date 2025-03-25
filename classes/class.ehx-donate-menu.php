@@ -10,7 +10,6 @@ if (!class_exists('EHX_Donate_Menu')) {
             'admin'       => 'ehx_donate_admin',
             'setting'     => 'ehx_donate_admin_settings',
             'donation'    => 'ehx_donate_admin_donations',
-            'gift_aid'    => 'ehx_donate_admin_gift_aid',
             'transaction' => 'ehx_donate_admin_transactions',
         ];
 
@@ -86,12 +85,6 @@ if (!class_exists('EHX_Donate_Menu')) {
                             'menu_title' => esc_html__('Donations', 'ehx-donate'),
                             'menu_slug'  => self::$pages['donation'],
                             'callback'   => [$this, 'ehx_donate_donations_page'],
-                        ],
-                        [
-                            'page_title' => esc_html__('Gift Aid', 'ehx-donate'),
-                            'menu_title' => esc_html__('Gift Aid', 'ehx-donate'),
-                            'menu_slug'  => self::$pages['gift_aid'],
-                            'callback'   => [$this, 'ehx_donate_gift_aid_page'],
                         ],
                         [
                             'page_title' => esc_html__('Campaigns', 'ehx-donate'),

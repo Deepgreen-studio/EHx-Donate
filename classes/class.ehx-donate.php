@@ -5,7 +5,6 @@ class EHX_Donate
     public static $donation_table;
     public static $donation_items_table;
     public static $transaction_table;
-    public static $subscription_table;
     public static $booking_table;
 
     /**
@@ -23,7 +22,6 @@ class EHX_Donate
         self::$donation_table = $wpdb->prefix . 'ehx_donations';
         self::$donation_items_table = $wpdb->prefix . 'ehx_donation_items';
         self::$transaction_table = $wpdb->prefix . 'ehx_transactions';
-        self::$subscription_table = $wpdb->prefix . 'ehx_subscriptions';
         self::$booking_table = $wpdb->prefix . 'ehx_bookings';
 
         add_action('plugins_loaded', [$this, 'load_textdomain']);
@@ -62,8 +60,6 @@ class EHX_Donate
             'classes/class.ehx-donate-scripts.php',
             'classes/class.ehx-donate-settings.php',
             'classes/class.ehx-donate-donation.php',
-            'classes/class.ehx-donate-giftaid.php',
-            // 'classes/class.ehx-donate-cron-job.php',
             'classes/class.ehx-donate-transaction.php',
 
             // Load post types classes
@@ -82,7 +78,6 @@ class EHX_Donate
         new EHX_Donate_Actions();
         new EHX_Donate_Register_Scripts();
         new EHX_Donate_Settings();
-        // new EHX_Donate_Cron_Job();
 
         new EHX_Donate_Campaign();
 
@@ -146,7 +141,7 @@ class EHX_Donate
         self::ehx_capabilities(type: 'remove');
 
         // Delete the plugin's options from the database
-        delete_option('ehx_donate_settings_options');
+        delete_option(EHX_Donate_Settings::$option);
     }
 
     
@@ -236,22 +231,6 @@ class EHX_Donate
                 PRIMARY KEY (id),
                 KEY donation_id (donation_id)
             ",
-            self::$subscription_table => "
-                id INT(11) NOT NULL AUTO_INCREMENT,
-                user_id BIGINT UNSIGNED DEFAULT NULL,
-                title VARCHAR(255) NOT NULL,
-                stripe_subscription_id VARCHAR(255) DEFAULT NULL,
-                stripe_subscription_price_id VARCHAR(255) DEFAULT NULL,
-                amount DECIMAL(8,2) NOT NULL,
-                recurring ENUM('One-off','Weekly','Monthly','Quarterly','Yearly') DEFAULT NULL,
-                next_payment_date DATE DEFAULT NULL,
-                invoice_no VARCHAR(255) NOT NULL,
-                status VARCHAR(255) DEFAULT NULL,
-                payment_method ENUM('Stripe','Paypal','Google Pay','Samsung Pay','Apple Pay','Skrill','Checkout','Blockchain','BTCPay') DEFAULT NULL,
-                created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-                PRIMARY KEY (id),
-                KEY user_id (user_id)
-            ",
             self::$booking_table => "
                 id INT(11) NOT NULL AUTO_INCREMENT,
                 user_id BIGINT UNSIGNED DEFAULT NULL,
@@ -298,7 +277,6 @@ class EHX_Donate
             self::$donation_table,
             self::$donation_items_table,
             self::$transaction_table,
-            self::$subscription_table,
         ];
 
         foreach ($tables as $table) {
@@ -327,7 +305,7 @@ class EHX_Donate
         $role = get_role($role_name);
 
         // Define the custom capabilities to be added/removed
-        $capabilities = ['manage_donations', 'manage_gift_aid', 'manage_transactions'];
+        $capabilities = ['manage_donations', 'manage_transactions'];
 
         $method = "{$type}_cap";
 
@@ -350,19 +328,15 @@ class EHX_Donate
             'admin_email_address' => 'example@eh.studio',
             'mail_appears_from' => 'EHx Studio',
             'mail_appears_from_address' => 'example@eh.studio',
-            'enable_gift_aid' => true,
             'stripe_enable' => true,
             'stripe_client_key' => 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot',
             'stripe_client_secret' => 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK',
-            'stripe_callback_url' => null,
             'google_recaptcha_enable' => true,
             'google_recaptcha_site_key' => '6LePvtQqAAAAABdeaktZv79QZCLUCqxVn5Wt64w8',
-            'google_recaptcha_secret_key' => '6LePvtQqAAAAAFp7GxqThMl2ESIyRVJdshS-_YNy',
-            'google_map_enable' => false,
-            'google_map_api_key' => 'AIzaSyBiN747TEpdfi0TeFN47PvEjw9LrrY9d8w',
+            'google_recaptcha_secret_key' => '6LePvtQqAAAAAFp7GxqThMl2ESIyRVJdshS-_YNy'
         ];
 
         // Update the plugin's options with the default settings
-        update_option('ehx_donate_settings_options', $options);
+        update_option(EHX_Donate_Settings::$option, $options);
     }
 }

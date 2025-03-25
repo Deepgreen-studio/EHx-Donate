@@ -4,6 +4,7 @@ if (!class_exists('EHX_Donate_Settings')) {
 
     class EHX_Donate_Settings 
     {
+        public static string $option = 'ehx_donate_settings_options';
         public static array $pages;
         public static $options;
         public static array $tabs = [];
@@ -21,7 +22,7 @@ if (!class_exists('EHX_Donate_Settings')) {
         public function __construct() 
         {
             // Retrieve options from the database
-            self::$options = get_option('ehx_donate_settings_options');
+            self::$options = get_option(self::$option);
 
             // Define tabs
             self::$tabs = [
@@ -68,13 +69,13 @@ if (!class_exists('EHX_Donate_Settings')) {
          *
          * This function uses the `register_setting` function to register the plugin's settings
          * under the 'ehx_donate_settings_group' group. The settings are stored in the
-         * 'ehx_donate_settings_options' option in the WordPress database.
+         * self::$option option in the WordPress database.
          *
          * @return void
          */
         public function admin_init()
         {
-            register_setting('ehx_donate_settings_group', 'ehx_donate_settings_options');
+            register_setting('ehx_donate_settings_group', self::$option);
         }
 
         /**
@@ -90,7 +91,6 @@ if (!class_exists('EHX_Donate_Settings')) {
             return match($page) {
                 'general' => [
                     ['field_name' => 'Default Donation Amounts', 'description' => 'If enabled, the text entered below will replace the title of the post/page/CPT for users who do not have permission to view the restricted content. Please see this doc for more information on this.', 'option' => $page],
-                    ['field_name' => 'enable_gift_aid', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Gift Aid', 'option' => $page],
                 ],
                 'restriction_content' => [
                     ['field_name' => 'paypal_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable PayPal as a payment option on the platform.', 'option' => $page],
@@ -103,13 +103,11 @@ if (!class_exists('EHX_Donate_Settings')) {
                     ['field_name' => 'paypal_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable PayPal as a payment option on the platform.', 'option' => $page],
                     ['field_name' => 'paypal_client_id', 'title' => 'Client id', 'placeholder' => 'PayPal client id', 'option' => $page],
                     ['field_name' => 'paypal_client_secret', 'title' => 'Client secret', 'placeholder' => 'PayPal client secret', 'option' => $page],
-                    // ['field_name' => 'paypal_callback_url', 'title' => 'Callback URL', 'placeholder' => 'PayPal callback URL', 'option' => $page],
                 ],
                 'stripe' => [
                     ['field_name' => 'stripe_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Stripe as a payment option on the platform.', 'option' => $page],
                     ['field_name' => 'stripe_client_key', 'title' => 'Client key', 'placeholder' => 'Stripe client key', 'option' => $page],
-                    ['field_name' => 'stripe_client_secret', 'title' => 'Client secret', 'placeholder' => 'Stripe client secret', 'option' => $page],
-                    // ['field_name' => 'stripe_callback_url', 'title' => 'Callback URL', 'placeholder' => 'Stripe callback URL', 'option' => $page],
+                    ['field_name' => 'stripe_client_secret', 'title' => 'Client secret', 'placeholder' => 'Stripe client secret', 'option' => $page]
                 ],
                 'recaptcha' => [
                     ['field_name' => 'google_recaptcha_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Google reCAPTCHA to protect your forms from spam and abuse.', 'option' => $page],
@@ -155,7 +153,19 @@ if (!class_exists('EHX_Donate_Settings')) {
         public static function get_sub_tabs($tab = 'general', $onlyData = false) 
         {
             $tabs = match($tab) {
-                'general' => [
+                'integration' => [
+                    [
+                        'label' => 'Stripe',
+                        'slug'  => 'stripe',
+                        'description' => 'Configuration for Stripe payment gateway integration.',
+                    ],
+                    [
+                        'label' => 'Google Recaptcha',
+                        'slug'  => 'google_recaptcha',
+                        'description' => 'Settings for integrating Google reCAPTCHA to prevent spam and abuse.',
+                    ],
+                ],
+                default => [
                     [
                         'label' => 'General',
                         'slug'  => 'general',
@@ -165,74 +175,6 @@ if (!class_exists('EHX_Donate_Settings')) {
                         'label' => 'Other',
                         'slug'  => 'other',
                         'description' => 'Settings to manage user roles, permissions, and related functionality.',
-                    ],
-                ],
-                'access' => [
-                    [
-                        'label' => 'Restriction Content',
-                        'slug'  => 'restriction_content',
-                        'description' => "Provides settings for controlling access to your site",
-                    ],
-                    [
-                        'label' => 'Other',
-                        'slug'  => 'other',
-                        'description' => 'Settings to manage user roles, permissions, and related functionality.',
-                    ],
-                ],
-                'integration' => [
-                    [
-                        'label' => 'Stripe',
-                        'slug'  => 'stripe',
-                        'description' => 'Configuration for Stripe payment gateway integration.',
-                    ],
-                    // [
-                    //     'label' => 'Paypal',
-                    //     'slug'  => 'paypal',
-                    //     'description' => 'Configuration for PayPal payment gateway integration.',
-                    // ],
-                    [
-                        'label' => 'Google Recaptcha',
-                        'slug'  => 'google_recaptcha',
-                        'description' => 'Settings for integrating Google reCAPTCHA to prevent spam and abuse.',
-                    ],
-                    [
-                        'label' => 'Google Map',
-                        'slug'  => 'google_map',
-                        'description' => 'Settings for integrating Google Maps to display interactive maps on your platform.',
-                    ], 
-                ],
-                'appearance' => [
-                    [
-                        'label' => 'Profile',
-                        'slug'  => 'profile',
-                        'description' => 'Appearance customization options for user profiles.',
-                    ],
-                    [
-                        'label' => 'Login Form',
-                        'slug'  => 'login_form',
-                        'description' => 'Appearance and behavior settings for the login form.',
-                    ],
-                    [
-                        'label' => 'Registration Form',
-                        'slug'  => 'registration_form',
-                        'description' => 'Appearance and behavior settings for the registration form.'
-                    ],
-                ],
-                default => [
-                    [
-                        'label' => 'Pages',
-                        'slug'  => 'pages',
-                        'description' => "This section enables you to assign a page to one of the core elements necessary for the plugin's proper function. The plugin automatically creates and configures the required pages upon installation.You only need to use this tab if you accidentally deleted pages that were automatically created during the initial plugin activation. <a href='#'>Learn more about manually creating pages.</a>",
-                    ],
-                    [
-                        'label' => 'Users',
-                        'slug'  => 'users',
-                        'description' => 'Settings to manage user roles, permissions, and related functionality.',
-                    ],
-                    [
-                        'label' => 'Account',
-                        'slug'  => 'account',
-                        'description' => 'Settings for user account preferences and customization.',
                     ],
                 ],
             };
@@ -285,10 +227,10 @@ if (!class_exists('EHX_Donate_Settings')) {
             $validator->validate_nonce(self::NONCE_NAME, self::NONCE_ACTION);
             
             // Get the submitted data
-            $inputs = $request->input('ehx_donate_settings_options');
+            $inputs = $request->input(self::$option);
         
             // // Save the setting (you can use update_option or your custom logic)
-            update_option('ehx_donate_settings_options', $inputs);
+            update_option(self::$option, $inputs);
         
             // // Return success response
             return $response->success(esc_html__('Settings saved successfully.', 'ehx-donate'));
