@@ -40,7 +40,7 @@ if (!class_exists('EHX_Donate_Actions')) {
         {
             $export = $this->request->input('export');
 
-            if ($export === 'csv') {
+            if ($export === 'edp-csv') {
 
                 if (!current_user_can('manage_donations')) {
                     wp_die(esc_html__('Permission denied', 'ehx-donate'));

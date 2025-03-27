@@ -149,7 +149,7 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
                     </select>
 
                     <input type="submit" class="button" value="Filter">
-                    <a href="?page=<?php echo esc_html(EHX_Donate_Menu::$pages['transaction']) ?>&per_page=-1&export=csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
+                    <a href="?page=<?php echo esc_html(EHX_Donate_Menu::$pages['transaction']) ?>&per_page=-1&export=edp-csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
                 </div>
                 <?php
             }
