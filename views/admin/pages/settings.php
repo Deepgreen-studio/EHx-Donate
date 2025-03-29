@@ -164,16 +164,6 @@
                         </table>
                     </div>
 
-                    <div id="google_recaptcha" class="tab-panel">
-                        <table class="form-table">
-                            <?php
-                                foreach (EHX_Donate_Settings::get_integration_fields('recaptcha') as $field) {
-                                    EHX_Donate_Helper::input_group($field);
-                                }
-                            ?>
-                        </table>
-                    </div>
-
                 </div>
                 
             </div>

@@ -118,12 +118,6 @@
                 </div>
 
                 <div>
-                    <?php if($enable_recaptcha): ?>
-                        <div style="margin-top: 24px;">
-                            <div class="g-recaptcha mb-3" id="feedback-recaptcha" data-sitekey="<?php echo esc_attr(EHX_Donate_Settings::extract_setting_value('google_recaptcha_site_key')) ?>"></div>
-                        </div>
-                    <?php endif ?>
-
                     <div class="edp-donation-amounts" id="edp-pay-amounts" style="display: none;">
                         <div class="edp-donation-amount">
                             <div class="form-column">
@@ -131,14 +125,6 @@
                             </div>
                             <div class="form-column">
                                 <span class="form-row-value"><strong id="edp_donation_payable_amount"></strong></span>
-                            </div>
-                        </div>
-                        <div class="edp-donation-amount" id="edp-pay-gift-aid" style="display: none;">
-                            <div class="form-column">
-                                <span class="form-row-title"><strong><?php esc_html_e('Your Contribution with Gift Aid', 'ehx-donate') ?>:</strong></span>
-                            </div>
-                            <div class="form-column">
-                                <span class="form-row-value"><strong id="edp_donation_pay"></strong></span>
                             </div>
                         </div>
                     </div>
@@ -164,7 +150,7 @@
                 <div class="edp-modal-content">
 
                     <div class="edp-modal-header">
-                        <a href="#" title="Close" class="edp-modal-close"><?php esc_html_e('Close', 'ehx-donate') ?></a>
+                        <a href="javascript:void(0)" title="Close" class="edp-modal-close"><?php esc_html_e('Close', 'ehx-donate') ?></a>
                     </div>
                     
                     <div class="edp-modal-body">

@@ -11,7 +11,7 @@ msgstr ""
 "<translations@example."
 "com>\n"
 "POT-Creation-Date: "
-"2025-03-24 13:55+0600\n"
+"2025-03-29 13:00+0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Your "
 "Name <you@example.com>\n"
@@ -51,11 +51,11 @@ msgstr ""
 "SearchPath-0: .\n"
 
 #: classes/class.ehx-donate-actions.php:46
-#: classes/class.ehx-donate-actions.php:184
+#: classes/class.ehx-donate-actions.php:147
 msgid "Permission denied"
 msgstr ""
 
-#: classes/class.ehx-donate-actions.php:99
+#: classes/class.ehx-donate-actions.php:82
 msgid ""
 "No data found to export."
 msgstr ""
@@ -66,8 +66,8 @@ msgid "Donation"
 msgstr ""
 
 #: classes/class.ehx-donate-donation.php:24
+#: classes/class.ehx-donate-menu.php:84
 #: classes/class.ehx-donate-menu.php:85
-#: classes/class.ehx-donate-menu.php:86
 msgid "Donations"
 msgstr ""
 
@@ -82,7 +82,6 @@ msgid "Donor"
 msgstr ""
 
 #: classes/class.ehx-donate-donation.php:42
-#: classes/class.ehx-donate-giftaid.php:48
 #: classes/class.ehx-donate-transaction.php:43
 #: views/shortcodes/donation-table.php:8
 msgid "Amount"
@@ -99,7 +98,7 @@ msgid "Gift Aid Enabled"
 msgstr ""
 
 #: classes/class.ehx-donate-donation.php:45
-#: helpers/class.helper.php:355
+#: helpers/class.helper.php:358
 #: post-types/class.ehx-donate-campaign.php:107
 #: views/shortcodes/donation-table.php:11
 msgid "Recurring"
@@ -110,8 +109,7 @@ msgid "Payment"
 msgstr ""
 
 #: classes/class.ehx-donate-donation.php:115
-#: shortcodes/class.donation-form-shortcode.php:282
-#: shortcodes/class.donation-form-shortcode.php:388
+#: shortcodes/class.donation-form-shortcode.php:254
 msgid "Quick Donation"
 msgstr ""
 
@@ -128,7 +126,6 @@ msgid "Cancel"
 msgstr ""
 
 #: classes/class.ehx-donate-donation.php:160
-#: classes/class.ehx-donate-giftaid.php:163
 #: classes/class.ehx-donate-transaction.php:143
 msgid "All Users"
 msgstr ""
@@ -138,123 +135,72 @@ msgid "All"
 msgstr ""
 
 #: classes/class.ehx-donate-donation.php:177
-#: classes/class.ehx-donate-giftaid.php:172
 #: classes/class.ehx-donate-transaction.php:152
 msgid "Export"
 msgstr ""
 
-#: classes/class.ehx-donate-giftaid.php:23
-#: classes/class.ehx-donate-giftaid.php:24
-#: classes/class.ehx-donate-menu.php:91
-#: classes/class.ehx-donate-menu.php:92
-#: views/shortcodes/donation-form.php:126
-#: views/shortcodes/donation-table.php:10
-msgid "Gift Aid"
-msgstr ""
-
-#: classes/class.ehx-donate-giftaid.php:40
-#: views/shortcodes/donation-form.php:114
-msgid "Title"
-msgstr ""
-
-#: classes/class.ehx-donate-giftaid.php:41
-#: views/shortcodes/donation-form.php:115
-msgid "First Name"
-msgstr ""
-
-#: classes/class.ehx-donate-giftaid.php:42
-#: views/shortcodes/donation-form.php:116
-msgid "Last Name"
-msgstr ""
-
-#: classes/class.ehx-donate-giftaid.php:43
-msgid ""
-"House name or number"
-msgstr ""
-
-#: classes/class.ehx-donate-giftaid.php:44
-msgid "Postcode"
-msgstr ""
-
-#: classes/class.ehx-donate-giftaid.php:45
-msgid ""
-"Aggregated Donations"
-msgstr ""
-
-#: classes/class.ehx-donate-giftaid.php:46
-msgid "Sponsored Event"
-msgstr ""
-
-#: classes/class.ehx-donate-giftaid.php:47
-msgid "Donation Date"
-msgstr ""
-
-#: classes/class.ehx-donate-giftaid.php:130
-msgid "Gift Aid donations"
-msgstr ""
-
+#: classes/class.ehx-donate-menu.php:71
 #: classes/class.ehx-donate-menu.php:72
-#: classes/class.ehx-donate-menu.php:73
 msgid "EHx Donate"
 msgstr ""
 
+#: classes/class.ehx-donate-menu.php:78
 #: classes/class.ehx-donate-menu.php:79
-#: classes/class.ehx-donate-menu.php:80
 msgid "Settings"
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:97
-#: classes/class.ehx-donate-menu.php:98
+#: classes/class.ehx-donate-menu.php:90
+#: classes/class.ehx-donate-menu.php:91
 #: post-types/class.ehx-donate-campaign.php:56
 #: post-types/class.ehx-donate-campaign.php:57
 #: post-types/class.ehx-donate-campaign.php:59
 msgid "Campaigns"
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:103
-#: classes/class.ehx-donate-menu.php:104
+#: classes/class.ehx-donate-menu.php:96
+#: classes/class.ehx-donate-menu.php:97
 #: classes/class.ehx-donate-transaction.php:24
 #: views/admin/pages/transactions.php:2
 msgid "Transactions"
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:180
+#: classes/class.ehx-donate-menu.php:173
 msgid ""
 "Setting Updated "
 "Successfully."
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:202
+#: classes/class.ehx-donate-menu.php:195
 msgid ""
 "Donation Deleted "
 "Successfully."
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:224
+#: classes/class.ehx-donate-menu.php:217
 msgid ""
 "Gift Aid Deleted "
 "Successfully."
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:247
+#: classes/class.ehx-donate-menu.php:240
 msgid ""
 "Transaction Deleted "
 "Successfully."
 msgstr ""
 
-#: classes/class.ehx-donate-settings.php:28
+#: classes/class.ehx-donate-settings.php:29
 msgid "General"
 msgstr ""
 
-#: classes/class.ehx-donate-settings.php:30
+#: classes/class.ehx-donate-settings.php:31
 msgid "Email"
 msgstr ""
 
-#: classes/class.ehx-donate-settings.php:31
+#: classes/class.ehx-donate-settings.php:32
 msgid "Integration"
 msgstr ""
 
-#: classes/class.ehx-donate-settings.php:294
+#: classes/class.ehx-donate-settings.php:210
 msgid ""
 "Settings saved "
 "successfully."
@@ -272,56 +218,51 @@ msgstr ""
 msgid "Type"
 msgstr ""
 
-#: helpers/class.helper.php:255
+#: helpers/class.helper.php:258
 msgid "Select an option"
 msgstr ""
 
-#: helpers/class.helper.php:348
+#: helpers/class.helper.php:351
 #: post-types/class.ehx-donate-campaign.php:106
 msgid "Goal Amount"
 msgstr ""
 
-#: helpers/class.helper.php:351
+#: helpers/class.helper.php:354
 msgid "Enter Goal Amount"
 msgstr ""
 
-#: helpers/class.helper.php:359
-#: shortcodes/class.donation-form-shortcode.php:68
-#: views/shortcodes/donation-form.php:58
-#: views/shortcodes/donation-form.php:70
+#: helpers/class.helper.php:362
+#: views/shortcodes/donation-form.php:56
+#: views/shortcodes/donation-form.php:68
 msgid "One-off"
 msgstr ""
 
-#: helpers/class.helper.php:360
-#: shortcodes/class.donation-form-shortcode.php:69
+#: helpers/class.helper.php:363
 msgid "Weekly"
 msgstr ""
 
-#: helpers/class.helper.php:361
-#: shortcodes/class.donation-form-shortcode.php:70
+#: helpers/class.helper.php:364
 msgid "Monthly"
 msgstr ""
 
-#: helpers/class.helper.php:362
-#: shortcodes/class.donation-form-shortcode.php:71
+#: helpers/class.helper.php:365
 msgid "Quarterly"
 msgstr ""
 
-#: helpers/class.helper.php:363
-#: shortcodes/class.donation-form-shortcode.php:72
+#: helpers/class.helper.php:366
 msgid "Yearly"
 msgstr ""
 
-#: helpers/class.helper.php:370
+#: helpers/class.helper.php:373
 msgid "Start Date"
 msgstr ""
 
-#: helpers/class.helper.php:373
-#: helpers/class.helper.php:380
+#: helpers/class.helper.php:376
+#: helpers/class.helper.php:383
 msgid "Choice Start date"
 msgstr ""
 
-#: helpers/class.helper.php:377
+#: helpers/class.helper.php:380
 msgid "End Date"
 msgstr ""
 
@@ -500,29 +441,35 @@ msgstr ""
 msgid "Donate Now"
 msgstr ""
 
-#: shortcodes/class.donation-form-shortcode.php:146
+#: shortcodes/class.donation-form-shortcode.php:117
 msgid ""
 "Payment processing "
 "failed. Please try again."
 msgstr ""
 
-#: shortcodes/class.donation-form-shortcode.php:153
+#: shortcodes/class.donation-form-shortcode.php:124
 msgid ""
 "Failed to create user. "
 "Please try again."
 msgstr ""
 
-#: shortcodes/class.donation-form-shortcode.php:159
+#: shortcodes/class.donation-form-shortcode.php:130
 msgid ""
 "Failed to save donation "
 "record. Please try again."
 msgstr ""
 
-#: shortcodes/class.donation-form-shortcode.php:171
+#: shortcodes/class.donation-form-shortcode.php:143
 msgid ""
 "Donation processed "
 "successfully, please "
 "complete payment."
+msgstr ""
+
+#: shortcodes/class.donation-form-shortcode.php:425
+msgid ""
+"Thank You for Your "
+"Generous Donation!"
 msgstr ""
 
 #: views/admin/inc/banner-image.php:17
@@ -769,7 +716,7 @@ msgid ""
 "email templates settings."
 msgstr ""
 
-#: views/admin/pages/settings.php:193
+#: views/admin/pages/settings.php:173
 msgid "Save Settings"
 msgstr ""
 
@@ -809,163 +756,123 @@ msgid ""
 "Please select one option."
 msgstr ""
 
-#: views/shortcodes/donation-form.php:44
-msgid ""
-"How often would you like "
-"to give?"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:49
+#: views/shortcodes/donation-form.php:47
 msgid "Now choose how much"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:67
+#: views/shortcodes/donation-form.php:65
 msgid "Custom"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:79
+#: views/shortcodes/donation-form.php:77
 msgid ""
 "Total Payable Amount"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:87
-#: views/shortcodes/donation-form.php:160
+#: views/shortcodes/donation-form.php:85
+#: views/shortcodes/donation-form.php:124
 msgid ""
 "Final Payable with Fee"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:106
+#: views/shortcodes/donation-form.php:104
 msgid ""
 "Personal Information"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:110
+#: views/shortcodes/donation-form.php:108
 msgid ""
 "Please fill up required "
 "fields."
 msgstr ""
 
-#: views/shortcodes/donation-form.php:114
+#: views/shortcodes/donation-form.php:112
+msgid "Title"
+msgstr ""
+
+#: views/shortcodes/donation-form.php:112
 msgid "Select title"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:114
+#: views/shortcodes/donation-form.php:112
 msgid "Mr"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:114
+#: views/shortcodes/donation-form.php:112
 msgid "Ms"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:114
+#: views/shortcodes/donation-form.php:112
 msgid "Mrs"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:114
+#: views/shortcodes/donation-form.php:112
 msgid "Miss"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:114
+#: views/shortcodes/donation-form.php:112
 msgid "Dr"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:115
+#: views/shortcodes/donation-form.php:113
+msgid "First Name"
+msgstr ""
+
+#: views/shortcodes/donation-form.php:113
 msgid "Enter First Name"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:116
+#: views/shortcodes/donation-form.php:114
+msgid "Last Name"
+msgstr ""
+
+#: views/shortcodes/donation-form.php:114
 msgid "Enter Last Name"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:117
+#: views/shortcodes/donation-form.php:115
 msgid "Email Address"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:117
+#: views/shortcodes/donation-form.php:115
 msgid "Enter Email Address"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:118
+#: views/shortcodes/donation-form.php:116
 msgid "Phone Number"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:118
+#: views/shortcodes/donation-form.php:116
 msgid "Enter Phone Number"
 msgstr ""
 
 #: views/shortcodes/donation-form.php:137
-msgid "Address line 1"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:138
-msgid "Address line 2"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:139
-msgid "City"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:139
-msgid "Enter City"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:140
-msgid "State"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:140
-msgid "Enter State"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:141
-msgid "Country"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:141
-msgid "Enter Country"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:142
-msgid "Post Code"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:142
-msgid "Enter Post Code"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:168
-msgid ""
-"Your Contribution with "
-"Gift Aid"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:181
 msgid "Please Wait..."
 msgstr ""
 
-#: views/shortcodes/donation-form.php:183
+#: views/shortcodes/donation-form.php:139
 msgid "Submit"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:197
+#: views/shortcodes/donation-form.php:153
 msgid "Close"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:216
+#: views/shortcodes/donation-form.php:172
 msgid "SUCCESS !"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:216
+#: views/shortcodes/donation-form.php:172
 msgid "CANCEL !"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:218
+#: views/shortcodes/donation-form.php:174
 msgid ""
 "Thank you for your "
 "generous donation!"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:218
+#: views/shortcodes/donation-form.php:174
 msgid ""
 "Your donation are "
 "cancelled."
@@ -977,6 +884,10 @@ msgstr ""
 
 #: views/shortcodes/donation-table.php:7
 msgid "Date & Time"
+msgstr ""
+
+#: views/shortcodes/donation-table.php:10
+msgid "Gift Aid"
 msgstr ""
 
 #: views/shortcodes/donation-table.php:12

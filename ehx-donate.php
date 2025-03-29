@@ -2,7 +2,7 @@
     /*
         * Plugin Name: EHx Donate
         * Plugin URI:  https://wordpress.org/plugins/ehx-donate
-        * Short Description: EHx Donate – WordPress Donation Plugin. A feature-rich donation management plugin with AJAX forms, custom roles, and seamless integration with WordPress.
+        * Short Description: EHx Donate – WordPress Donation Plugin. A feature-rich donation management plugin.
         * Description: The **EHx Donate** plugin is designed to enhance donation management on WordPress websites. It offers **seamless integration** with WordPress’s built-in user system, **AJAX-based forms** for a smooth experience, and **custom role assignments** for better user management.
         * 
         * Key Features:
@@ -16,8 +16,8 @@
         * Requires PHP:      7.4
         * Author:            EH Studio
         * Author URI:        https://eh.studio
-        * License:           GPLv3 License
-        * License URI:       https://www.gnu.org/licenses/gpl-3.0.html
+        * License:           GPLv2 or later
+        * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
         * Text Domain:       ehx-donate
         * Domain Path:       /languages
     */

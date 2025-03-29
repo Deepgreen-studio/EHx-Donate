@@ -59,9 +59,6 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                 }
             }
 
-            $enable_gift_aid = (bool) EHX_Donate_Settings::extract_setting_value('enable_gift_aid', false);
-            $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
-
             ob_start();
 
             $status = $this->request->input('status');
@@ -74,10 +71,6 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
 
             global $wp;
             $callback = home_url($wp->request);
-
-            if ($enable_recaptcha) {
-                wp_enqueue_script('ehx-donate-recaptcha');
-            }
 
             require EHX_DONATE_PLUGIN_DIR . 'views/shortcodes/donation-form.php';
 
@@ -100,8 +93,6 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             // Validate nonce to prevent CSRF
             $validator->validate_nonce(self::NONCE_NAME, self::NONCE_ACTION);
 
-            $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
-
             // Validate input data
             $validator->validate([
                 'campaign' => 'required|string|max:255',
@@ -110,13 +101,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                 'last_name' => 'required|string|min:2|max:30',
                 'email' => 'required|string|email|max:255',
                 'phone' => 'required|string|min:9|max:20',
-                'g-recaptcha-response' => $enable_recaptcha ? 'required' : 'nullable',
             ]);
-
-            // Validate reCAPTCHA if enabled
-            if ($enable_recaptcha) {
-                $validator->validate_recaptcha($this->request->input('g-recaptcha-response'));
-            }
 
             // Calculate total amount with service charge
             $amount = (float) $this->request->input('amount');
@@ -314,7 +299,8 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
         private function paymentCallback($status, $txid, $browser_session): bool|string
         {
             if ($browser_session != $txid) {
-                return home_url('/');
+                wp_safe_redirect(home_url());
+                exit;
             }
 
             $campaign = EHX_Donate_Helper::sessionGet('campaign');
@@ -325,7 +311,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             global $wpdb;
 
             $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE browser_session = %s AND payment_status = 'pending'", $browser_session));
-
+            
             if($donation != null) {
                 $recurring = $input['recurring'] ?? esc_html('One-off');
 

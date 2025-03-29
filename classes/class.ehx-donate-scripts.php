@@ -102,26 +102,6 @@ class EHX_Donate_Register_Scripts
             ver: EHX_DONATE_VERSION,
         );
 
-        // $google_map_enable = (bool) EHX_Donate_Settings::extract_setting_value('google_map_enable', false);
-        // if ($google_map_enable) {
-        //     $google_map_api_key = EHX_Donate_Settings::extract_setting_value('google_map_api_key');
-        //     wp_register_script(
-        //         handle: 'ehx-donate-google-map',
-        //         src: EHX_DONATE_PLUGIN_URL . 'assets/js/google-map.js',
-        //         deps: ['jquery'],
-        //         ver: EHX_DONATE_VERSION,
-        //         args: true
-        //     );
-    
-        //     wp_register_script(
-        //         handle: 'ehx-donate-google-map-init',
-        //         src: "https://maps.googleapis.com/maps/api/js?key={$google_map_api_key}&libraries=places&callback=cities",
-        //         deps: ['jquery'],
-        //         ver: EHX_DONATE_VERSION,
-        //         args: true
-        //     );
-        // }
-
         $stripe_enable = (bool) EHX_Donate_Settings::extract_setting_value('stripe_enable', false);
         if ($stripe_enable) {
             wp_register_script(
@@ -130,20 +110,6 @@ class EHX_Donate_Register_Scripts
                 deps: [],
                 ver: EHX_DONATE_VERSION,
                 args: true
-            );
-        }
-
-        $enable_recaptcha = (bool) EHX_Donate_Settings::extract_setting_value('google_recaptcha_enable', false);
-        if ($enable_recaptcha) {
-            wp_register_script(
-                handle: 'ehx-donate-recaptcha',
-                src: 'https://www.google.com/recaptcha/api.js',
-                deps: [],
-                ver: EHX_DONATE_VERSION,
-                args: [
-                    'async' => true,
-                    'defer' => true,
-                ]
             );
         }
 
