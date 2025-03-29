@@ -330,10 +330,7 @@ class EHX_Donate
             'mail_appears_from_address' => 'example@eh.studio',
             'stripe_enable' => true,
             'stripe_client_key' => 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot',
-            'stripe_client_secret' => 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK',
-            'google_recaptcha_enable' => true,
-            'google_recaptcha_site_key' => '6LePvtQqAAAAABdeaktZv79QZCLUCqxVn5Wt64w8',
-            'google_recaptcha_secret_key' => '6LePvtQqAAAAAFp7GxqThMl2ESIyRVJdshS-_YNy'
+            'stripe_client_secret' => 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK'
         ];
 
         // Update the plugin's options with the default settings

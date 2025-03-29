@@ -41,8 +41,6 @@ if (!class_exists('EHX_Donate_Settings')) {
                 ];
             }
 
-            add_action('admin_init', [$this, 'admin_init']);
-
             add_action('wp_ajax_ehx_donate_save_settings', [$this, 'ehx_donate_save_settings']);
         }
         
@@ -62,20 +60,6 @@ if (!class_exists('EHX_Donate_Settings')) {
         {
             $value = isset(self::$options[$field]) ? self::$options[$field] : $default;
             return $value;
-        }
-        
-        /**
-         * Registers the plugin's settings for the WordPress admin area.
-         *
-         * This function uses the `register_setting` function to register the plugin's settings
-         * under the 'ehx_donate_settings_group' group. The settings are stored in the
-         * self::$option option in the WordPress database.
-         *
-         * @return void
-         */
-        public function admin_init()
-        {
-            register_setting('ehx_donate_settings_group', self::$option);
         }
 
         /**
@@ -108,11 +92,6 @@ if (!class_exists('EHX_Donate_Settings')) {
                     ['field_name' => 'stripe_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Stripe as a payment option on the platform.', 'option' => $page],
                     ['field_name' => 'stripe_client_key', 'title' => 'Client key', 'placeholder' => 'Stripe client key', 'option' => $page],
                     ['field_name' => 'stripe_client_secret', 'title' => 'Client secret', 'placeholder' => 'Stripe client secret', 'option' => $page]
-                ],
-                'recaptcha' => [
-                    ['field_name' => 'google_recaptcha_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Google reCAPTCHA to protect your forms from spam and abuse.', 'option' => $page],
-                    ['field_name' => 'google_recaptcha_site_key', 'title' => 'Site key', 'placeholder' => 'Google Recaptcha Site key', 'option' => $page],
-                    ['field_name' => 'google_recaptcha_secret_key', 'title' => 'Secret key', 'placeholder' => 'Google Recaptcha Secret key', 'option' => $page],
                 ],
                 'map' => [
                     ['field_name' => 'google_map_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Google Maps to display interactive maps on your platform.', 'option' => $page],
@@ -158,11 +137,6 @@ if (!class_exists('EHX_Donate_Settings')) {
                         'label' => 'Stripe',
                         'slug'  => 'stripe',
                         'description' => 'Configuration for Stripe payment gateway integration.',
-                    ],
-                    [
-                        'label' => 'Google Recaptcha',
-                        'slug'  => 'google_recaptcha',
-                        'description' => 'Settings for integrating Google reCAPTCHA to prevent spam and abuse.',
                     ],
                 ],
                 default => [

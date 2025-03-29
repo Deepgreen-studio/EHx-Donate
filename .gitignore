@@ -5,6 +5,7 @@
 .env.production
 npm-debug.log
 yarn-error.log
+license.txt
 /.fleet
 /.idea
 /.vscode
