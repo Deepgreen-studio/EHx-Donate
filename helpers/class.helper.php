@@ -205,7 +205,7 @@ if (!class_exists('EHX_Donate_Helper')) {
         public static function input_group($args, $option = null)
         {
                 $option = $option ? $option : EHX_Donate_Settings::$option;
-                
+
                 // Extract field properties
                 $field_name = isset($args['field_name']) ? $args['field_name'] : '';
                 $field_name = strtolower(str_replace(' ', '_', $field_name));
@@ -216,35 +216,57 @@ if (!class_exists('EHX_Donate_Helper')) {
                 $placeholder = isset($args['placeholder']) ? esc_attr($args['placeholder']) : '';
                 $data       = $args['data'] ?? [];
 
+                $depend_field = isset($args['depend_field']) ? EHX_Donate_Settings::extract_setting_value($args['depend_field']) : '';
+                $depend_value = $args['depend_value'] ?? null;
+                $dependable = isset($args['depend_field']) && $depend_field == $depend_value;
+
                 // Ensure a valid field name exists
                 if (empty($field_name)) {
                     return;
                 }
+                
             ?>
-                <tr valign="top">
+                <tr valign="top" <?php if($dependable): ?> class="ehx-disabled-content" <?php endif ?> <?php if(isset($args['depend_field'])): ?> data-depend_field="<?php echo esc_html($option . '['. $args['depend_field'] .']') ?>" data-depend_value="<?php echo esc_html($args['depend_value']) ?>" <?php endif ?>>
                     <th scope="row">
                         <label for="<?php echo esc_attr($field_name); ?>"><?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?></label>
                     </th>
                     <td>
                         <?php if ($input_type === 'input'): ?>
-                            <input
-                                type="<?php echo esc_attr($type); ?>"
-                                id="<?php echo esc_attr($input_name); ?>"
-                                name="<?php echo esc_attr($input_name); ?>"
-                                class="regular-text"
-                                placeholder="<?php echo esc_attr($placeholder); ?>"
-                                value="<?php echo esc_attr($type == 'text' ? $value : '1'); ?>"
-                                <?php
-                                if ($type != 'text') {
-                                    checked(1, $value, true);
-                                }
-                                ?>
-                                aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?>" 
-                            />
+                            <?php if ($type !== 'switch'): ?>
+                                <input
+                                    type="<?php echo esc_attr($type); ?>"
+                                    id="<?php echo esc_attr($input_name); ?>"
+                                    name="<?php echo esc_attr($input_name); ?>"
+                                    class="regular-text"
+                                    placeholder="<?php echo esc_attr($placeholder); ?>"
+                                    <?php if (!$dependable): ?>
+                                        value="<?php echo esc_attr($type == 'text' ? $value : '1'); ?>"
+                                    <?php endif; ?>
+                                    <?php
+                                        if ($type != 'text') {
+                                            checked(1, $value, true);
+                                        }
+                                    ?>
+                                    aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?>" 
+                                />
 
-                            <?php if ($type !== 'text' && !empty($placeholder)): ?>
-                                <label for="<?php echo esc_attr($input_name); ?>">
-                                    <?php echo esc_html($placeholder); ?>
+                                <?php if ($type !== 'text' && !empty($placeholder)): ?>
+                                    <label for="<?php echo esc_attr($input_name); ?>">
+                                        <?php echo esc_html($placeholder); ?>
+                                    </label>
+                                <?php endif; ?>
+                            <?php else: ?>
+                                <label class="edp-switch">
+                                    <input 
+                                        type="checkbox" 
+                                        class="edp-checkbox"
+                                        id="<?php echo esc_attr($input_name); ?>"
+                                        name="<?php echo esc_attr($input_name); ?>"
+                                        value="1"
+                                        <?php checked(1, $value, true); ?>
+                                        data-dependable
+                                    >
+                                    <div class="edp-switch-slider"></div>
                                 </label>
                             <?php endif; ?>
 
@@ -255,7 +277,7 @@ if (!class_exists('EHX_Donate_Helper')) {
                                 class="regular-text"
                                 aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?>"
                                 aria-value="<?php echo esc_html($value); ?>">
-                                <option value=""><?php esc_html_e('Select an option', 'ehx-donate'); ?></option>
+                                <option value=""><?php esc_html_e('Select an option', 'ehx-member'); ?></option>
                                 <?php foreach ($data as $option): ?>
                                     <option value="<?php echo esc_attr($option['key']); ?>" <?php selected($option['key'], $value); ?>>
                                         <?php echo esc_html($option['value']); ?>

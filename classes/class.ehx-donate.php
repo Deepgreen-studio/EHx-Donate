@@ -328,9 +328,10 @@ class EHX_Donate
             'admin_email_address' => 'example@eh.studio',
             'mail_appears_from' => 'EHx Studio',
             'mail_appears_from_address' => 'example@eh.studio',
+            'stripe_test_mode_enable' => true,
             'stripe_enable' => true,
             'stripe_client_key' => 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot',
-            'stripe_client_secret' => 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK'
+            'stripe_client_secret' => 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK',
         ];
 
         // Update the plugin's options with the default settings
