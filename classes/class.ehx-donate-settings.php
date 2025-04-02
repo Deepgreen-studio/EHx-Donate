@@ -89,9 +89,10 @@ if (!class_exists('EHX_Donate_Settings')) {
                     ['field_name' => 'paypal_client_secret', 'title' => 'Client secret', 'placeholder' => 'PayPal client secret', 'option' => $page],
                 ],
                 'stripe' => [
+                    ['field_name' => 'stripe_test_mode_enable', 'title' => 'Enabled', 'type' => 'switch', 'option' => $page],
                     ['field_name' => 'stripe_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Stripe as a payment option on the platform.', 'option' => $page],
-                    ['field_name' => 'stripe_client_key', 'title' => 'Client key', 'placeholder' => 'Stripe client key', 'option' => $page],
-                    ['field_name' => 'stripe_client_secret', 'title' => 'Client secret', 'placeholder' => 'Stripe client secret', 'option' => $page]
+                    ['field_name' => 'stripe_client_key', 'title' => 'Client key', 'placeholder' => 'Stripe client key', 'option' => $page, 'depend_field' => 'stripe_test_mode_enable', 'depend_value' => 1],
+                    ['field_name' => 'stripe_client_secret', 'title' => 'Client secret', 'placeholder' => 'Stripe client secret', 'option' => $page, 'depend_field' => 'stripe_test_mode_enable', 'depend_value' => 1],
                 ],
                 'map' => [
                     ['field_name' => 'google_map_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Google Maps to display interactive maps on your platform.', 'option' => $page],
@@ -202,6 +203,11 @@ if (!class_exists('EHX_Donate_Settings')) {
             
             // Get the submitted data
             $inputs = $request->input(self::$option);
+
+            if(isset($inputs['stripe_test_mode_enable'])) {
+                $inputs['stripe_client_key'] = 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot';
+                $inputs['stripe_client_secret'] = 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK';
+            }
         
             // // Save the setting (you can use update_option or your custom logic)
             update_option(self::$option, $inputs);

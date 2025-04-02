@@ -58,6 +58,19 @@
         $parentContent.siblings('p').text($clickedSubTab.data('description'));
     });
 
+    $('.edp-main-tab-content').on('change', 'input[data-dependable]', function(e) {
+
+        let siblings = $(this).parents('tr').siblings('[data-depend_field="'+ e.target.name +'"]');
+        
+        if (e.target.checked) {
+            siblings.addClass('ehx-disabled-content');
+        }
+        else {
+            siblings.removeClass('ehx-disabled-content');
+        }
+        
+    });
+
     $(document).on('submit', 'form#edp_donate_form_submit', function (e) {
         e.preventDefault();
 
