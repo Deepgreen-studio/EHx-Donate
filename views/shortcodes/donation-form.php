@@ -1,16 +1,10 @@
-<style>
-    @media (min-width: 576px) {
-        .edp-card select[name="campaign"],
-        .edp-card select[name="recurring"] {
-            width: 50%;
-        }
-    }
-</style>
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <div class="edp-card" id="edp-card-element">
     
-    <form id="ehx_donate_form_submit" class="edp-form" method="POST">
+    <form id="ehxdo_form_submit" class="edp-form" method="POST">
         
-        <input type="hidden" name="action" value="ehx_donate_from_submit">
+        <input type="hidden" name="action" value="ehxdo_form_submit">
         <input type="hidden" name="callback" value="<?php echo esc_html($callback); ?>">
         <?php wp_nonce_field(self::NONCE_ACTION, self::NONCE_NAME); ?>
 

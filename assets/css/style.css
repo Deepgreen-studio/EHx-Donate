@@ -159,6 +159,12 @@
   background: #fff;
   border-radius: 12px;
 }
+@media (min-width: 576px) {
+  .edp-card select[name="campaign"],
+  .edp-card select[name="recurring"] {
+      width: 50%;
+  }
+}
 
 .edp-fs-title {
   font-size: 24px;

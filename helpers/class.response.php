@@ -1,12 +1,12 @@
 <?php
 
-if (!class_exists('EHX_Donate_Response')) {
+if (!class_exists('EHXDo_Response')) {
 
     /**
      * EHX_Response
      * A helper class for handling responses in WordPress.
      */
-    class EHX_Donate_Response
+    class EHXDo_Response
     {
         /**
          * Send a JSON error response.

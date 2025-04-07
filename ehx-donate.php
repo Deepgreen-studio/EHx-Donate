@@ -26,13 +26,13 @@ if (!defined('ABSPATH')) {
     die('Hi there! I\'m just a plugin, not much I can do when called directly.');
 }
 
-define('EHX_DONATE_VERSION', '1.0.0');
-define('EHX_DONATE_MINIMUM_WP_VERSION', '5.8');
-define('EHX_DONATE_PLUGIN_DIR', plugin_dir_path( __FILE__));
-define('EHX_DONATE_PLUGIN_URL', plugin_dir_url( __FILE__));
-define('EHX_DONATE_DELETE_LIMIT', 10000);
+define('EHXDO_VERSION', '1.0.0');
+define('EHXDO_MINIMUM_WP_VERSION', '5.8');
+define('EHXDO_PLUGIN_DIR', plugin_dir_path( __FILE__));
+define('EHXDO_PLUGIN_URL', plugin_dir_url( __FILE__));
+define('EHXDO_DELETE_LIMIT', 10000);
 
-require_once EHX_DONATE_PLUGIN_DIR . 'classes/class.ehx-donate.php';
+require_once EHXDO_PLUGIN_DIR . 'classes/class.ehx-donate.php';
 
 new EHX_Donate();
 

@@ -1,14 +1,14 @@
 <?php
 
-if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
+if (!class_exists('classes/EHXDo_Donation_Data_Table')) {
 
     if (!class_exists('WP_List_Table')) {
         require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
     }
     
-    class EHX_Donate_Donation_Data_Table extends WP_List_Table 
+    class EHXDo_Donation_Data_Table extends WP_List_Table 
     {   
-        private EHX_Donate_Request $request;
+        private EHXDo_Request $request;
 
         /**
          * Constructor for the Payment_Data_Table class.
@@ -25,7 +25,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                 'ajax'     => false
             ]);
 
-            $this->request = new EHX_Donate_Request();
+            $this->request = new EHXDo_Request();
         }
            
         /**
@@ -97,7 +97,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
         {
             switch ($column_name) {
                 case 'created_at':
-                    $page = EHX_Donate_Menu::$pages['donation'];
+                    $page = EHXDo_Menu::$pages['donation'];
                     $delete_link = admin_url("admin.php?page={$page}&action=ehx_donations_delete&id={$item['id']}");
                     // $view_link = admin_url("admin.php?page={$page}&id={$item['id']}");
 
@@ -122,7 +122,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                     return sprintf('<span style="%s">%s</span>', $status_classes[$item['payment_status']], ucfirst($item['payment_status']));
                 case 'amount':
                 case 'charge':
-                    return EHX_Donate_Helper::currencyFormat($item[$column_name] ?? 0);
+                    return EHXDo_Helper::currencyFormat($item[$column_name] ?? 0);
                 default:
                     return $item[$column_name];
             }
@@ -153,7 +153,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                 $selected_status = $this->request->input('filter_status');
                 ?>
                 <div class="alignleft actions">
-                    <input type="hidden" name="page" value="<?php echo esc_html(EHX_Donate_Menu::$pages['donation']) ?>">
+                    <input type="hidden" name="page" value="<?php echo esc_html(EHXDo_Menu::$pages['donation']) ?>">
                     
                     <!-- User Filter -->
                     <select name="filter_user">
@@ -174,7 +174,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
                     </select>
 
                     <input type="submit" class="button" value="Filter">
-                    <a href="?page=<?php echo esc_html(EHX_Donate_Menu::$pages['donation']) ?>&per_page=-1&export=edp-csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
+                    <a href="?page=<?php echo esc_html(EHXDo_Menu::$pages['donation']) ?>&per_page=-1&export=edp-csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
                 </div>
                 <?php
             }
@@ -232,7 +232,7 @@ if (!class_exists('classes/EHX_Donate_Donation_Data_Table')) {
             ];
 
             $orderby = esc_sql($this->request->input('orderby', 'id'));
-            $orderby = isset($valid_orderby[$orderby]) ? $valid_orderby[$orderby] : 'd.id';
+            $orderby = $valid_orderby[$orderby] ?? 'd.id';
             $order = esc_sql($this->request->input('order', 'DESC'));
             $order = ($order === 'ASC') ? 'ASC' : 'DESC';
 

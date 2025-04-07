@@ -1,22 +1,22 @@
 <?php
 
-if (!class_exists('EHX_Donate_Validator')) {
+if (!class_exists('EHXDo_Validator')) {
 
     /**
      * EHX_Validator
      * A helper class for handling Form Data Validation in WordPress.
      */
-    class EHX_Donate_Validator
+    class EHXDo_Validator
     {
         private array $validatedData = [];
-        private EHX_Donate_Request $request;
-        private EHX_Donate_Response $response;
+        private EHXDo_Request $request;
+        private EHXDo_Response $response;
         private array $errors = [];
 
         public function __construct()
         {
-            $this->request = new EHX_Donate_Request();
-            $this->response = new EHX_Donate_Response();
+            $this->request = new EHXDo_Request();
+            $this->response = new EHXDo_Response();
         }
 
         /**
@@ -406,47 +406,5 @@ if (!class_exists('EHX_Donate_Validator')) {
             }
             return true;
         }
-
-        /**
-         * Validate a Google reCAPTCHA.
-         *
-         * @param string $value The reCAPTCHA response token from the frontend.
-         * @return WP_Error|void|bool Returns true if validation is successful, otherwise returns a WP_Error.
-         */
-        public function validate_recaptcha($value)
-        {
-            try {
-                // Prepare request data
-                $data = [
-                    'secret'   => EHX_Donate_Settings::extract_setting_value('google_recaptcha_secret_key'),
-                    'response' => $value
-                ];
-
-                // Send request to Google
-                $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
-                    'body'      => $data,
-                    'timeout'   => 10,
-                    'sslverify' => true,
-                ]);
-
-                // Check for WP_Error
-                if (is_wp_error($response)) {
-                    return $this->response->error(esc_html__('ReCaptcha verification failed.', 'ehx-donate'));
-                }
-
-                // Decode JSON response
-                $body = json_decode(wp_remote_retrieve_body($response), true);
-
-                // Validate reCAPTCHA success
-                if (empty($body['success']) || !$body['success']) {
-                    return $this->response->error(esc_html__('ReCaptcha verification failed.', 'ehx-donate'));
-                }
-
-                return true; // Validation successful
-            } catch (\Exception $e) {
-                return $this->response->error(esc_html__('ReCaptcha verification error.', 'ehx-donate'));
-            }
-        }
-
     }
 }

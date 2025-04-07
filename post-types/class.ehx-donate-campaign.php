@@ -1,38 +1,33 @@
 <?php
 
-if (!class_exists('EHX_Donate_Campaign')) {
+if (!class_exists('EHXDo_Campaign')) {
 
-    class EHX_Donate_Campaign
+    class EHXDo_Campaign
     {
-        public EHX_Donate_Response $response;
-        public EHX_Donate_Request $request;
-        public EHX_Donate_Validator $validator;
+        public EHXDo_Response $response;
+        public EHXDo_Request $request;
+        public EHXDo_Validator $validator;
 
-        const NONCE_ACTION = 'ehx_donate_nonce';
-        const NONCE_NAME = 'ehx_custom_field_form_nonce';
+        const NONCE_ACTION = 'ehxdo_nonce';
+        const NONCE_NAME = 'ehxdo_custom_field_form_nonce';
 
         public function __construct() 
         {
             // Initialize dependencies
-            $this->response  = new EHX_Donate_Response();
-            $this->request   = new EHX_Donate_Request();
-            $this->validator = new EHX_Donate_Validator();
+            $this->response  = new EHXDo_Response();
+            $this->request   = new EHXDo_Request();
+            $this->validator = new EHXDo_Validator();
 
             // Register custom post type
             add_action('init', [$this, 'create_post_type']);
 
             // Handle post saving
-            add_action('save_post', [$this, 'save_post'], 10, 2);
-
-            // AJAX handlers
-            add_action('wp_ajax_ehx_add_field_modal', [$this, 'ehx_add_field_modal']);
-            add_action('wp_ajax_ehx_custom_field_modal', [$this, 'ehx_custom_field_modal']);
-            add_action('wp_ajax_ehx_render_input_field', [$this, 'ehx_render_input_field']);
+            add_action('save_post', [$this, 'ehxdo_save_post'], 10, 2);
 
             // Customize admin columns
             $this->customize_admin_columns();
 
-            // Disable Gutenberg and Classic Editor for 'ehx-campaign'
+            // Disable Gutenberg and Classic Editor for 'ehxdo-campaign'
             $this->disable_editors();
 
             // // Remove unnecessary meta boxes
@@ -46,13 +41,13 @@ if (!class_exists('EHX_Donate_Campaign')) {
         
         
         /**
-         * Registers the 'ehx-campaign' custom post type.
+         * Registers the 'ehxdo-campaign' custom post type.
          *
          * @return void
          */
         public function create_post_type()
         {
-            register_post_type('ehx-campaign', [
+            register_post_type('ehxdo-campaign', [
                 'label' => esc_html__("Campaigns", 'ehx-donate'),
                 'description' => esc_html__("Campaigns", 'ehx-donate'),
                 'labels' => [
@@ -89,13 +84,13 @@ if (!class_exists('EHX_Donate_Campaign')) {
         }
         
         /**
-         * Customizes the display of custom columns for the 'ehx-campaign' post type.
+         * Customizes the display of custom columns for the 'ehxdo-campaign' post type.
          *
          * @param array $columns An associative array of column names and their display names.
          *
          * @return array The modified associative array of column names and their display names.
          *
-         * The function adds three new custom columns to the 'ehx-campaign' post type:
+         * The function adds three new custom columns to the 'ehxdo-campaign' post type:
          * - 'goal_amount': Displays the goal amount of the campaign.
          * - 'recurring': Indicates whether the campaign is recurring or not.
          * - 'start_and_end_date': Shows the start and end dates of the campaign.
@@ -112,7 +107,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
         }
 
         /**
-         * Customizes the display of custom columns for the 'ehx-campaign' post type.
+         * Customizes the display of custom columns for the 'ehxdo-campaign' post type.
          *
          * @param string $column The name of the column being displayed.
          * @param int $post_id The ID of the current post.
@@ -150,7 +145,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
 
                     // Display progress bar
                     echo '<div class="edp-progress-container"><div class="edp-progress html" style="width: ' . esc_attr($progress) . '%;"></div></div>';
-                    echo '<p>'. esc_html(EHX_Donate_Helper::currencyFormat($sum_total_amount)) .' ('.esc_html(round($progress, 2) . '%').')</p>';
+                    echo '<p>'. esc_html(EHXDo_Helper::currencyFormat($sum_total_amount)) .' ('.esc_html(round($progress, 2) . '%').')</p>';
                     break;
                 case'start_and_end_date':
                     echo esc_html($ehx_campaign['start_date']. '-'. $ehx_campaign['end_date']);
@@ -162,7 +157,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
         }
 
         /**
-         * Customizes the sortable columns for the 'ehx-campaign' post type.
+         * Customizes the sortable columns for the 'ehxdo-campaign' post type.
          *
          * @param array $columns An associative array of column names and their display names.
          *
@@ -170,7 +165,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
          */
         public function ehx_campaign_sortable_columns($columns)
         {
-            // Add custom sortable columns for 'ehx-campaign' post type
+            // Add custom sortable columns for 'ehxdo-campaign' post type
             $columns['_ehx_campaign']['goal_amount'] = 'goal_amount';
             $columns['_ehx_campaign']['recurring'] = 'recurring';
             $columns['_ehx_campaign']['start_and_end_date'] = 'start_and_end_date';
@@ -179,22 +174,22 @@ if (!class_exists('EHX_Donate_Campaign')) {
         }
 
         /**
-         * Customize admin columns for 'ehx-campaign' post type.
+         * Customize admin columns for 'ehxdo-campaign' post type.
          */
         protected function customize_admin_columns()
         {
-            add_filter('manage_ehx-campaign_posts_columns', [$this, 'ehx_campaign_cpt_columns']);
-            add_action('manage_ehx-campaign_posts_custom_column', [$this, 'ehx_campaign_custom_columns'], 10, 2);
-            add_filter('manage_edit-ehx-campaign_sortable_columns', [$this, 'ehx_campaign_sortable_columns']);
+            add_filter('manage_ehxdo-campaign_posts_columns', [$this, 'ehx_campaign_cpt_columns']);
+            add_action('manage_ehxdo-campaign_posts_custom_column', [$this, 'ehx_campaign_custom_columns'], 10, 2);
+            add_filter('manage_edit-ehxdo-campaign_sortable_columns', [$this, 'ehx_campaign_sortable_columns']);
         }
 
         /**
-         * Disable Gutenberg and Classic Editor for 'ehx-campaign' post type.
+         * Disable Gutenberg and Classic Editor for 'ehxdo-campaign' post type.
          */
         protected function disable_editors()
         {
-            // Disable Gutenberg editor for 'ehx-campaign' post type.
-            add_filter('use_block_editor_for_post_type', fn($enabled, $post_type) => $post_type === 'ehx-campaign' ? false : $enabled, 10, 2);
+            // Disable Gutenberg editor for 'ehxdo-campaign' post type.
+            add_filter('use_block_editor_for_post_type', fn($enabled, $post_type) => $post_type === 'ehxdo-campaign' ? false : $enabled, 10, 2);
 
             // Remove Classic Editor support
             // add_action('admin_head', [$this, 'remove_classic_editor_support']);
@@ -202,7 +197,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
         }
 
         /**
-         * Remove unnecessary meta boxes for 'ehx-campaign' post type.
+         * Remove unnecessary meta boxes for 'ehxdo-campaign' post type.
          */
         protected function remove_meta_boxes()
         {
@@ -210,7 +205,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
         }
 
         /**
-         * Customize "Add New" post title and placeholder for 'ehx-campaign' post type.
+         * Customize "Add New" post title and placeholder for 'ehxdo-campaign' post type.
          */
         protected function customize_post_ui()
         {
@@ -219,29 +214,29 @@ if (!class_exists('EHX_Donate_Campaign')) {
         }
 
         /**
-         * Remove Classic Editor support for 'ehx-campaign' post type.
+         * Remove Classic Editor support for 'ehxdo-campaign' post type.
          */
         public function remove_classic_editor_support()
         {
             if ($this->is_ehx_form_screen()) {
-                remove_post_type_support('ehx-campaign', 'editor');
+                remove_post_type_support('ehxdo-campaign', 'editor');
             }
         }
 
         /**
-         * Remove editor support on the 'ehx-campaign' screen.
+         * Remove editor support on the 'ehxdo-campaign' screen.
          */
         public function remove_editor_support_on_screen()
         {
             if ($screen = get_current_screen()) {
-                if ($screen->id === 'ehx-campaign') {
+                if ($screen->id === 'ehxdo-campaign') {
                     remove_post_type_support($screen->id, 'editor');
                 }
             }
         }
 
         /**
-         * Remove unnecessary meta boxes for 'ehx-campaign' post type.
+         * Remove unnecessary meta boxes for 'ehxdo-campaign' post type.
          */
         public function remove_unnecessary_meta_boxes()
         {
@@ -255,31 +250,31 @@ if (!class_exists('EHX_Donate_Campaign')) {
             ];
 
             foreach ($meta_boxes_to_remove as $meta_box => $context) {
-                remove_meta_box($meta_box, 'ehx-campaign', $context);
+                remove_meta_box($meta_box, 'ehxdo-campaign', $context);
             }
         }
 
         /**
-         * Customize "Add New" post title for 'ehx-campaign' post type.
+         * Customize "Add New" post title for 'ehxdo-campaign' post type.
          */
         public function customize_add_new_post_title($translated_text, $text, $domain)
         {
-            if (is_admin() && get_post_type() === 'ehx-campaign' && $text === 'Add New Post') {
+            if (is_admin() && get_post_type() === 'ehxdo-campaign' && $text === 'Add New Post') {
                 return esc_html__('Add New Campaign', 'ehx-donate');
             }
             return $translated_text;
         }
 
         /**
-         * Customize placeholder for title field in 'ehx-campaign' post type.
+         * Customize placeholder for title field in 'ehxdo-campaign' post type.
          */
         public function customize_title_placeholder($placeholder, $post)
         {
-            return $post->post_type === 'ehx-campaign' ? esc_html__('Enter Campaign Title', 'ehx-donate') : $placeholder;
+            return $post->post_type === 'ehxdo-campaign' ? esc_html__('Enter Campaign Title', 'ehx-donate') : $placeholder;
         }
 
         /**
-         * Register meta boxes for the 'ehx-campaign' post type.
+         * Register meta boxes for the 'ehxdo-campaign' post type.
          */
         public function add_meta_boxes()
         {
@@ -306,7 +301,7 @@ if (!class_exists('EHX_Donate_Campaign')) {
                     $meta_box['id'],
                     $meta_box['title'],
                     [$this, 'ehx_meta_box'],
-                    'ehx-campaign',
+                    'ehxdo-campaign',
                     $meta_box['context'],
                     $meta_box['priority'],
                     array_filter([
@@ -324,17 +319,17 @@ if (!class_exists('EHX_Donate_Campaign')) {
         {
             $args = array_map('esc_html', $callback_args['args']);
 
-            $fields = isset($args['fields']) && $args['fields']  ? EHX_Donate_Helper::customize() : null;
+            $fields = isset($args['fields']) && $args['fields']  ? EHXDo_Helper::customize() : null;
 
-            require_once EHX_DONATE_PLUGIN_DIR . "views/{$args['view']}";
+            require_once EHXDO_PLUGIN_DIR . "views/{$args['view']}";
         }
 
         /**
-         * Save post metadata for 'ehx-campaign' post type.
+         * Save post metadata for 'ehxdo-campaign' post type.
          *
          * @param int|string $post_id Post ID.
          */
-        public function save_post($post_id)
+        public function ehxdo_save_post($post_id)
         {
             // Verify nonce for security
             $nonce = $this->request->input(self::NONCE_ACTION);
@@ -347,8 +342,8 @@ if (!class_exists('EHX_Donate_Campaign')) {
                 return;
             }
 
-            // Ensure the request is for an 'ehx-campaign' post type
-            if ($this->request->input('post_type') !== 'ehx-campaign') {
+            // Ensure the request is for an 'ehxdo-campaign' post type
+            if ($this->request->input('post_type') !== 'ehxdo-campaign') {
                 return;
             }
 
@@ -379,15 +374,15 @@ if (!class_exists('EHX_Donate_Campaign')) {
         private function is_ehx_form_screen(): bool
         {
             $screen = get_current_screen();
-            return $screen && $screen->post_type === 'ehx-campaign';
+            return $screen && $screen->post_type === 'ehxdo-campaign';
         }
 
         /**
-         * Customizes the template for the single 'ehx-campaign' post type.
+         * Customizes the template for the single 'ehxdo-campaign' post type.
          *
-         * This function checks if the current page is a singular 'ehx-campaign' post type.
-         * If it is, it returns the custom template located at 'EHX_DONATE_PLUGIN_DIR/views/frontend/campaign-details.php'.
-         * If it's not a singular 'ehx-campaign' post type, it returns the original template.
+         * This function checks if the current page is a singular 'ehxdo-campaign' post type.
+         * If it is, it returns the custom template located at 'EHXDO_PLUGIN_DIR/views/frontend/campaign-details.php'.
+         * If it's not a singular 'ehxdo-campaign' post type, it returns the original template.
          *
          * @param string $template The original template file.
          *
@@ -395,8 +390,9 @@ if (!class_exists('EHX_Donate_Campaign')) {
          */
         public function customize_campaign_details($template)
         {
-            if (is_singular('ehx-campaign')) {
-                return EHX_DONATE_PLUGIN_DIR . 'views/frontend/campaign-details.php';
+            // EHXDo_Helper::dd($template);
+            if (is_singular('ehxdo-campaign')) {
+                return EHXDO_PLUGIN_DIR . 'views/frontend/campaign-details.php';
             }
             return $template;
         }

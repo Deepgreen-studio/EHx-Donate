@@ -1,18 +1,18 @@
 <?php
 
-if (!class_exists('EHX_Donate_Donation_Table_Shortcode')) {
+if (!class_exists('EHXDo_Donation_Table_Shortcode')) {
 
-    class EHX_Donate_Donation_Table_Shortcode
+    class EHXDo_Donation_Table_Shortcode
     {
         /**
          * Initializes the donation table shortcode.
          *
-         * This method adds the 'ehx_donate_donation_table' shortcode to WordPress,
+         * This method adds the 'ehxdo_donation_table' shortcode to WordPress,
          * which triggers the 'add_shortcode' method when used in content.
          */
         public function __construct()
         {
-            add_shortcode('ehx_donate_donation_table', [$this, 'add_shortcode']);
+            add_shortcode('ehxdo_donation_table', [$this, 'add_shortcode']);
         }
 
         /**
@@ -25,12 +25,12 @@ if (!class_exists('EHX_Donate_Donation_Table_Shortcode')) {
          */
         public function add_shortcode()
         {
-            $donations = EHX_Donate_Donation_Data_Table::get_data();
+            $donations = EHXDo_Donation_Data_Table::get_data();
 
-            require EHX_DONATE_PLUGIN_DIR . 'views/shortcodes/donation-table.php';
+            require EHXDO_PLUGIN_DIR . 'views/shortcodes/donation-table.php';
 
-            wp_enqueue_style('ehx-donate-datatable');
-            wp_enqueue_script('ehx-donate-datatable');
+            wp_enqueue_style('ehxdo-datatable');
+            wp_enqueue_script('ehxdo-datatable');
 
             return ob_get_clean();
         }

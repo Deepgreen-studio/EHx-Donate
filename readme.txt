@@ -26,12 +26,12 @@ The **EHx Donate** plugin is designed to enhance donation management on WordPres
 
 1. Upload the `ehx-donate` folder to the `/wp-content/plugins/` directory.
 2. Activate the plugin through the ‘Plugins’ menu in WordPress.
-3. Use the **[ehx_donate_donation_form]** shortcode to display the donation form.
+3. Use the **[ehxdo_donation_form]** shortcode to display the donation form.
 
 == Frequently Asked Questions ==
 
 = How do I use the plugin? =
-Use the shortcode `[ehx_donate_donation_form]` on any page or post to display the donation form.
+Use the shortcode `[ehxdo_donation_form]` on any page or post to display the donation form.
 
 = Can I customize the donation form? =
 Yes! You can modify the form layout and styling using CSS or template overrides.

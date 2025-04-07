@@ -1,22 +1,22 @@
 <?php
 
-if (!class_exists('EHX_Donate_Campaign_List_Shortcode')) {
+if (!class_exists('EHXDo_Campaign_List_Shortcode')) {
 
-    class EHX_Donate_Campaign_List_Shortcode
+    class EHXDo_Campaign_List_Shortcode
     {
         /**
          * Initializes the donation table shortcode.
          *
-         * This method adds the 'ehx_donate_campaign_lists' shortcode to WordPress,
+         * This method adds the 'ehxdo_campaign_lists' shortcode to WordPress,
          * which triggers the 'add_shortcode' method when used in content.
          */
         public function __construct()
         {
-            add_shortcode('ehx_donate_campaign_lists', [$this, 'add_shortcode']);
+            add_shortcode('ehxdo_campaign_lists', [$this, 'add_shortcode']);
         }
 
         /**
-         * Processes the ehx_donate_campaign_lists shortcode and generates a list of campaigns.
+         * Processes the ehxdo_campaign_lists shortcode and generates a list of campaigns.
          *
          * @param array $atts An array of shortcode attributes.
          *
@@ -45,11 +45,11 @@ if (!class_exists('EHX_Donate_Campaign_List_Shortcode')) {
                 'show_button'    => 'true',       // Show donate now button for campaigns
                 'button_text'    => esc_html__('Donate Now', 'ehx-donate'), // Text for the donate now button
                 'pagination'     => 'true',       // Enable pagination for the campaign list
-            ), $atts);
+            ), array_change_key_case((array) $atts));
 
             // Query arguments
             $args = array(
-                'post_type'      => 'ehx-campaign',
+                'post_type'      => 'ehxdo-campaign',
                 'posts_per_page' => intval($atts['posts_per_page']),
                 'order'          => $atts['order'],
                 'orderby'        => $atts['orderby'],
@@ -81,9 +81,9 @@ if (!class_exists('EHX_Donate_Campaign_List_Shortcode')) {
 
             // Query posts
             $query = new WP_Query($args);
-
+            
             // Include the view file to generate the campaign list HTML
-            require EHX_DONATE_PLUGIN_DIR . 'views/shortcodes/campaign-lists.php';
+            require EHXDO_PLUGIN_DIR . 'views/shortcodes/campaign-lists.php';
 
             // Reset the post data after the query
             wp_reset_postdata();

@@ -1,12 +1,12 @@
 <?php
 
-if (!class_exists('EHX_Donate_Helper')) {
+if (!class_exists('EHXDo_Helper')) {
 
     /**
      * EHX_Helper
      * A helper class
      */
-    class EHX_Donate_Helper
+    class EHXDo_Helper
     {
         /**
          * A function for debugging purposes. It outputs the provided value(s) and stops the script execution.
@@ -87,7 +87,7 @@ if (!class_exists('EHX_Donate_Helper')) {
         {
             self::session();
 
-            return isset($_SESSION[$key]) ? $_SESSION[$key] : $default;
+            return isset($_SESSION[$key]) ? (new EHXDo_Request)->sanitize($_SESSION[$key]) : $default;
         }
         
         /**
@@ -119,11 +119,11 @@ if (!class_exists('EHX_Donate_Helper')) {
             ];
 
             // Set the default "From" name and email
-            $fromName  = EHX_Donate_Settings::extract_setting_value('mail_appears_from', get_bloginfo('name'));
+            $fromName  = EHXDo_Settings::extract_setting_value('mail_appears_from', get_bloginfo('name'));
 
             if (!empty($fromName)) {
                 $from = "From: {$fromName}";
-                $fromEmail = EHX_Donate_Settings::extract_setting_value('mail_appears_from_address', get_option('admin_email'));
+                $fromEmail = EHXDo_Settings::extract_setting_value('mail_appears_from_address', get_option('admin_email'));
                 if(is_email($fromEmail)) {
                     $from .= " <{$fromEmail}>";
                 }
@@ -160,10 +160,10 @@ if (!class_exists('EHX_Donate_Helper')) {
             $headers = array_merge($default_headers, (array)$headers);
 
             // Allow filtering of headers
-            $headers = apply_filters('ehx_donate_email_headers', $headers, $to, $subject, $message);
+            $headers = apply_filters('ehxdo_email_headers', $headers, $to, $subject, $message);
 
             // Allow filtering of message
-            $message = apply_filters('ehx_donate_email_message', $message, $to, $subject, $headers);
+            $message = apply_filters('ehxdo_email_message', $message, $to, $subject, $headers);
 
             // Send the email
             $result = wp_mail($to, $subject, $message, $headers, $attachments);
@@ -204,19 +204,19 @@ if (!class_exists('EHX_Donate_Helper')) {
          */
         public static function input_group($args, $option = null)
         {
-                $option = $option ? $option : EHX_Donate_Settings::$option;
+                $option = $option ? $option : EHXDo_Settings::$option;
 
                 // Extract field properties
                 $field_name = isset($args['field_name']) ? $args['field_name'] : '';
                 $field_name = strtolower(str_replace(' ', '_', $field_name));
                 $type       = $args['type'] ?? 'text';
                 $input_type = $args['is_type'] ?? 'input';
-                $value      = EHX_Donate_Settings::extract_setting_value($field_name);
+                $value      = EHXDo_Settings::extract_setting_value($field_name);
                 $input_name = esc_attr($option . "[$field_name]");
                 $placeholder = isset($args['placeholder']) ? esc_attr($args['placeholder']) : '';
                 $data       = $args['data'] ?? [];
 
-                $depend_field = isset($args['depend_field']) ? EHX_Donate_Settings::extract_setting_value($args['depend_field']) : '';
+                $depend_field = isset($args['depend_field']) ? EHXDo_Settings::extract_setting_value($args['depend_field']) : '';
                 $depend_value = $args['depend_value'] ?? null;
                 $dependable = isset($args['depend_field']) && $depend_field == $depend_value;
 
@@ -277,7 +277,7 @@ if (!class_exists('EHX_Donate_Helper')) {
                                 class="regular-text"
                                 aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?>"
                                 aria-value="<?php echo esc_html($value); ?>">
-                                <option value=""><?php esc_html_e('Select an option', 'ehx-member'); ?></option>
+                                <option value=""><?php esc_html_e('Select an option', 'ehx-donate'); ?></option>
                                 <?php foreach ($data as $option): ?>
                                     <option value="<?php echo esc_attr($option['key']); ?>" <?php selected($option['key'], $value); ?>>
                                         <?php echo esc_html($option['value']); ?>
@@ -315,7 +315,7 @@ if (!class_exists('EHX_Donate_Helper')) {
         public static function input_field($label, $for = null, $type = 'text', $placeholder = '')
         {
             $htmlFor = $for != null ? $for : $label;
-            $value   = EHX_Donate_Settings::extract_setting_value($htmlFor);
+            $value   = EHXDo_Settings::extract_setting_value($htmlFor);
 
             ?>
                 <input

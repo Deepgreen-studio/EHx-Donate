@@ -1,19 +1,19 @@
 <?php
 
-if (!class_exists('EHX_Donate_Settings')) {
+if (!class_exists('EHXDo_Settings')) {
 
-    class EHX_Donate_Settings 
+    class EHXDo_Settings 
     {
-        public static string $option = 'ehx_donate_settings_options';
+        public static string $option = 'ehxdo_settings';
         public static array $pages;
         public static $options;
         public static array $tabs = [];
 
-        const NONCE_ACTION = 'ehx_donate_settings_form_action';
-        const NONCE_NAME = 'ehx_donate_settings_form_nonce';
+        const NONCE_ACTION = 'ehxdo_settings_form_action';
+        const NONCE_NAME = 'ehxdo_settings_form_nonce';
 
         /**
-         * Constructor for the EHX_Donate_Settings class.
+         * Constructor for the EHXDo_Settings class.
          *
          * Initializes the plugin's settings, defines tabs, retrieves pages, and sets up admin actions.
          *
@@ -41,7 +41,7 @@ if (!class_exists('EHX_Donate_Settings')) {
                 ];
             }
 
-            add_action('wp_ajax_ehx_donate_save_settings', [$this, 'ehx_donate_save_settings']);
+            add_action('wp_ajax_ehxdo_save_settings', [$this, 'ehxdo_save_settings']);
         }
         
         
@@ -193,11 +193,11 @@ if (!class_exists('EHX_Donate_Settings')) {
          *
          * @return void This function does not return any value. It outputs a success response using the EHX_Response class.
          */
-        public function ehx_donate_save_settings() 
+        public function ehxdo_save_settings() 
         {
-            $response  = new EHX_Donate_Response();
-            $request   = new EHX_Donate_Request();
-            $validator = new EHX_Donate_Validator();
+            $response  = new EHXDo_Response();
+            $request   = new EHXDo_Request();
+            $validator = new EHXDo_Validator();
 
             $validator->validate_nonce(self::NONCE_NAME, self::NONCE_ACTION);
             

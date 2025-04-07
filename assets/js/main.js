@@ -4,7 +4,7 @@
         new DataTable('.edp-datatable');
     }
 
-    $(document).on("submit", "form#ehx_donate_form_submit", async function (e) {
+    $(document).on("submit", "form#ehxdo_form_submit", async function (e) {
         e.preventDefault();
 
         // Gather form data

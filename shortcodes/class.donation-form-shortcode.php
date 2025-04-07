@@ -1,13 +1,13 @@
 <?php
 
-if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
+if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
 
-    class EHX_Donate_Donation_Form_Shortcode
+    class EHXDo_Donation_Form_Shortcode
     {
-        public EHX_Donate_Response $response;
-        public EHX_Donate_Request $request;
-        const NONCE_ACTION = 'ehx_form_action';
-        const NONCE_NAME = 'ehx_form_nonce';
+        public EHXDo_Response $response;
+        public EHXDo_Request $request;
+        const NONCE_ACTION = 'ehxdo_form_action';
+        const NONCE_NAME = 'ehxdo_form_nonce';
 
         public $form_id;
 
@@ -20,22 +20,22 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
         public function __construct()
         {
             // Initialize the response object
-            $this->response = new EHX_Donate_Response();
-            $this->request = new EHX_Donate_Request();
+            $this->response = new EHXDo_Response();
+            $this->request = new EHXDo_Request();
 
             // Add the shortcode for the donate form
-            add_shortcode('ehx_donate_donation_form', [$this, 'add_shortcode']);
+            add_shortcode('ehxdo_donation_form', [$this, 'add_shortcode']);
 
             // Set up the AJAX actions for handling form submissions
-            add_action('wp_ajax_ehx_donate_from_submit', [$this, 'handle_form']); // When user is logged in
-            add_action('wp_ajax_nopriv_ehx_donate_from_submit', [$this, 'handle_form']); // When user is logged out
+            add_action('wp_ajax_ehxdo_form_submit', [$this, 'handle_form']); // When user is logged in
+            add_action('wp_ajax_nopriv_ehxdo_form_submit', [$this, 'handle_form']); // When user is logged out
         }
         
         /**
          * Adds a shortcode for displaying a donation form for a specific campaign.
          *
          * The function retrieves the current campaign ID, retrieves the associated post and custom fields,
-         * fetches all published 'ehx-campaign' posts, and generates a donation form with the necessary fields.
+         * fetches all published 'ehxdo-campaign' posts, and generates a donation form with the necessary fields.
          * It also handles the payment callback and displays the payment form.
          *
          * @return string The rendered donation form.
@@ -47,9 +47,9 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             [$post, $ehx_campaign] = self::get_field($campaign_id);
 
             $campaigns = [];
-            if ($post == null || ($post != null && $post->post_type != 'ehx-campaign')) {
+            if ($post == null || ($post != null && $post->post_type != 'ehxdo-campaign')) {
                 $args = [
-                    'post_type' => 'ehx-campaign',
+                    'post_type' => 'ehxdo-campaign',
                     'posts_per_page' => -1, // Get all posts
                     'post_status'    => 'publish'
                 ];
@@ -64,7 +64,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             $status = $this->request->input('status');
             $txid = $this->request->input('txid');
             if (!empty($status) && !empty($txid)) {
-                $browser_session = EHX_Donate_Helper::sessionGet('browser_session');
+                $browser_session = EHXDo_Helper::sessionGet('browser_session');
                 $payment_callback = !empty($status) && !empty($txid) && !empty($browser_session);
                 $this->paymentCallback($status, $txid, $browser_session);
             }
@@ -72,7 +72,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             global $wp;
             $callback = home_url($wp->request);
 
-            require EHX_DONATE_PLUGIN_DIR . 'views/shortcodes/donation-form.php';
+            require EHXDO_PLUGIN_DIR . 'views/shortcodes/donation-form.php';
 
             return ob_get_clean();
         }
@@ -88,7 +88,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
         public function handle_form()
         {
             // Initialize validator
-            $validator = new EHX_Donate_Validator();
+            $validator = new EHXDo_Validator();
 
             // Validate nonce to prevent CSRF
             $validator->validate_nonce(self::NONCE_NAME, self::NONCE_ACTION);
@@ -110,7 +110,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             $browser_session = uniqid();
 
             // Handle Stripe payment if enabled
-            $stripe_enable = (bool) EHX_Donate_Settings::extract_setting_value('stripe_enable', false);
+            $stripe_enable = (bool) EHXDo_Settings::extract_setting_value('stripe_enable', false);
             if ($stripe_enable && $total_amount > 0) {
                 $response = $this->handlePayment($total_amount, $browser_session);
                 if (!$response || !isset($response->url)) {
@@ -134,9 +134,9 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             $this->save_user_meta($user_id);
 
             // Store validated input and browser session in session
-            EHX_Donate_Helper::sessionSet('input', $validator->validated());
+            EHXDo_Helper::sessionSet('input', $validator->validated());
 
-            EHX_Donate_Helper::sessionSet('browser_session', $browser_session);
+            EHXDo_Helper::sessionSet('browser_session', $browser_session);
 
             // Return success response
             return $this->response->success(
@@ -243,9 +243,9 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
             try {
                 $mode = 'payment';
 
-                $campaign = get_page_by_path(page_path: $this->request->input('campaign'), post_type: 'ehx-campaign'); 
+                $campaign = get_page_by_path(page_path: $this->request->input('campaign'), post_type: 'ehxdo-campaign'); 
 
-                EHX_Donate_Helper::sessionSet('campaign', $campaign);
+                EHXDo_Helper::sessionSet('campaign', $campaign);
 
                 $priceData = [
                     'currency' => 'gbp',
@@ -261,7 +261,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                     'quantity' => 1,
                 ];
 
-                \Stripe\Stripe::setApiKey(esc_html(EHX_Donate_Settings::extract_setting_value('stripe_client_secret')));
+                \Stripe\Stripe::setApiKey(esc_html(EHXDo_Settings::extract_setting_value('stripe_client_secret')));
 
                 $payment_method_types = ['card'];
 
@@ -303,8 +303,8 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                 exit;
             }
 
-            $campaign = EHX_Donate_Helper::sessionGet('campaign');
-            $input = EHX_Donate_Helper::sessionGet('input');
+            $campaign = EHXDo_Helper::sessionGet('campaign');
+            $input = EHXDo_Helper::sessionGet('input');
 
             $donation_table = EHX_Donate::$donation_table;
 
@@ -339,9 +339,9 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                 $wpdb->query($wpdb->prepare("UPDATE $donation_table SET payment_status = %s WHERE browser_session = %s", $status, $browser_session));
             }
 
-            EHX_Donate_Helper::sessionForget('campaign');
-            EHX_Donate_Helper::sessionForget('input');
-            EHX_Donate_Helper::sessionForget('browser_session');
+            EHXDo_Helper::sessionForget('campaign');
+            EHXDo_Helper::sessionForget('input');
+            EHXDo_Helper::sessionForget('browser_session');
 
             return true;
         }
@@ -420,11 +420,11 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
          */
         private function sendConfirmationMail($input, $total_amount, $trx)
         {
-            $fromName  = EHX_Donate_Settings::extract_setting_value('mail_appears_from', get_bloginfo('name'));
+            $fromName  = EHXDo_Settings::extract_setting_value('mail_appears_from', get_bloginfo('name'));
 
             $subject = esc_html__('Thank You for Your Generous Donation!', 'ehx-donate');
             $name = $input['first_name'] . ' ' . $input['last_name'];
-            $total_amount = EHX_Donate_Helper::currencyFormat($total_amount);
+            $total_amount = EHXDo_Helper::currencyFormat($total_amount);
 
             $home_url = home_url();
 
@@ -468,7 +468,7 @@ if (!class_exists('EHX_Donate_Donation_Form_Shortcode')) {
                     </body>
                 </html>";
 
-            EHX_Donate_Helper::send_email($input['email'], $subject, $message);
+            EHXDo_Helper::send_email($input['email'], $subject, $message);
 
             return true;
         }

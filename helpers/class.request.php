@@ -1,12 +1,12 @@
 <?php
 
-if (!class_exists('EHX_Donate_Request')) {
+if (!class_exists('EHXDo_Request')) {
 
     /**
      * EHX_Response
      * A helper class for handling Form Request Data in WordPress.
      */
-    class EHX_Donate_Request
+    class EHXDo_Request
     {
         protected array $data;
 
@@ -134,7 +134,7 @@ if (!class_exists('EHX_Donate_Request')) {
          * @param bool $sanitize The value to sanitize.
          * @return mixed The sanitized value or array.
          */
-        protected function sanitize($value, $sanitize = true)
+        public function sanitize($value, $sanitize = true)
         {
             if (is_array($value)) {
                 return array_map([$this, 'sanitize'], $value); // Recursive sanitization for arrays

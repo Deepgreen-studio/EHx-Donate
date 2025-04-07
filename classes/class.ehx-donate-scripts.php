@@ -1,14 +1,14 @@
 <?php
 
 /**
- * Class EHX_Donate_Register_Scripts
+ * Class EHXDo_Register_Scripts
  *
  * This class is responsible for registering and enqueuing scripts and styles for both the admin and frontend of the WordPress plugin.
  */
-class EHX_Donate_Register_Scripts 
+class EHXDo_Register_Scripts 
 {
     /**
-     * Constructor for the EHX_Donate_Register_Scripts class.
+     * Constructor for the EHXDo_Register_Scripts class.
      *
      * Initializes the sets up WordPress hooks.
      *
@@ -26,33 +26,33 @@ class EHX_Donate_Register_Scripts
     /**
      * Register admin scripts and styles.
      *
-     * This method enqueues admin-specific CSS and JS files. It also localizes the 'ehx-donate-admin-js' script with necessary data.
+     * This method enqueues admin-specific CSS and JS files. It also localizes the 'ehxdo-admin-js' script with necessary data.
      */
     public function register_admin_scripts() 
     {
         wp_enqueue_style(
-            handle: 'ehx-donate-admin-css',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/css/admin.css',
-            ver: EHX_DONATE_VERSION
+            handle: 'ehxdo-admin-css',
+            src: EHXDO_PLUGIN_URL . 'assets/css/admin.css',
+            ver: EHXDO_VERSION
         );
 
         wp_enqueue_style(
-            handle: 'ehx-donate-fonticons-css',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/libs/legacy/fonticons/fonticons-fa.css',
-            ver: EHX_DONATE_VERSION
+            handle: 'ehxdo-fonticons-css',
+            src: EHXDO_PLUGIN_URL . 'assets/libs/legacy/fonticons/fonticons-fa.css',
+            ver: EHXDO_VERSION
         );
 
         wp_enqueue_style(
-            handle: 'ehx-donate-admin-jquery-ui-css',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/libs/jquery-ui/jquery-ui.min.css',
-            ver: EHX_DONATE_VERSION
+            handle: 'ehxdo-admin-jquery-ui-css',
+            src: EHXDO_PLUGIN_URL . 'assets/libs/jquery-ui/jquery-ui.min.css',
+            ver: EHXDO_VERSION
         );
 
         wp_enqueue_script(
-            handle: 'ehx-donate-admin-sortable-js',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/libs/sortablejs/sortable.min.js',
+            handle: 'ehxdo-admin-sortable-js',
+            src: EHXDO_PLUGIN_URL . 'assets/libs/sortablejs/sortable.min.js',
             deps: ['jquery'],
-            ver: EHX_DONATE_VERSION,
+            ver: EHXDO_VERSION,
             args: false
         );
 
@@ -63,21 +63,21 @@ class EHX_Donate_Register_Scripts
         wp_enqueue_script(handle: 'jquery-ui-tooltip', deps: ['jquery']);
         
         wp_enqueue_script(
-            handle: 'ehx-donate-admin-helper-js',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/js/helper.js',
+            handle: 'ehxdo-admin-helper-js',
+            src: EHXDO_PLUGIN_URL . 'assets/js/helper.js',
             deps: ['jquery'],
-            ver: EHX_DONATE_VERSION,
+            ver: EHXDO_VERSION,
             args: true
         );
         wp_enqueue_script(
-            handle: 'ehx-donate-admin-js',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/js/admin.js',
+            handle: 'ehxdo-admin-js',
+            src: EHXDO_PLUGIN_URL . 'assets/js/admin.js',
             deps: ['jquery'],
-            ver: EHX_DONATE_VERSION,
+            ver: EHXDO_VERSION,
             args: true
         );
 
-        wp_localize_script('ehx-donate-admin-js', 'ehx_donate_object', [
+        wp_localize_script('ehxdo-admin-js', 'ehxdo_object', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'nonce' => wp_create_nonce('ehx_ajax_nonce'),
         ]);
@@ -91,51 +91,48 @@ class EHX_Donate_Register_Scripts
     public function register_scripts() 
     {
         wp_enqueue_style(
-            handle: 'ehx-donate-main-css',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/css/style.css',
-            ver: EHX_DONATE_VERSION
+            handle: 'ehxdo-main-css',
+            src: EHXDO_PLUGIN_URL . 'assets/css/style.css',
+            ver: EHXDO_VERSION
         );
 
         wp_register_style(
-            handle: 'ehx-donate-datatable',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/libs/datatables/datatable.css',
-            ver: EHX_DONATE_VERSION,
+            handle: 'ehxdo-datatable',
+            src: EHXDO_PLUGIN_URL . 'assets/libs/datatables/datatable.css',
+            ver: EHXDO_VERSION,
         );
-
-        $stripe_enable = (bool) EHX_Donate_Settings::extract_setting_value('stripe_enable', false);
-        if ($stripe_enable) {
-            wp_register_script(
-                handle: 'ehx-donate-stripe',
-                src: 'https://js.stripe.com/v3/',
-                deps: [],
-                ver: EHX_DONATE_VERSION,
-                args: true
-            );
-        }
 
         wp_register_script(
-            handle: 'ehx-donate-datatable',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/libs/datatables/datatable.js',
+            handle: 'ehxdo-stripe',
+            src: 'https://js.stripe.com/v3/',
+            deps: [],
+            ver: EHXDO_VERSION,
+            args: true
+        );
+
+        wp_register_script(
+            handle: 'ehxdo-datatable',
+            src: EHXDO_PLUGIN_URL . 'assets/libs/datatables/datatable.js',
             deps: ['jquery'],
-            ver: EHX_DONATE_VERSION,
+            ver: EHXDO_VERSION,
             args: true
         );
 
         wp_enqueue_script(
-            handle: 'ehx-donate-helper-js',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/js/helper.js',
+            handle: 'ehxdo-helper-js',
+            src: EHXDO_PLUGIN_URL . 'assets/js/helper.js',
             deps: ['jquery'],
-            ver: EHX_DONATE_VERSION,
+            ver: EHXDO_VERSION,
             args: true
         );
         wp_enqueue_script(
-            handle: 'ehx-donate-main-js',
-            src: EHX_DONATE_PLUGIN_URL . 'assets/js/main.js',
-            deps: ['jquery', 'ehx-donate-datatable'],
-            ver: EHX_DONATE_VERSION,
+            handle: 'ehxdo-main-js',
+            src: EHXDO_PLUGIN_URL . 'assets/js/main.js',
+            deps: ['jquery', 'ehxdo-datatable'],
+            ver: EHXDO_VERSION,
             args: true
         );
-        wp_localize_script('ehx-donate-main-js', 'edp_object', [
+        wp_localize_script('ehxdo-main-js', 'edp_object', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'currency' => '£',
         ]);
