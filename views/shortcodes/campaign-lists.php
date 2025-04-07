@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <?php if($query->have_posts()): ?>
     <div class="edp-campaign-list edp-layout-<?php echo esc_attr($atts['layout']) ?> edp-columns-<?php echo esc_attr($atts['columns']) ?>">
         <?php while ($query->have_posts()): ?>
@@ -31,13 +33,14 @@
 
     <?php
         // Pagination
-        if ($atts['pagination'] == 'true') {
+        if ($atts['pagination'] === 'true' && $query->max_num_pages > 1) {
             echo '<div class="pagination">';
-            echo paginate_links([
+            echo wp_kses_post(paginate_links([
                 'total' => $query->max_num_pages,
-            ]);
+            ]));
             echo '</div>';
         }
+
     ?>
 
 <?php else: ?>

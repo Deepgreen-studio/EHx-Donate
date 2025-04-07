@@ -24,11 +24,11 @@ class EHX_Donate
         self::$transaction_table = $wpdb->prefix . 'ehx_transactions';
         self::$booking_table = $wpdb->prefix . 'ehx_bookings';
 
-        add_action('plugins_loaded', [$this, 'load_textdomain']);
+        add_action('init', [$this, 'load_textdomain']);
 
         $this->include_dependencies();
 
-        add_action('init', fn() => EHX_Donate_Helper::session(), 1); // Priority 1 ensures it runs early
+        add_action('init', fn() => EHXDo_Helper::session(), 1); // Priority 1 ensures it runs early
     }
 
     /**
@@ -71,19 +71,19 @@ class EHX_Donate
             'shortcodes/class.campaign-list-shortcode.php',
         ];
 
-        array_map(fn($file) => require_once EHX_DONATE_PLUGIN_DIR . $file, $class_files);
+        array_map(fn($file) => require_once EHXDO_PLUGIN_DIR . $file, $class_files);
 
         // Initialize core components
-        new EHX_Donate_Menu();
-        new EHX_Donate_Actions();
-        new EHX_Donate_Register_Scripts();
-        new EHX_Donate_Settings();
+        new EHXDo_Menu();
+        new EHXDo_Actions();
+        new EHXDo_Register_Scripts();
+        new EHXDo_Settings();
 
-        new EHX_Donate_Campaign();
+        new EHXDo_Campaign();
 
-        new EHX_Donate_Donation_Form_Shortcode();
-        new EHX_Donate_Donation_Table_Shortcode();
-        new EHX_Donate_Campaign_List_Shortcode();
+        new EHXDo_Donation_Form_Shortcode();
+        new EHXDo_Donation_Table_Shortcode();
+        new EHXDo_Campaign_List_Shortcode();
     }
     
     /**
@@ -141,7 +141,7 @@ class EHX_Donate
         self::ehx_capabilities(type: 'remove');
 
         // Delete the plugin's options from the database
-        delete_option(EHX_Donate_Settings::$option);
+        delete_option(EHXDo_Settings::$option);
     }
 
     
@@ -335,6 +335,6 @@ class EHX_Donate
         ];
 
         // Update the plugin's options with the default settings
-        update_option(EHX_Donate_Settings::$option, $options);
+        update_option(EHXDo_Settings::$option, $options);
     }
 }

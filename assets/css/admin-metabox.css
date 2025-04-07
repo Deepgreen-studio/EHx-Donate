@@ -22,3 +22,10 @@
 .edp-form-table .edp-forms-line[data-conditional] {
     display: none;
 }
+
+.edp-metabox-thickbox {
+    background: transparent;
+    border: transparent;
+    color: #2271b1;
+    cursor: pointer;
+}

@@ -1,26 +1,26 @@
 <?php
 
-if (!class_exists('EHX_Donate_Menu')) {
+if (!class_exists('EHXDo_Menu')) {
 
-    class EHX_Donate_Menu 
+    class EHXDo_Menu 
     {
-        private EHX_Donate_Request $request;
+        private EHXDo_Request $request;
 
         public static array $pages = [
-            'admin'       => 'ehx_donate_admin',
-            'setting'     => 'ehx_donate_admin_settings',
-            'donation'    => 'ehx_donate_admin_donations',
-            'transaction' => 'ehx_donate_admin_transactions',
+            'admin'       => 'ehxdo_admin',
+            'setting'     => 'ehxdo_admin_settings',
+            'donation'    => 'ehxdo_admin_donations',
+            'transaction' => 'ehxdo_admin_transactions',
         ];
 
         /**
-         * Constructor for EHX_Donate_Menu class.
+         * Constructor for EHXDo_Menu class.
          *
          * Initializes the EHX_Request object and adds the admin menu.
          */
         public function __construct() 
         {
-            $this->request = new EHX_Donate_Request();
+            $this->request = new EHXDo_Request();
 
             // Add admin menu
             add_action('admin_menu', [$this, 'add_menu']);
@@ -71,32 +71,32 @@ if (!class_exists('EHX_Donate_Menu')) {
                     'page_title' => esc_html__('EHx Donate', 'ehx-donate'),
                     'menu_title' => esc_html__('EHx Donate', 'ehx-donate'),
                     'menu_slug'  => self::$pages['admin'],
-                    'callback'   => [$this, 'ehx_donate_settings_page'],
+                    'callback'   => [$this, 'EHXDo_Settings_page'],
                     'icon_url'   => 'dashicons-admin-users',
                     'submenus'  => [
                         [
                             'page_title' => esc_html__('Settings', 'ehx-donate'),
                             'menu_title' => esc_html__('Settings', 'ehx-donate'),
                             'menu_slug'  => self::$pages['setting'],
-                            'callback'   => [$this, 'ehx_donate_settings_page'],
+                            'callback'   => [$this, 'EHXDo_Settings_page'],
                         ],
                         [
                             'page_title' => esc_html__('Donations', 'ehx-donate'),
                             'menu_title' => esc_html__('Donations', 'ehx-donate'),
                             'menu_slug'  => self::$pages['donation'],
-                            'callback'   => [$this, 'ehx_donate_donations_page'],
+                            'callback'   => [$this, 'ehxdo_donations_page'],
                         ],
                         [
                             'page_title' => esc_html__('Campaigns', 'ehx-donate'),
                             'menu_title' => esc_html__('Campaigns', 'ehx-donate'),
-                            'menu_slug'  => 'edit.php?post_type=ehx-campaign',
+                            'menu_slug'  => 'edit.php?post_type=ehxdo-campaign',
                             'callback'   => null,
                         ],
                         [
                             'page_title' => esc_html__('Transactions', 'ehx-donate'),
                             'menu_title' => esc_html__('Transactions', 'ehx-donate'),
                             'menu_slug'  => self::$pages['transaction'],
-                            'callback'   => [$this, 'ehx_donate_transactions_page'],
+                            'callback'   => [$this, 'ehxdo_transactions_page'],
                         ]
                     ]
                 ],
@@ -162,19 +162,19 @@ if (!class_exists('EHX_Donate_Menu')) {
          *
          * @return void
          */
-        public function ehx_donate_settings_page() 
+        public function EHXDo_Settings_page() 
         {
             if (!current_user_can('manage_options')) {
                 return;
             }
 
-            $request = new EHX_Donate_Request();
+            $request = new EHXDo_Request();
             if ($request->filled('settings-updated')) {
-                EHX_Donate_Helper::display_notice(esc_html__('Setting Updated Successfully.', 'ehx-donate'));
+                EHXDo_Helper::display_notice(esc_html__('Setting Updated Successfully.', 'ehx-donate'));
             }
 
             // Render the settings page
-            require EHX_DONATE_PLUGIN_DIR . 'views/admin/pages/settings.php';
+            require EHXDO_PLUGIN_DIR . 'views/admin/pages/settings.php';
         }
 
         /**
@@ -185,18 +185,18 @@ if (!class_exists('EHX_Donate_Menu')) {
          *
          * @return void
          */
-        public function ehx_donate_donations_page() 
+        public function ehxdo_donations_page() 
         {
             if (!current_user_can('manage_donations')) {
                 return;
             }
 
             if ($this->request->filled('deleted')) {
-                EHX_Donate_Helper::display_notice(esc_html__('Donation Deleted Successfully.', 'ehx-donate'));
+                EHXDo_Helper::display_notice(esc_html__('Donation Deleted Successfully.', 'ehx-donate'));
             }
 
             // Initialize and display the payments table
-            $this->render_table_page('EHX_Donate_Donation_Data_Table', 'donations');
+            $this->render_table_page('EHXDo_Donation_Data_Table', 'donations');
         }
 
         /**
@@ -207,18 +207,18 @@ if (!class_exists('EHX_Donate_Menu')) {
          *
          * @return void
          */
-        public function ehx_donate_gift_aid_page() 
+        public function ehxdo_gift_aid_page() 
         {
             if (!current_user_can('manage_gift_aid')) {
                 return;
             }
 
             if ($this->request->filled('deleted')) {
-                EHX_Donate_Helper::display_notice(esc_html__('Gift Aid Deleted Successfully.', 'ehx-donate'));
+                EHXDo_Helper::display_notice(esc_html__('Gift Aid Deleted Successfully.', 'ehx-donate'));
             }
 
             // Initialize and display the payments table
-            $this->render_table_page('EHX_Donate_GiftAid_Data_Table', 'giftaid');
+            $this->render_table_page('ehxdo_GiftAid_Data_Table', 'giftaid');
         }
 
         /**
@@ -230,18 +230,18 @@ if (!class_exists('EHX_Donate_Menu')) {
          *
          * @return void
          */
-        public function ehx_donate_transactions_page() 
+        public function ehxdo_transactions_page() 
         {
             if (!current_user_can('manage_transactions')) {
                 return;
             }
 
             if ($this->request->filled('deleted')) {
-                EHX_Donate_Helper::display_notice(esc_html__('Transaction Deleted Successfully.', 'ehx-donate'));
+                EHXDo_Helper::display_notice(esc_html__('Transaction Deleted Successfully.', 'ehx-donate'));
             }
 
             // Initialize and display the donates table
-            $this->render_table_page('EHX_Donate_Transaction_Data_Table', 'transactions');
+            $this->render_table_page('EHXDo_Transaction_Data_Table', 'transactions');
         }
 
         /**
@@ -259,7 +259,7 @@ if (!class_exists('EHX_Donate_Menu')) {
         {
             $custom_table = new $table_class();
             $custom_table->prepare_items();
-            require EHX_DONATE_PLUGIN_DIR . "views/admin/pages/{$view_name}.php";
+            require EHXDO_PLUGIN_DIR . "views/admin/pages/{$view_name}.php";
         }
     }
 

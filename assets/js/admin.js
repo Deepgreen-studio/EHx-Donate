@@ -125,4 +125,38 @@
         });
     });
 
+    var frame;
+    $('.edp-admin-metabox').on('click', '#upload-image', function(e) {
+        e.preventDefault();
+
+        let btn = $(this);
+        let title = btn.data('title');
+        let button = btn.data('button');
+
+        if (frame) {
+            frame.open();
+            return;
+        }
+        
+        frame = wp.media({
+            title: title,
+            button: { text: button },
+            multiple: false
+        });
+        frame.on('select', function() {
+            var attachment = frame.state().get('selection').first().toJSON();
+            
+            btn.siblings('input').val(attachment.id);
+            btn.siblings('img').attr('src', attachment.url).show();
+            btn.siblings('#remove-image').show();
+        });
+        frame.open();
+    });
+
+    $('.edp-admin-metabox').on('click', '#remove-image', function() {
+        $(this).siblings('input').val('');
+        $(this).siblings('img').hide();
+        $(this).hide();
+    });
+
 })(jQuery);

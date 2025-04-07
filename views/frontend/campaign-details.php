@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <?php 
     get_header(); 
     $ehx_campaign = get_post_meta(get_the_ID(), '_ehx_campaign', true);
@@ -18,7 +20,7 @@
                 <div><?php the_content(); ?></div>
 
                 <?php
-                    echo do_shortcode( '[ehx_donate_donation_form /]' );
+                    echo do_shortcode( '[ehxdo_donation_form /]' );
                 ?>
             </div>
 

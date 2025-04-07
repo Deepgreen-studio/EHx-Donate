@@ -1,17 +1,17 @@
 <?php
 
-if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
+if (!class_exists('classes/EHXDo_Transaction_Data_Table')) {
 
     if (!class_exists('WP_List_Table')) {
         require_once ABSPATH . 'wp-admin/includes/class-wp-list-table.php';
     }
     
-    class EHX_Donate_Transaction_Data_Table extends WP_List_Table 
+    class EHXDo_Transaction_Data_Table extends WP_List_Table 
     {   
-        private EHX_Donate_Request $request;
+        private EHXDo_Request $request;
 
         /**
-         * Constructor for the Payment_Data_Table class.
+         * Constructor for the EHXDo_Transaction_Data_Table class.
          *
          * Initializes the parent class and sets up the necessary properties.
          *
@@ -25,7 +25,7 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
                 'ajax'     => false
             ]);
 
-            $this->request = new EHX_Donate_Request();
+            $this->request = new EHXDo_Request();
         }
            
         /**
@@ -96,7 +96,7 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
         {
             switch ($column_name) {
                 case 'created_at':
-                    $page = EHX_Donate_Menu::$pages['transaction'];
+                    $page = EHXDo_Menu::$pages['transaction'];
                     $delete_link = admin_url("admin.php?page={$page}&action=ehx_transactions_delete&id={$item['id']}");
                     // $view_link = admin_url("admin.php?page={$page}&id={$item['id']}");
 
@@ -107,7 +107,7 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
                     return wp_date('d/m/Y', strtotime($item['created_at'])) . $this->row_actions($actions);
                 case 'amount':
                 case 'charge':
-                    return EHX_Donate_Helper::currencyFormat($item[$column_name] ?? 0);
+                    return EHXDo_Helper::currencyFormat($item[$column_name] ?? 0);
                 default:
                     return $item[$column_name] ?? '';
             }
@@ -136,7 +136,7 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
                 $selected_user = $this->request->input('filter_user');
                 ?>
                 <div class="alignleft actions">
-                    <input type="hidden" name="page" value="<?php echo esc_html(EHX_Donate_Menu::$pages['transaction']) ?>">
+                    <input type="hidden" name="page" value="<?php echo esc_html(EHXDo_Menu::$pages['transaction']) ?>">
                     
                     <!-- User Filter -->
                     <select name="filter_user">
@@ -149,7 +149,7 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
                     </select>
 
                     <input type="submit" class="button" value="Filter">
-                    <a href="?page=<?php echo esc_html(EHX_Donate_Menu::$pages['transaction']) ?>&per_page=-1&export=edp-csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
+                    <a href="?page=<?php echo esc_html(EHXDo_Menu::$pages['transaction']) ?>&per_page=-1&export=edp-csv" class="button action"><?php esc_html_e('Export', 'ehx-donate') ?></a> 
                 </div>
                 <?php
             }
@@ -188,9 +188,9 @@ if (!class_exists('classes/EHX_Donate_Transaction_Data_Table')) {
             $this->items = $data;
         }
 
-        public function ehx_donate_transaction_delete()
+        public function ehxdo_transaction_delete()
         {
-            EHX_Donate_Helper::dd(true);
+            EHXDo_Helper::dd(true);
         }
 
         /**

@@ -1,26 +1,26 @@
 <?php
 
-if (!class_exists('EHX_Donate_Actions')) {
+if (!class_exists('EHXDo_Actions')) {
 
-    class EHX_Donate_Actions
+    class EHXDo_Actions
     {
-        private EHX_Donate_Request $request;
+        private EHXDo_Request $request;
 
         /**
-         * Constructor for EHX_Donate_Actions class.
+         * Constructor for EHXDo_Actions class.
          *
-         * Initializes the EHX_Donate_Actions class and sets up necessary actions and properties.
+         * Initializes the EHXDo_Actions class and sets up necessary actions and properties.
          *
          * @return void
          */
         public function __construct() 
         {
-            $this->request = new EHX_Donate_Request();
+            $this->request = new EHXDo_Request();
 
             // Hook CSV export into WordPress before any output starts
             add_action('admin_init', [$this, 'export_csv']);
 
-            add_action('admin_init', [$this, 'ehx_donate_table_row_delete']);
+            add_action('admin_init', [$this, 'ehxdo_table_row_delete']);
         }
 
         /**
@@ -48,8 +48,8 @@ if (!class_exists('EHX_Donate_Actions')) {
 
                 $page  = $this->request->input('page');
 
-                if($page == EHX_Donate_Menu::$pages['transaction']) {
-                    [$data] = (new EHX_Donate_Transaction_Data_Table)->get_query_results();
+                if($page == EHXDo_Menu::$pages['transaction']) {
+                    [$data] = (new EHXDo_Transaction_Data_Table)->get_query_results();
 
                     $header_fields = [
                         'Date', 
@@ -63,7 +63,7 @@ if (!class_exists('EHX_Donate_Actions')) {
                     $filename = 'transactions.csv';
                 } 
                 else {
-                    [$data] = (new EHX_Donate_Donation_Data_Table)->get_query_results();
+                    [$data] = (new EHXDo_Donation_Data_Table)->get_query_results();
 
                     $header_fields = [
                         'Date', 
@@ -96,7 +96,7 @@ if (!class_exists('EHX_Donate_Actions')) {
 
                 // Add data rows
                 foreach ($data as $row) {
-                    if($page == EHX_Donate_Menu::$pages['transaction']) {
+                    if($page == EHXDo_Menu::$pages['transaction']) {
                         $field = [
                             wp_date('d F Y', strtotime($row['created_at'])),
                             $row['display_name'],
@@ -137,7 +137,7 @@ if (!class_exists('EHX_Donate_Actions')) {
          *
          * @return void
          */
-        public function ehx_donate_table_row_delete()
+        public function ehxdo_table_row_delete()
         {
             $id = $this->request->integer('id');
             $action  = $this->request->input('action');

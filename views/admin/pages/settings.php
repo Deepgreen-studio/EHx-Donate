@@ -1,8 +1,10 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <div class="wrap edp-wrapper">
     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
     
     <nav class="nav-tab-wrapper edp-tab-wrapper">
-        <?php foreach (EHX_Donate_Settings::$tabs as $key => $tab): ?>
+        <?php foreach (EHXDo_Settings::$tabs as $key => $tab): ?>
             <a href="#<?php echo esc_attr($tab['slug']); ?>" class="nav-tab <?php echo $key == 0 ? 'nav-tab-active' : ''; ?>">
                 <?php echo esc_html($tab['label']); ?>
             </a>
@@ -14,9 +16,9 @@
     <!-- Form for Settings -->
     <form id="edp_donate_form_submit" action="<?php echo esc_url(admin_url('admin-ajax.php')) ?>" method="post">
 
-        <?php wp_nonce_field(EHX_Donate_Settings::NONCE_ACTION, EHX_Donate_Settings::NONCE_NAME); ?>
+        <?php wp_nonce_field(EHXDo_Settings::NONCE_ACTION, EHXDo_Settings::NONCE_NAME); ?>
 
-        <input type="hidden" name="action" value="ehx_donate_save_settings">
+        <input type="hidden" name="action" value="ehxdo_save_settings">
 
         <div class="tab-content edp-main-tab-content">
 
@@ -27,8 +29,8 @@
                 
                 <table class="form-table">
                     <?php
-                        foreach (EHX_Donate_Settings::get_integration_fields('general') as $field) {
-                            EHX_Donate_Helper::input_group($field);
+                        foreach (EHXDo_Settings::get_integration_fields('general') as $field) {
+                            EHXDo_Helper::input_group($field);
                         }
                     ?>
 
@@ -37,7 +39,7 @@
                             <?php esc_html_e('Donation Form Shortcode', 'ehx-donate'); ?>
                         </th>
                         <td>
-                            <code>[ehx_donate_donation_form /]</code>
+                            <code>[ehxdo_donation_form /]</code>
                             <p class="description">
                                 <?php esc_html_e('Insert this shortcode on any page or post to display the donation form. Simply copy and paste it into the content editor.', 'ehx-donate'); ?>
                             </p>
@@ -49,7 +51,7 @@
                             <?php esc_html_e('Donation Table Shortcode', 'ehx-donate'); ?>
                         </th>
                         <td>
-                            <code>[ehx_donate_donation_table /]</code>
+                            <code>[ehxdo_donation_table /]</code>
                             <p class="description">
                                 <?php esc_html_e('Insert this shortcode on any page or post to display the donation table. Simply copy and paste it into the content editor.', 'ehx-donate'); ?>
                             </p>
@@ -61,7 +63,7 @@
                             <?php esc_html_e('Campaign Lists Shortcode', 'ehx-donate'); ?>
                         </th>
                         <td>
-                            <code>[ehx_donate_campaign_lists /]</code>
+                            <code>[ehxdo_campaign_lists /]</code>
                             <p class="description">
                                 <?php esc_html_e('Insert this shortcode on any page or post to display the donation campaigns. Simply copy and paste it into the content editor.', 'ehx-donate'); ?>
                             </p>
@@ -103,8 +105,8 @@
                 
                 <table class="form-table">
                     <?php
-                        foreach (EHX_Donate_Settings::get_integration_fields('email') as $field) {
-                            EHX_Donate_Helper::input_group($field);
+                        foreach (EHXDo_Settings::get_integration_fields('email') as $field) {
+                            EHXDo_Helper::input_group($field);
                         }
                     ?>
                 </table>
@@ -114,8 +116,8 @@
                 
                 <table class="form-table">
                     <?php
-                        foreach (EHX_Donate_Settings::get_integration_fields('email-options') as $field) {
-                            EHX_Donate_Helper::input_group($field);
+                        foreach (EHXDo_Settings::get_integration_fields('email-options') as $field) {
+                            EHXDo_Helper::input_group($field);
                         }
                     ?>
                 </table>
@@ -125,8 +127,8 @@
                 
                 <table class="form-table">
                     <?php
-                        foreach (EHX_Donate_Settings::get_integration_fields('email-template') as $field) {
-                            EHX_Donate_Helper::input_group($field);
+                        foreach (EHXDo_Settings::get_integration_fields('email-template') as $field) {
+                            EHXDo_Helper::input_group($field);
                         }
                     ?>
                 </table>
@@ -136,19 +138,19 @@
             <div id="integration" class="tab-panel">
 
                 <ul class="subsubsub edp-sub-tab-wrapper">
-                    <?php EHX_Donate_Settings::get_sub_tabs('integration') ?>
+                    <?php EHXDo_Settings::get_sub_tabs('integration') ?>
                 </ul>
                 <div class="clear"></div>
                 
-                <?php EHX_Donate_Settings::get_tab_heading_description('integration') ?>
+                <?php EHXDo_Settings::get_tab_heading_description('integration') ?>
                 
                 <div class="tab-content edp-sub-tab-content">
 
                     <div id="stripe" class="tab-panel tab-panel-active">
                         <table class="form-table">
                             <?php
-                                foreach (EHX_Donate_Settings::get_integration_fields('stripe') as $field) {
-                                    EHX_Donate_Helper::input_group($field);
+                                foreach (EHXDo_Settings::get_integration_fields('stripe') as $field) {
+                                    EHXDo_Helper::input_group($field);
                                 }
                             ?>
                         </table>
@@ -157,8 +159,8 @@
                     <div id="paypal" class="tab-panel">
                         <table class="form-table">
                             <?php
-                                foreach (EHX_Donate_Settings::get_integration_fields('paypal') as $field) {
-                                    EHX_Donate_Helper::input_group($field);
+                                foreach (EHXDo_Settings::get_integration_fields('paypal') as $field) {
+                                    EHXDo_Helper::input_group($field);
                                 }
                             ?>
                         </table>
