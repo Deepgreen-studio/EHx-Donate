@@ -9,13 +9,11 @@ if (!class_exists('EHXDo_Validator')) {
     class EHXDo_Validator
     {
         private array $validatedData = [];
-        private EHXDo_Request $request;
         private EHXDo_Response $response;
         private array $errors = [];
 
         public function __construct()
         {
-            $this->request = new EHXDo_Request();
             $this->response = new EHXDo_Response();
         }
 
@@ -27,10 +25,12 @@ if (!class_exists('EHXDo_Validator')) {
          * @return bool True if validation passes, false otherwise.
          * @throws Exception If an unsupported validation rule is encountered.
          */
-        public function validate(array $rules, bool $sanitize = true): bool
+        public function validate(array $rules): bool
         {
+            $request = new EHXDo_Request();
+
             foreach ($rules as $field => $fieldRules) {
-                $value = $this->request->input(key: $field, sanitize: $sanitize);
+                $value = $request->input(key: $field);
                 $fieldRulesArray = $this->parseRules($fieldRules);
 
                 // Skip validation if the field is nullable and empty
@@ -300,7 +300,10 @@ if (!class_exists('EHXDo_Validator')) {
          */
         private function validate_same(string $field, $value, string $param): void
         {
-            $otherValue = $this->request->input($param);
+            $request = new EHXDo_Request();
+
+            $otherValue = $request->input($param);
+
             if ($value !== $otherValue) {
                 $this->addError(
                     $field,
@@ -385,7 +388,8 @@ if (!class_exists('EHXDo_Validator')) {
          */
         public function validate_nonce(string $field, string $action): bool
         {
-            $nonce = $this->request->input($field);
+            $request = new EHXDo_Request();
+            $nonce = $request->input($field);
             if (!wp_verify_nonce($nonce, $action)) {
                 $this->response->error(esc_html__('Nonce verification failed. Please try again.', 'ehx-donate'), 419);
                 return false;

@@ -3,7 +3,7 @@
 if (!class_exists('EHXDo_Helper')) {
 
     /**
-     * EHX_Helper
+     * EHXDo_Helper
      * A helper class
      */
     class EHXDo_Helper
@@ -87,7 +87,7 @@ if (!class_exists('EHXDo_Helper')) {
         {
             self::session();
 
-            return isset($_SESSION[$key]) ? (new EHXDo_Request)->sanitize($_SESSION[$key]) : $default;
+            return isset($_SESSION[$key]) ? sanitize_text_field(wp_unslash($_SESSION[$key])) : $default;
         }
         
         /**
@@ -434,6 +434,17 @@ if (!class_exists('EHXDo_Helper')) {
         public static function currencyFormat($amount): string
         {
             return '£' . number_format($amount, 2);
+        }
+
+        /**
+         * Sanitize a value or array of values.
+         *
+         * @param mixed $value The value to sanitize.
+         * @return string|null The sanitized value or array.
+         */
+        public static function getInput($key, $default = null): string|null
+        {
+            return isset($_GET[$key]) ? sanitize_text_field(wp_unslash($_GET[$key])) : $default;
         }
 
     }

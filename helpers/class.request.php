@@ -3,7 +3,7 @@
 if (!class_exists('EHXDo_Request')) {
 
     /**
-     * EHX_Response
+     * EHXDo_Request
      * A helper class for handling Form Request Data in WordPress.
      */
     class EHXDo_Request
@@ -12,12 +12,31 @@ if (!class_exists('EHXDo_Request')) {
 
         public function __construct()
         {
+            if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
+                $nonce = isset($_REQUEST['_ehxdo_nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['_ehxdo_nonce'])) : '';
+                $action = isset($_REQUEST['action']) ? sanitize_text_field(wp_unslash($_REQUEST['action'])) : '';
+            
+                if (!wp_verify_nonce($nonce, $action)) {
+                    $error = new WP_Error(
+                        'invalid_nonce',
+                        esc_html__('Unauthorized action!', 'ehx-donate'),
+                        [
+                            'status' => 403,
+                            'title' => esc_html__('Plugin Error', 'ehx-donate'),
+                            'back_link' => true
+                        ]
+                    );
+                    wp_die($error, esc_html__('Plugin Error', 'ehx-donate'), ['response' => 403]);
+                }
+            }
+
             // Initialize request data from global variables
+
             $this->data = [
-                'post'   => $_POST,
-                'get'    => $_GET,
+                'post'   => wp_unslash($_POST),
+                'get'    => wp_unslash($_GET),
                 'files'  => $_FILES,
-                'cookie' => $_COOKIE,
+                'cookie' => wp_unslash($_COOKIE),
                 'server' => $_SERVER,
             ];
         }
