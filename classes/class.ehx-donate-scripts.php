@@ -103,14 +103,6 @@ class EHXDo_Register_Scripts
         );
 
         wp_register_script(
-            handle: 'ehxdo-stripe',
-            src: 'https://js.stripe.com/v3/',
-            deps: [],
-            ver: EHXDO_VERSION,
-            args: true
-        );
-
-        wp_register_script(
             handle: 'ehxdo-datatable',
             src: EHXDO_PLUGIN_URL . 'assets/libs/datatables/datatable.js',
             deps: ['jquery'],

@@ -7,7 +7,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
         public EHXDo_Response $response;
         public EHXDo_Request $request;
         const NONCE_ACTION = 'ehxdo_form_action';
-        const NONCE_NAME = 'ehxdo_form_nonce';
+        const NONCE_NAME = '_ehxdo_nonce';
 
         public $form_id;
 
@@ -21,7 +21,6 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
         {
             // Initialize the response object
             $this->response = new EHXDo_Response();
-            $this->request = new EHXDo_Request();
 
             // Add the shortcode for the donate form
             add_shortcode('ehxdo_donation_form', [$this, 'add_shortcode']);
@@ -61,8 +60,8 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
 
             ob_start();
 
-            $status = $this->request->input('status');
-            $txid = $this->request->input('txid');
+            $status = (new EHXDo_Helper)->getInput('status');
+            $txid = (new EHXDo_Helper)->getInput('txid');
             if (!empty($status) && !empty($txid)) {
                 $browser_session = EHXDo_Helper::sessionGet('browser_session');
                 $payment_callback = !empty($status) && !empty($txid) && !empty($browser_session);
@@ -87,6 +86,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
          */
         public function handle_form()
         {
+            $this->request = new EHXDo_Request();
             // Initialize validator
             $validator = new EHXDo_Validator();
 
@@ -428,45 +428,14 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
 
             $home_url = home_url();
 
-            $message = "
-                <html>
-                    <head>
-                        <style>
-                            body { font-family: Arial, sans-serif; color: #333; line-height: 1.6; }
-                            .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background: #f9f9f9; }
-                            h2 { color: #0073aa; }
-                            .details { background: #fff; padding: 15px; border-radius: 6px; margin: 15px 0; }
-                            .footer { font-size: 12px; color: #666; margin-top: 20px; }
-                        </style>
-                    </head>
-                    <body>
-                        <div class='container'>
-                            <h2>{$subject}</h2>
-                            <p>Dear <strong>{$name}</strong>,</p>
-
-                            <p>We sincerely appreciate your generous donation to <strong>{$fromName}</strong>. Your support is making a real difference in the lives of those we serve.</p>
-
-                            <div class='details'>
-                                <p><strong>Donation Details:</strong></p>
-                                <p><strong>Amount:</strong> {$total_amount}</p>
-                                <p><strong>Date:</strong> " . wp_date('F j, Y') . "</p>
-                                <p><strong>Transaction ID:</strong> {$trx}</p>
-                            </div>
-
-                            <p>With your help, we are able to provide essential resources to underprivileged communities.</p>
-
-                            <p>We are incredibly grateful for your kindness and commitment to our cause. If you have any questions or need a receipt for tax purposes, feel free to reply to this email.</p>
-
-                            <p>Thank you again for being part of our mission. Together, we can create a better future!</p>
-
-                            <p>Best Regards,</p>
-                            <p><strong>{$fromName}</strong><br>
-                            <a href='{$home_url}'>{$home_url}</a>
-
-                            <p class='footer'>This is an automated message. Please do not reply directly to this email.</p>
-                        </div>
-                    </body>
-                </html>";
+            // Start output buffering
+            ob_start();
+            
+            // Include the template file
+            require EHXDO_PLUGIN_DIR . 'views/mail/donation-confirmation.php';
+            
+            // Get the buffered content
+            $message = ob_get_clean();
 
             EHXDo_Helper::send_email($input['email'], $subject, $message);
 

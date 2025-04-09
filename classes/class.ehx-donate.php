@@ -24,8 +24,6 @@ class EHX_Donate
         self::$transaction_table = $wpdb->prefix . 'ehx_transactions';
         self::$booking_table = $wpdb->prefix . 'ehx_bookings';
 
-        add_action('init', [$this, 'load_textdomain']);
-
         $this->include_dependencies();
 
         add_action('init', fn() => EHXDo_Helper::session(), 1); // Priority 1 ensures it runs early
@@ -142,25 +140,6 @@ class EHX_Donate
 
         // Delete the plugin's options from the database
         delete_option(EHXDo_Settings::$option);
-    }
-
-    
-    /**
-     * Loads the plugin's text domain for localization.
-     *
-     * This function uses the load_plugin_textdomain() function to load the translations for the plugin's text strings.
-     * It sets the text domain to 'ehx-donate', specifies that the translations should not be loaded from the main WordPress
-     * installation, and specifies the directory where the translations are located.
-     *
-     * @return void
-     */
-    public function load_textdomain() 
-    {
-        load_plugin_textdomain(
-            'ehx-donate',
-            false,
-            dirname(plugin_basename(__FILE__)) . '/../languages'
-        );
     }
 
     /**

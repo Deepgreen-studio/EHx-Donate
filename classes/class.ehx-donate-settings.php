@@ -9,8 +9,8 @@ if (!class_exists('EHXDo_Settings')) {
         public static $options;
         public static array $tabs = [];
 
-        const NONCE_ACTION = 'ehxdo_settings_form_action';
-        const NONCE_NAME = 'ehxdo_settings_form_nonce';
+        const NONCE_ACTION = 'ehxdo_save_settings';
+        const NONCE_NAME = '_ehxdo_nonce';
 
         /**
          * Constructor for the EHXDo_Settings class.

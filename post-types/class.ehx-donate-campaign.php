@@ -5,17 +5,15 @@ if (!class_exists('EHXDo_Campaign')) {
     class EHXDo_Campaign
     {
         public EHXDo_Response $response;
-        public EHXDo_Request $request;
         public EHXDo_Validator $validator;
 
         const NONCE_ACTION = 'ehxdo_nonce';
-        const NONCE_NAME = 'ehxdo_custom_field_form_nonce';
+        const NONCE_NAME = '_ehxdo_nonce';
 
         public function __construct() 
         {
             // Initialize dependencies
             $this->response  = new EHXDo_Response();
-            $this->request   = new EHXDo_Request();
             $this->validator = new EHXDo_Validator();
 
             // Register custom post type
@@ -331,9 +329,11 @@ if (!class_exists('EHXDo_Campaign')) {
          */
         public function ehxdo_save_post($post_id)
         {
+            $request = new EHXDo_Request();
+
             // Verify nonce for security
-            $nonce = $this->request->input(self::NONCE_ACTION);
-            if (!isset($nonce) || !wp_verify_nonce($nonce, self::NONCE_ACTION)) {
+            $nonce = $request->input(self::NONCE_ACTION);
+            if (!wp_verify_nonce($nonce, self::NONCE_ACTION)) {
                 return;
             }
 
@@ -343,7 +343,7 @@ if (!class_exists('EHXDo_Campaign')) {
             }
 
             // Ensure the request is for an 'ehxdo-campaign' post type
-            if ($this->request->input('post_type') !== 'ehxdo-campaign') {
+            if ($request->input('post_type') !== 'ehxdo-campaign') {
                 return;
             }
 
@@ -353,11 +353,11 @@ if (!class_exists('EHXDo_Campaign')) {
             }
 
             // Only proceed if it's an edit post action
-            if ($this->request->input('action') !== 'editpost') {
+            if ($request->input('action') !== 'editpost') {
                 return;
             }
 
-            $new_value = $this->request->input('_ehx_campaign');
+            $new_value = $request->input('_ehx_campaign');
             $old_value = get_post_meta($post_id, '_ehx_campaign', true);
 
             // Update only if the value has changed

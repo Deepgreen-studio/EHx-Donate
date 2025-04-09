@@ -48,6 +48,36 @@ Yes! EHx Donate works with any WordPress theme.
 2. Custom post type for managing donations.
 3. Settings panel for customizing donations.
 
+== External Services ==
+
+This plugin integrates with the following third-party services:
+
+1. **Stripe PHP Library**
+   - Purpose: Server-side payment processing for donations
+   - Data Sent: Payment tokens, transaction amounts, customer metadata
+   - When: During donation processing and payment verification
+   - Links:
+     - [Terms of Service](https://stripe.com/legal)
+     - [Privacy Policy](https://stripe.com/privacy)
+     - [GitHub Repository](https://github.com/stripe/stripe-php)
+
+== Data Handling ==
+
+All communication with external services is done securely via HTTPS. The plugin implements:
+
+1. **Payment Processing**:
+   - Uses the official Stripe PHP library (stripe/stripe-php) for server-side operations
+   - Sensitive payment details are processed directly by Stripe's systems
+   - Our servers only receive and store payment tokens for transaction verification
+
+== User Consent ==
+
+By using this plugin, you acknowledge that:
+- Payment processing is handled by Stripe's secure systems
+- The stripe-php library is used under MIT license
+
+You can disable individual services in the plugin settings if desired.
+
 == Changelog ==
 
 = 1.0.0 =

@@ -4,7 +4,7 @@ if (!class_exists('EHXDo_Menu')) {
 
     class EHXDo_Menu 
     {
-        private EHXDo_Request $request;
+        private EHXDo_Helper $helper;
 
         public static array $pages = [
             'admin'       => 'ehxdo_admin',
@@ -20,7 +20,7 @@ if (!class_exists('EHXDo_Menu')) {
          */
         public function __construct() 
         {
-            $this->request = new EHXDo_Request();
+            $this->helper = new EHXDo_Helper();
 
             // Add admin menu
             add_action('admin_menu', [$this, 'add_menu']);
@@ -191,7 +191,7 @@ if (!class_exists('EHXDo_Menu')) {
                 return;
             }
 
-            if ($this->request->filled('deleted')) {
+            if (!empty($this->helper->getInput('deleted'))) {
                 EHXDo_Helper::display_notice(esc_html__('Donation Deleted Successfully.', 'ehx-donate'));
             }
 
@@ -213,7 +213,7 @@ if (!class_exists('EHXDo_Menu')) {
                 return;
             }
 
-            if ($this->request->filled('deleted')) {
+            if (!empty($this->helper->getInput('deleted'))) {
                 EHXDo_Helper::display_notice(esc_html__('Gift Aid Deleted Successfully.', 'ehx-donate'));
             }
 
@@ -236,7 +236,7 @@ if (!class_exists('EHXDo_Menu')) {
                 return;
             }
 
-            if ($this->request->filled('deleted')) {
+            if (!empty($this->helper->getInput('deleted'))) {
                 EHXDo_Helper::display_notice(esc_html__('Transaction Deleted Successfully.', 'ehx-donate'));
             }
 
