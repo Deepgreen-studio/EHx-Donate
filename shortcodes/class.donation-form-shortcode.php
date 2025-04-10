@@ -1,13 +1,22 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
 
     class EHXDo_Donation_Form_Shortcode
     {
         public EHXDo_Response $response;
         public EHXDo_Request $request;
-        const NONCE_ACTION = 'ehxdo_form_action';
+        const NONCE_ACTION = 'ehxdo_form_submit';
         const NONCE_NAME = '_ehxdo_nonce';
+
+        const TRANSIENT = 'edp_form_session';
+        const TOKEN_EXPIRY = 1800; // 30 min in seconds
+
+        protected object|bool $transient;
 
         public $form_id;
 
@@ -59,13 +68,17 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
             }
 
             ob_start();
-
+            
             $status = (new EHXDo_Helper)->getInput('status');
             $txid = (new EHXDo_Helper)->getInput('txid');
             if (!empty($status) && !empty($txid)) {
-                $browser_session = EHXDo_Helper::sessionGet('browser_session');
-                $payment_callback = !empty($status) && !empty($txid) && !empty($browser_session);
-                $this->paymentCallback($status, $txid, $browser_session);
+
+                $this->transient = get_transient(self::TRANSIENT);
+
+                $payment_callback = !empty($status) && !empty($txid) && $this->transient !== false;
+                if($payment_callback) {
+                    $this->paymentCallback($status, $txid);
+                }
             }
 
             global $wp;
@@ -112,7 +125,9 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
             // Handle Stripe payment if enabled
             $stripe_enable = (bool) EHXDo_Settings::extract_setting_value('stripe_enable', false);
             if ($stripe_enable && $total_amount > 0) {
-                $response = $this->handlePayment($total_amount, $browser_session);
+                $campaign = get_page_by_path(page_path: $this->request->input('campaign'), post_type: 'ehxdo-campaign');
+
+                $response = $this->handlePayment($total_amount, $browser_session, $campaign->post_title);
                 if (!$response || !isset($response->url)) {
                     return $this->response->error(__('Payment processing failed. Please try again.', 'ehx-donate'));
                 }
@@ -134,9 +149,15 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
             $this->save_user_meta($user_id);
 
             // Store validated input and browser session in session
-            EHXDo_Helper::sessionSet('input', $validator->validated());
-
-            EHXDo_Helper::sessionSet('browser_session', $browser_session);
+            set_transient(
+                self::TRANSIENT, 
+                (object) [
+                    'input' => $validator->validated(), 
+                    'browser_session' => $browser_session, 
+                    'campaign' => $campaign ?? null
+                ], 
+                self::TOKEN_EXPIRY
+            );
 
             // Return success response
             return $this->response->success(
@@ -238,20 +259,16 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
          * @param float $total_amount The total amount to be paid.
          * @param string $browser_session The unique browser session identifier.
          */
-        private function handlePayment($total_amount, $browser_session)
+        private function handlePayment($total_amount, $browser_session, $post_title = null)
         {
             try {
                 $mode = 'payment';
-
-                $campaign = get_page_by_path(page_path: $this->request->input('campaign'), post_type: 'ehxdo-campaign'); 
-
-                EHXDo_Helper::sessionSet('campaign', $campaign);
 
                 $priceData = [
                     'currency' => 'gbp',
                     'unit_amount' => round($total_amount, 2) * 100,
                     'product_data' => [
-                        'name' => $campaign->post_title ?? esc_html__('Quick Donation', 'ehx-donate'),
+                        'name' => $post_title ?? esc_html__('Quick Donation', 'ehx-donate'),
                         // 'description' => substr(strip_tags($campaign->post_content), 20),
                     ],
                 ];
@@ -296,28 +313,25 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
          *
          * @return bool|string
          */
-        private function paymentCallback($status, $txid, $browser_session): bool|string
+        private function paymentCallback($status, $txid): bool|string
         {
-            if ($browser_session != $txid) {
+            if ($this->transient?->browser_session != $txid) {
                 wp_safe_redirect(home_url());
                 exit;
             }
-
-            $campaign = EHXDo_Helper::sessionGet('campaign');
-            $input = EHXDo_Helper::sessionGet('input');
 
             $donation_table = EHX_Donate::$donation_table;
 
             global $wpdb;
 
-            $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE browser_session = %s AND payment_status = 'pending'", $browser_session));
+            $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE browser_session = %s AND payment_status = 'pending'", $this->transient?->browser_session));
             
             if($donation != null) {
                 $recurring = $input['recurring'] ?? esc_html('One-off');
 
                 $wpdb->insert(EHX_Donate::$donation_items_table, [
                     'donation_id' => $donation->id,
-                    'campaign_id' => $campaign->ID ?? null,
+                    'campaign_id' => $this->transient?->campaign?->ID ?? null,
                     'amount'  => $donation->total_amount,
                     'gift_aid' => $donation->gift_aid,
                     'recurring' => $recurring,
@@ -332,16 +346,14 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
                         'balance'  => $donation->total_amount,
                         'created_at' => wp_date('Y-m-d H:i:s'),
                     ]);
-
-                    $this->sendConfirmationMail($input, $donation->total_amount, $donation->browser_session);
+                    $this->sendConfirmationMail($donation->total_amount, $donation->browser_session);
                 }
 
-                $wpdb->query($wpdb->prepare("UPDATE $donation_table SET payment_status = %s WHERE browser_session = %s", $status, $browser_session));
+                $wpdb->query($wpdb->prepare("UPDATE $donation_table SET payment_status = %s WHERE browser_session = %s", $status, $this->transient->browser_session));
             }
 
-            EHXDo_Helper::sessionForget('campaign');
-            EHXDo_Helper::sessionForget('input');
-            EHXDo_Helper::sessionForget('browser_session');
+            delete_transient(self::TRANSIENT);
+            $this->transient = false;
 
             return true;
         }
@@ -418,12 +430,12 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
          *
          * @return bool Whether the email was sent successfully.
          */
-        private function sendConfirmationMail($input, $total_amount, $trx)
+        private function sendConfirmationMail($total_amount, $trx)
         {
             $fromName  = EHXDo_Settings::extract_setting_value('mail_appears_from', get_bloginfo('name'));
 
             $subject = esc_html__('Thank You for Your Generous Donation!', 'ehx-donate');
-            $name = $input['first_name'] . ' ' . $input['last_name'];
+            $name = $this->transient?->input['first_name'] . ' ' . $this->transient?->input['last_name'];
             $total_amount = EHXDo_Helper::currencyFormat($total_amount);
 
             $home_url = home_url();
@@ -437,7 +449,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
             // Get the buffered content
             $message = ob_get_clean();
 
-            EHXDo_Helper::send_email($input['email'], $subject, $message);
+            EHXDo_Helper::send_email($this->transient?->input['email'], $subject, $message);
 
             return true;
         }

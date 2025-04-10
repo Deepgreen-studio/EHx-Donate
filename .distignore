@@ -1,0 +1,8 @@
+.git/
+node_modules/
+tests/
+.gitignore
+.distignore
+composer.*
+package.json
+webpack.config.js

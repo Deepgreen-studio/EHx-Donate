@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 if (!class_exists('EHXDo_Helper')) {
 
     /**
@@ -24,70 +28,6 @@ if (!class_exists('EHXDo_Helper')) {
             echo '<pre>';
             var_dump($values);
             exit(1);
-        }
-        
-        /**
-         * Initializes the PHP session if it is not already started.
-         *
-         * This function checks if the PHP session has been started using the session_id() function.
-         * If the session is not started, it calls the session_start() function to initiate the session.
-         *
-         * @return void The function does not return a value.
-         */
-        public static function session()
-        {
-            if (session_status() == PHP_SESSION_NONE) {
-                session_start();
-            }            
-        }
-
-        /**
-         * Sets a value in the PHP session.
-         *
-         * This function initializes the PHP session if it is not already started,
-         * and then sets the specified key-value pair in the $_SESSION superglobal array.
-         *
-         * @param string $key   The key to store the value in the session.
-         * @param mixed  $value The value to be stored in the session.
-         *                     If not provided, the default value is null.
-         *
-         * @return void The function does not return a value.
-         */
-        public static function sessionSet($key, $value = null)
-        {
-            self::session();
-
-            $_SESSION[$key] = $value;
-        }
-
-        public static function sessionForget($key)
-        {
-            self::session();
-
-            if(array_key_exists($key, $_SESSION)) {
-                unset($_SESSION[$key]);
-            }
-            return true;
-        }
-
-        /**
-         * Retrieves a value from the PHP session.
-         *
-         * This function initializes the PHP session if it is not already started,
-         * and then retrieves the specified key-value pair from the $_SESSION superglobal array.
-         * If the key does not exist in the session, the function returns the provided default value.
-         *
-         * @param string $key     The key to retrieve the value from the session.
-         * @param mixed  $default The default value to return if the key does not exist in the session.
-         *                       If not provided, the default value is null.
-         *
-         * @return mixed The value associated with the specified key in the session, or the default value if the key does not exist.
-         */
-        public static function sessionGet($key, $default = null)
-        {
-            self::session();
-
-            return isset($_SESSION[$key]) ? sanitize_text_field(wp_unslash($_SESSION[$key])) : $default;
         }
         
         /**

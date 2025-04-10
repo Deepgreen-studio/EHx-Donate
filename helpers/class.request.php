@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 if (!class_exists('EHXDo_Request')) {
 
     /**
@@ -26,7 +30,24 @@ if (!class_exists('EHXDo_Request')) {
                             'back_link' => true
                         ]
                     );
-                    wp_die($error, esc_html__('Plugin Error', 'ehx-donate'), ['response' => 403]);
+                    if (wp_doing_ajax()) {
+                        wp_die(
+                            json_encode(
+                                array(
+                                    'success' => false,
+                                    'message' => esc_html($error->get_error_message())
+                                )
+                            ),
+                            esc_html__('Plugin Error', 'ehx-donate'),
+                            array(
+                                'response' => 403,
+                                'exit'     => true
+                            )
+                        );
+                    }
+                    else {
+                        wp_die(esc_html($error->get_error_message()), esc_html__('Plugin Error', 'ehx-donate'), ['response' => 403]);
+                    }
                 }
             }
 
@@ -108,9 +129,9 @@ if (!class_exists('EHXDo_Request')) {
          * @param string $key The key to check.
          * @return bool True if the value represents a boolean "true", false otherwise.
          */
-        public function integer($key)
+        public function integer($key, $default = null)
         {
-            return (int) $this->input($key);
+            return (int) $this->input($key, $default);
         }
 
         /**

@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 class EHX_Donate 
 {
     public static $donation_table;
@@ -25,8 +29,6 @@ class EHX_Donate
         self::$booking_table = $wpdb->prefix . 'ehx_bookings';
 
         $this->include_dependencies();
-
-        add_action('init', fn() => EHXDo_Helper::session(), 1); // Priority 1 ensures it runs early
     }
 
     /**
@@ -230,9 +232,7 @@ class EHX_Donate
 
         // Create or update tables using dbDelta
         foreach ($tables as $table_name => $table_schema) {
-            $query = $wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table_name));
-
-            if ($wpdb->get_var($query) !== $table_name) {
+            if ($wpdb->get_var($wpdb->prepare('SHOW TABLES LIKE %s', $wpdb->esc_like($table_name))) !== $table_name) {
                 $sql = "CREATE TABLE $table_name ($table_schema) $charset_collate;";
                 dbDelta($sql);
             }
@@ -259,7 +259,7 @@ class EHX_Donate
         ];
 
         foreach ($tables as $table) {
-            $wpdb->query("DROP TABLE IF EXISTS $table");
+            $wpdb->query("DROP TABLE IF EXISTS " . esc_sql($table));
         }
     }
 
