@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 if (!class_exists('EHXDo_Actions')) {
 
     class EHXDo_Actions
@@ -166,7 +170,7 @@ if (!class_exists('EHXDo_Actions')) {
 
                 global $wpdb;
 
-                $wpdb->query($wpdb->prepare("DELETE FROM %i WHERE id = %d", $table, $id));
+                $wpdb->query($wpdb->prepare("DELETE FROM $table WHERE id = %d", $id));
 
                 wp_redirect(admin_url("admin.php?page={$page}&deleted=1"));
 

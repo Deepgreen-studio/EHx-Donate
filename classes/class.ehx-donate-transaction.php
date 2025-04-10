@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 if (!class_exists('classes/EHXDo_Transaction_Data_Table')) {
 
     if (!class_exists('WP_List_Table')) {
@@ -205,61 +209,77 @@ if (!class_exists('classes/EHXDo_Transaction_Data_Table')) {
         public function get_query_results()
         {
             global $wpdb;
-            $donation_table = esc_sql(EHX_Donate::$donation_table);
-            $transaction_table = esc_sql(EHX_Donate::$transaction_table);
+
+            $donation_table       = esc_sql(EHX_Donate::$donation_table);
+            $transaction_table    = esc_sql(EHX_Donate::$transaction_table);
             $donation_items_table = esc_sql(EHX_Donate::$donation_items_table);
-            $users_table = esc_sql($wpdb->users);
-            $posts_table = esc_sql($wpdb->posts);
+            $users_table          = esc_sql($wpdb->users);
+            $posts_table          = esc_sql($wpdb->posts);
 
             // Sorting
-            $valid_orderby = ['id', 'amount', 'created_at']; // Allowed sorting columns
-            $orderby = esc_sql($this->request->input('orderby', 'id'));
-            $orderby = in_array($orderby, $valid_orderby) ? $orderby : 'id';
-            $order = esc_sql($this->request->input('order', 'DESC'));
-            $order = ($order === 'ASC') ? 'ASC' : 'DESC';
+            $valid_orderby = [
+                'id'         => 't.id',
+                'amount'     => 't.amount',
+                'created_at' => 't.created_at'
+            ];
+            $orderby_input = $this->request->input('orderby', 'id');
+            $orderby = sanitize_key($valid_orderby[$orderby_input] ?? 't.id');
+
+            $order_input = strtoupper($this->request->input('order', 'DESC'));
+            $order = in_array($order_input, ['ASC', 'DESC']) ? $order_input : 'DESC';
 
             // Filtering
-            $filter_user = $this->request->input('filter_user');
+            $filter_user   = $this->request->input('filter_user');
             $filter_status = $this->request->input('filter_status');
 
-            // Build WHERE conditions
-            $where = "1=1"; // Always true condition to append other filters easily
-            // $where .= " AND d.gift_aid = 1";
+            $where_clauses = [];
+            $params = [];
 
             if ($filter_user) {
-                $where .= $wpdb->prepare(" AND user_id = %d", $filter_user);
+                $where_clauses[] = 'd.user_id = %d';
+                $params[] = (int) $filter_user;
             }
 
             if ($filter_status) {
-                $where .= $wpdb->prepare(" AND payment_status = %s", $filter_status);
+                $where_clauses[] = 't.payment_status = %s';
+                $params[] = $filter_status;
             }
 
-            // Query: Join with wp_users and wp_usermeta
-            $query = "SELECT t.*, d.gift_aid, u.display_name, di.recurring, p.post_title 
-                FROM $transaction_table t 
-                LEFT JOIN $donation_table d ON t.donation_id = d.id 
-                LEFT JOIN $users_table u ON d.user_id = u.ID 
-                LEFT JOIN $donation_items_table di ON d.id = di.donation_id 
-                LEFT JOIN $posts_table p ON di.campaign_id = p.id 
-                WHERE $where 
+            $where_sql = $where_clauses ? 'WHERE ' . implode(' AND ', $where_clauses) : '';
+
+            // Base query
+            $sql = "
+                SELECT t.*, d.gift_aid, u.display_name, di.recurring, p.post_title
+                FROM $transaction_table t
+                LEFT JOIN $donation_table d ON t.donation_id = d.id
+                LEFT JOIN $users_table u ON d.user_id = u.ID
+                LEFT JOIN $donation_items_table di ON d.id = di.donation_id
+                LEFT JOIN $posts_table p ON di.campaign_id = p.ID
+                $where_sql
                 ORDER BY $orderby $order
             ";
+            
+            // Get total items (wrap count query)
+            $count_sql = "SELECT COUNT(*) FROM ($sql) as subquery";
+            $total_items = !empty($params) ? $wpdb->get_var($wpdb->prepare($count_sql, ...$params)) : $wpdb->get_var($count_sql);
 
-            $total_items = count($wpdb->get_col($query));
+            // Pagination
+            $per_page = $this->request->integer('per_page', 10);
+            $current_page = $this->get_pagenum();
+            $offset = ($current_page - 1) * $per_page;
 
-            // Pagination setup
-            $per_page = esc_sql($this->request->input('per_page', 10));
-            if ($per_page != -1) {
-                $current_page = $this->get_pagenum();
-                $offset = ($current_page - 1) * $per_page;
-
-                $query .= $wpdb->prepare(" LIMIT %d OFFSET %d", $per_page, $offset);
+            if ($per_page !== -1) {
+                $sql .= " LIMIT %d OFFSET %d";
+                $params[] = $per_page;
+                $params[] = $offset;
             }
 
-            $data = $wpdb->get_results($query, ARRAY_A);
+            $prepared_sql = !empty($params) ? $wpdb->prepare($sql, ...$params) : $sql;
+            $data = $wpdb->get_results($prepared_sql, ARRAY_A);
 
             return [$data, $per_page, $total_items];
         }
+
 
     }
 }

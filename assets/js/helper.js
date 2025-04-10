@@ -51,7 +51,7 @@
             message = 'The requested data not found.'
         }
         else if (e.status === 403) {
-            message = 'You are not allowed this action.'
+            message = e.responseJSON?.data?.message || 'Unauthorized action!'
         }
         else if (e.status === 419) {
             message = 'Nonce verify failed, please try again letter.'
@@ -88,16 +88,14 @@
     window.edpHandleError = handleError
 
     function toastrAlert(message, type = 'success') {
-        
         if (location.pathname == '/wp-admin/admin.php') {
-            const element = $('#edp-notice');
+            let element = $('#edp-notice');
 
-            const alert = {
+            let alert = {
                 success: 'notice-success',
                 error: 'notice-error',
                 info: 'notice-success',
             }[type]
-
 
             element.css('display', 'block')
             element.addClass(alert).find('p').html(message)
@@ -105,9 +103,9 @@
             setTimeout(() => element.css('display', 'none'), 10000)
         } 
         else {
-            const element = $('#edp-alert-message');
-
-            const alert = {
+            let element = $('#edp-alert-message');
+            
+            let alert = {
                 success: {
                     color: 'edp-alert-primary',
                     icon: 'fa-regular fa-circle-question',

@@ -25,7 +25,7 @@
             <div id="general" class="tab-panel tab-panel-active">
 
                 <h2><?php esc_html_e('General Settings', 'ehx-donate'); ?></h2>
-                <p><?php esc_html_e("Email notifications sent from Ehx Member are listed below. Click on an email to configure it. Emails should be sent from an email using your website's domain name. We highly recommend using a SMTP service email delivery. Please see this doc for more information.", 'ehx-donate') ?></p>
+                <p><?php esc_html_e("General Settings.", 'ehx-donate') ?></p>
                 
                 <table class="form-table">
                     <?php

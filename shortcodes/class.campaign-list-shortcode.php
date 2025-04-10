@@ -1,5 +1,9 @@
 <?php
 
+if (!defined('ABSPATH')) {
+    exit;
+}
+
 if (!class_exists('EHXDo_Campaign_List_Shortcode')) {
 
     class EHXDo_Campaign_List_Shortcode

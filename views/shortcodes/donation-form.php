@@ -1,10 +1,18 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
+<div class="edp-alert-element d-none">
+    <div class="edp-alert edp-alert-primary text-center rounded-0" role="alert" id="edp-alert-message">
+        <i>&quest;</i>
+        <span><?php esc_html_e('Item added to cart successfully', 'ehx-donate'); ?></span>
+    </div>
+    <div class="edp-alert-close">&#10006;</div>
+</div>
+
 <div class="edp-card" id="edp-card-element">
     
     <form id="ehxdo_form_submit" class="edp-form" method="POST">
         
-        <input type="hidden" name="action" value="ehxdo_form_submit">
+        <input type="hidden" name="action" value="<?php echo esc_html(self::NONCE_ACTION); ?>">
         <input type="hidden" name="callback" value="<?php echo esc_html($callback); ?>">
         <?php wp_nonce_field(self::NONCE_ACTION, self::NONCE_NAME); ?>
 

@@ -8,6 +8,15 @@
   --light-gray: lightgray;
   --background-light: #eceff1;
   --border-color: #ccc;
+  --edp-alert-primary-color: #001620;
+  --edp-alert-primary-bg: #ccd7dc;
+  --edp-alert-primary-border: #99afb9;
+  --edp-alert-danger-color: #ffffff;
+  --edp-alert-danger-bg: #f1aeb5;
+  --edp-alert-danger-border: #f1aeb5;
+  --edp-alert-info-color: #055160;
+  --edp-alert-info-bg: #cff4fc;
+  --edp-alert-info-border: #9eeaf9;
 }
 .edp-campaign-container {
   max-width: 1280px;
@@ -585,4 +594,56 @@
     font-size: 58px;
     line-height: 1.2;
   }
+}
+
+/* Alert Styling */
+.edp-alert-element {
+  width: 100%;
+  left: 0;
+  top: 0;
+  position: fixed;
+  z-index: 999999;
+}
+
+.edp-alert {
+  --edp-bs-alert-bg: transparent;
+  --edp-bs-alert-padding-x: 1rem;
+  --edp-bs-alert-padding-y: 1rem;
+  --edp-bs-alert-margin-bottom: 1rem;
+  --edp-bs-alert-color: inherit;
+  --edp-bs-alert-border-color: transparent;
+  --edp-bs-alert-border: 1px solid var(--edp-bs-alert-border-color);
+  --edp-bs-alert-border-radius: var(--edp-border-radius);
+  position: relative;
+  padding: var(--edp-bs-alert-padding-y) var(--edp-bs-alert-padding-x);
+  margin-bottom: var(--edp-bs-alert-margin-bottom);
+  color: var(--edp-bs-alert-color);
+  background-color: var(--edp-bs-alert-bg);
+  border: var(--edp-bs-alert-border);
+  border-radius: var(--edp-bs-alert-border-radius);
+}
+
+.edp-alert-primary {
+  --edp-bs-alert-color: var(--edp-alert-primary-color);
+  --edp-bs-alert-bg: var(--edp-alert-primary-bg);
+  --edp-bs-alert-border-color: var(--edp-alert-primary-border);
+}
+
+.edp-alert-danger {
+  --edp-bs-alert-color: var(--edp-alert-danger-color);
+  --edp-bs-alert-bg: var(--edp-alert-danger-bg);
+  --edp-bs-alert-border-color: var(--edp-alert-danger-border);
+}
+
+.edp-alert-info {
+  --edp-bs-alert-color: var(--edp-alert-info-color);
+  --edp-bs-alert-bg: var(--edp-alert-info-bg);
+  --edp-bs-alert-border-color: var(--edp-alert-info-border);
+}
+
+.edp-alert-close {
+  position: fixed;
+  cursor: pointer;
+  top: 16px;
+  right: 24px;
 }
