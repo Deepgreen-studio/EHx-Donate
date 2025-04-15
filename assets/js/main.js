@@ -18,7 +18,7 @@
 
         let options = {
             type: "POST",
-            url: edp_object.ajax_url,
+            url: ehxdo_object.ajax_url,
             dataType: "JSON",
         };
 

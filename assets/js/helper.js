@@ -19,7 +19,7 @@
             s[1] += new Array(prec - s[1].length + 1).join('0');
         }
     
-        return `${edp_object.currency}${s.join(dec)}`;
+        return `${ehxdo_object.currency}${s.join(dec)}`;
     }
 
     window.edpConvertAmount = convertAmount

@@ -34,8 +34,8 @@ define('EHXDO_DELETE_LIMIT', 10000);
 
 require_once EHXDO_PLUGIN_DIR . 'classes/class.ehx-donate.php';
 
-new EHX_Donate();
+new EHXDo_Donate();
 
-register_activation_hook(__FILE__, ['EHX_Donate', 'activate']);
-register_deactivation_hook(__FILE__, ['EHX_Donate', 'deactivate']);
-register_uninstall_hook(__FILE__, ['EHX_Donate', 'uninstall']);
+register_activation_hook(__FILE__, ['EHXDo_Donate', 'activate']);
+register_deactivation_hook(__FILE__, ['EHXDo_Donate', 'deactivate']);
+register_uninstall_hook(__FILE__, ['EHXDo_Donate', 'uninstall']);

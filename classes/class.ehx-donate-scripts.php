@@ -128,7 +128,7 @@ class EHXDo_Register_Scripts
             ver: EHXDO_VERSION,
             args: true
         );
-        wp_localize_script('ehxdo-main-js', 'edp_object', [
+        wp_localize_script('ehxdo-main-js', 'ehxdo_object', [
             'ajax_url' => admin_url('admin-ajax.php'),
             'currency' => '£',
         ]);

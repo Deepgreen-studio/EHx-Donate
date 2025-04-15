@@ -195,7 +195,7 @@ if (!class_exists('EHXDo_Settings')) {
          * This function handles the submission of the plugin's settings form. It retrieves the submitted data,
          * validates the nonce, and then saves the settings using the `update_option` function.
          *
-         * @return void This function does not return any value. It outputs a success response using the EHX_Response class.
+         * @return void This function does not return any value. It outputs a success response using the EHxMember_Response class.
          */
         public function ehxdo_save_settings() 
         {

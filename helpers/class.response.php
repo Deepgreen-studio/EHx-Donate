@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 if (!class_exists('EHXDo_Response')) {
 
     /**
-     * EHX_Response
+     * EHxMember_Response
      * A helper class for handling responses in WordPress.
      */
     class EHXDo_Response

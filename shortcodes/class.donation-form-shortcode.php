@@ -13,7 +13,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
         const NONCE_ACTION = 'ehxdo_form_submit';
         const NONCE_NAME = '_ehxdo_nonce';
 
-        const TRANSIENT = 'edp_form_session';
+        const TRANSIENT = 'ehxdo_form_session';
         const TOKEN_EXPIRY = 1800; // 30 min in seconds
 
         protected object|bool $transient;
@@ -21,7 +21,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
         public $form_id;
 
         /**
-         * Constructor for the EHX_Donate class.
+         * Constructor for the EHXDo_Donate class.
          *
          * Initializes the response object and adds the shortcode for the donate form.
          * Also sets up the AJAX actions for handling form submissions.
@@ -213,7 +213,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
         {
             global $wpdb;
 
-            return $wpdb->insert(EHX_Donate::$donation_table, [
+            return $wpdb->insert(EHXDo_Donate::$donation_table, [
                 'user_id' => $user_id,
                 'invoice' => 'stripe',
                 'processing_fee' => $service_charge,
@@ -320,7 +320,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
                 exit;
             }
 
-            $donation_table = EHX_Donate::$donation_table;
+            $donation_table = EHXDo_Donate::$donation_table;
 
             global $wpdb;
 
@@ -329,7 +329,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
             if($donation != null) {
                 $recurring = $input['recurring'] ?? esc_html('One-off');
 
-                $wpdb->insert(EHX_Donate::$donation_items_table, [
+                $wpdb->insert(EHXDo_Donate::$donation_items_table, [
                     'donation_id' => $donation->id,
                     'campaign_id' => $this->transient?->campaign?->ID ?? null,
                     'amount'  => $donation->total_amount,
@@ -340,7 +340,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
                 ]);
 
                 if ($status == 'success') {
-                    $wpdb->insert(EHX_Donate::$transaction_table, [
+                    $wpdb->insert(EHXDo_Donate::$transaction_table, [
                         'donation_id' => $donation->id,
                         'amount'  => $donation->total_amount,
                         'balance'  => $donation->total_amount,

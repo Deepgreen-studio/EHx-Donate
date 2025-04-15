@@ -128,7 +128,7 @@ if (!class_exists('EHXDo_Campaign')) {
                     global $wpdb;
 
                     // Get the donation table name
-                    $donation_table = EHX_Donate::$donation_items_table;
+                    $donation_table = EHXDo_Donate::$donation_items_table;
 
                     // Query to calculate the total donations for the campaign
                     $sum_total_amount = $wpdb->get_var($wpdb->prepare("SELECT SUM(amount) FROM $donation_table WHERE campaign_id = %d", $post_id));
