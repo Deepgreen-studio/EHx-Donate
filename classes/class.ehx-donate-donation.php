@@ -15,7 +15,7 @@ if (!class_exists('classes/EHXDo_Donation_Data_Table')) {
         private EHXDo_Request $request;
 
         /**
-         * Constructor for the Payment_Data_Table class.
+         * Constructor for the EHXDo_Donation_Data_Table class.
          *
          * Initializes the parent class and sets up the necessary properties.
          *
@@ -221,26 +221,17 @@ if (!class_exists('classes/EHXDo_Donation_Data_Table')) {
         {
             global $wpdb;
 
-            $donation_table = esc_sql(EHX_Donate::$donation_table);
-            $donation_items_table = esc_sql(EHX_Donate::$donation_items_table);
-            $users_table = esc_sql($wpdb->users);
-            $posts_table = esc_sql($wpdb->posts);
+            // Base query with placeholders
+            $sql = "
+                SELECT d.*, u.display_name, u.user_email, di.recurring, p.post_title
+                FROM %1s d
+                LEFT JOIN %1s u ON d.user_id = u.ID
+                LEFT JOIN %1s di ON d.id = di.donation_id
+                LEFT JOIN %1s p ON di.campaign_id = p.ID
+            ";
 
-            // Whitelisted columns for ORDER BY
-            $valid_orderby = [
-                'id'           => 'd.id',
-                'created_at'   => 'd.created_at',
-                'display_name' => 'u.display_name',
-                'amount'       => 'd.total_amount',
-                'post_title'   => 'p.post_title',
-                'recurring'    => 'di.recurring',
-            ];
-
-            $orderby_input = $this->request->input('orderby', 'id');
-            $orderby = $valid_orderby[$orderby_input] ?? 'd.id';
-
-            $order_input = strtoupper($this->request->input('order', 'DESC'));
-            $order = in_array($order_input, ['ASC', 'DESC']) ? $order_input : 'DESC';
+            // Prepare table names (using %i placeholder for identifiers)
+            $prepared_sql = $wpdb->prepare($sql, EHXDo_Donate::$donation_table, $wpdb->users, EHXDo_Donate::$donation_items_table, $wpdb->posts);
 
             // Filters
             $filter_user   = $this->request->input('filter_user');
@@ -260,22 +251,30 @@ if (!class_exists('classes/EHXDo_Donation_Data_Table')) {
                 $params[] = $filter_status;
             }
 
-            $where_sql = $where_clauses ? 'WHERE ' . implode(' AND ', $where_clauses) : '';
+            if (!empty($where_clauses)) {
+                $prepared_sql .= ' WHERE ' . implode(' AND ', $where_clauses);
+            }
             
-            // Base SQL
-            $sql = "
-                SELECT d.*, u.display_name, u.user_email, di.recurring, p.post_title
-                FROM $donation_table d
-                LEFT JOIN $users_table u ON d.user_id = u.ID
-                LEFT JOIN $donation_items_table di ON d.id = di.donation_id
-                LEFT JOIN $posts_table p ON di.campaign_id = p.ID
-                $where_sql
-                ORDER BY $orderby $order
-            ";
+            // Whitelisted columns for ORDER BY
+            $valid_orderby = [
+                'id'           => 'd.id',
+                'created_at'   => 'd.created_at',
+                'display_name' => 'u.display_name',
+                'amount'       => 'd.total_amount',
+                'post_title'   => 'p.post_title',
+                'recurring'    => 'di.recurring',
+            ];
+
+            $orderby = $valid_orderby[$this->request->input('orderby', 'id')] ?? 'd.id';
+            $order = in_array(strtoupper($this->request->input('order', 'DESC')), ['ASC', 'DESC']) ? $orderby : 'DESC';
+
+            $prepared_sql .= " ORDER BY %s %s";
+            $params[] = $orderby;
+            $params[] = $order;
             
             // Get total count (same query, no LIMIT)
             $count_sql = "SELECT COUNT(*) FROM ($sql) AS temp";
-            $total_items = !empty($params) ? $wpdb->get_var($wpdb->prepare($count_sql, ...$params)) : $wpdb->get_var($count_sql);
+            $total_items = $wpdb->get_var($wpdb->prepare($count_sql, ...$params));
 
             // Pagination
             $per_page = $this->request->integer('per_page', 10);
@@ -288,12 +287,10 @@ if (!class_exists('classes/EHXDo_Donation_Data_Table')) {
                 $params[] = $offset;
             }
 
-            $prepared_sql = !empty($params) ? $wpdb->prepare($sql, ...$params) : $sql;
-            $data = $wpdb->get_results($prepared_sql, ARRAY_A);
+            $data = $wpdb->get_results($wpdb->prepare($sql, ...$params), ARRAY_A);
 
             return [$data, $per_page, $total_items];
         }
-
 
         /**
          * Retrieves donation data for the current user.
@@ -312,22 +309,15 @@ if (!class_exists('classes/EHXDo_Donation_Data_Table')) {
             global $wpdb;
 
             // Define table names
-            $donation_table = esc_sql(EHX_Donate::$donation_table);
-            $donation_items_table = esc_sql(EHX_Donate::$donation_items_table);
+            $donation_table = esc_sql(EHXDo_Donate::$donation_table);
+            $donation_items_table = esc_sql(EHXDo_Donate::$donation_items_table);
             $posts_table = esc_sql($wpdb->posts);
 
             // Get the current user ID
             $user_id = get_current_user_id();
 
             // Prepare the SQL query
-            $query = $wpdb->prepare(
-                "SELECT d.*, di.recurring, p.post_title 
-                 FROM $donation_table d 
-                 LEFT JOIN $donation_items_table di ON d.id = di.donation_id 
-                 LEFT JOIN $posts_table p ON di.campaign_id = p.id 
-                 WHERE user_id = %d",
-                $user_id
-            );
+            $query = $wpdb->prepare("SELECT d.*, di.recurring, p.post_title FROM %1s d LEFT JOIN %1s di ON d.id = di.donation_id LEFT JOIN %1s p ON di.campaign_id = p.id WHERE user_id = %d", $donation_table, $donation_items_table, $posts_table, $user_id);
 
             // Execute the query and retrieve the results
             $data = $wpdb->get_results($query);

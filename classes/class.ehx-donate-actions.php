@@ -155,14 +155,14 @@ if (!class_exists('EHXDo_Actions')) {
             if ($action === 'ehx_donations_delete') {
                 check_admin_referer("donations_delete_{$id}");
 
-                $table = esc_sql(EHX_Donate::$donation_table);
+                $table = esc_sql(EHXDo_Donate::$donation_table);
             }
 
             if ($action === 'ehx_transactions_delete') {
 
                 check_admin_referer("transactions_delete_{$id}");
 
-                $table = esc_sql(EHX_Donate::$transaction_table);
+                $table = esc_sql(EHXDo_Donate::$transaction_table);
             }
 
             if(isset($table)) {

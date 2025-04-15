@@ -20,7 +20,7 @@
                 <?php foreach($donations as $donation): ?>
                     <tr>
                         <td><?php echo esc_html(wp_date('d F Y', strtotime($donation->created_at))) ?></td>
-                        <td><?php echo esc_html(EHX_Helper::currencyFormat($donation->total_amount)) ?></td>
+                        <td><?php echo esc_html(EHxMember_Helper::currencyFormat($donation->total_amount)) ?></td>
                         <td><?php echo esc_html($donation->post_title) ?></td>
                         <td><?php echo esc_html($donation->gift_aid ? 'True':'False') ?></td>
                         <td><?php echo esc_html($donation->recurring) ?></td>

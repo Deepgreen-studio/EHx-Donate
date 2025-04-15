@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) {
 if (!class_exists('EHXDo_Validator')) {
 
     /**
-     * EHX_Validator
+     * EHxMember_Validator
      * A helper class for handling Form Data Validation in WordPress.
      */
     class EHXDo_Validator

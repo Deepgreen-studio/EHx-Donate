@@ -4,7 +4,7 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-class EHX_Donate 
+class EHXDo_Donate 
 {
     public static $donation_table;
     public static $donation_items_table;
@@ -12,7 +12,7 @@ class EHX_Donate
     public static $booking_table;
 
     /**
-     * Constructor for the EHX_Donate class.
+     * Constructor for the EHXDo_Donate class.
      *
      * Initializes the donation table, loads necessary dependencies, and sets up WordPress hooks.
      *

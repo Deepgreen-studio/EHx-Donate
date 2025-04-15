@@ -20,7 +20,7 @@ if (!class_exists('EHXDo_Menu')) {
         /**
          * Constructor for EHXDo_Menu class.
          *
-         * Initializes the EHX_Request object and adds the admin menu.
+         * Initializes the EHxMember_Request object and adds the admin menu.
          */
         public function __construct() 
         {
