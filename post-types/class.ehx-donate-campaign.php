@@ -394,7 +394,6 @@ if (!class_exists('EHXDo_Campaign')) {
          */
         public function customize_campaign_details($template)
         {
-            // EHXDo_Helper::dd($template);
             if (is_singular('ehxdo-campaign')) {
                 return EHXDO_PLUGIN_DIR . 'views/frontend/campaign-details.php';
             }

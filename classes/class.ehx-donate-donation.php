@@ -266,14 +266,17 @@ if (!class_exists('classes/EHXDo_Donation_Data_Table')) {
             ];
 
             $orderby = $valid_orderby[$this->request->input('orderby', 'id')] ?? 'd.id';
-            $order = in_array(strtoupper($this->request->input('order', 'DESC')), ['ASC', 'DESC']) ? $orderby : 'DESC';
 
+            $order_input = strtoupper($this->request->input('order', 'DESC'));
+            $order = in_array($order_input, ['ASC', 'DESC']) ? $order_input : 'DESC';
+
+            // $prepared_sql .= $wpdb->prepare(" ORDER BY %s %s", $orderby, $order);
             $prepared_sql .= " ORDER BY %s %s";
             $params[] = $orderby;
             $params[] = $order;
-            
-            // Get total count (same query, no LIMIT)
-            $count_sql = "SELECT COUNT(*) FROM ($sql) AS temp";
+
+            // Get total items
+            $count_sql = "SELECT COUNT(*) FROM ($prepared_sql) as subquery";
             $total_items = $wpdb->get_var($wpdb->prepare($count_sql, ...$params));
 
             // Pagination
@@ -282,12 +285,12 @@ if (!class_exists('classes/EHXDo_Donation_Data_Table')) {
             $offset = ($current_page - 1) * $per_page;
 
             if ($per_page !== -1) {
-                $sql .= " LIMIT %d OFFSET %d";
+                $prepared_sql .= " LIMIT %d OFFSET %d";
                 $params[] = $per_page;
                 $params[] = $offset;
             }
 
-            $data = $wpdb->get_results($wpdb->prepare($sql, ...$params), ARRAY_A);
+            $data = $wpdb->get_results($wpdb->prepare($prepared_sql, ...$params), ARRAY_A);
 
             return [$data, $per_page, $total_items];
         }

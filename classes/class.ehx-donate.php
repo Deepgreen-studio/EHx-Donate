@@ -23,10 +23,10 @@ class EHXDo_Donate
         global $wpdb;
 
         // Define the table names for donations, donation items, transactions, and subscriptions.
-        self::$donation_table = $wpdb->prefix . 'ehx_donations';
-        self::$donation_items_table = $wpdb->prefix . 'ehx_donation_items';
-        self::$transaction_table = $wpdb->prefix . 'ehx_transactions';
-        self::$booking_table = $wpdb->prefix . 'ehx_bookings';
+        self::$donation_table = $wpdb->prefix . 'ehxdo_donations';
+        self::$donation_items_table = $wpdb->prefix . 'ehxdo_donation_items';
+        self::$transaction_table = $wpdb->prefix . 'ehxdo_transactions';
+        self::$booking_table = $wpdb->prefix . 'ehxdo_bookings';
 
         $this->include_dependencies();
     }
@@ -109,7 +109,6 @@ class EHXDo_Donate
         // Set default plugin options (if needed)
         self::set_default_options();
     }
-
 
     /**
      * Plugin deactivation hook.
@@ -291,7 +290,6 @@ class EHXDo_Donate
         // Add/Remove the custom capabilities to the specified role
         array_map(fn($capability) => $role->{$method}($capability), $capabilities);
     }
-
 
     /**
      * Sets default options for the plugin.
