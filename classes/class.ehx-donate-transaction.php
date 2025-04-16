@@ -239,7 +239,9 @@ if (!class_exists('classes/EHXDo_Transaction_Data_Table')) {
             ];
             
             $orderby = $valid_orderby[$this->request->input('orderby', 'id')] ?? 't.id';
-            $order = in_array(strtoupper($this->request->input('order', 'DESC')), ['ASC', 'DESC']) ? $orderby : 'DESC';
+
+            $order_input = strtoupper($this->request->input('order', 'DESC'));
+            $order = in_array($order_input, ['ASC', 'DESC']) ? $order_input : 'DESC';
             
             // $prepared_sql .= $wpdb->prepare(" ORDER BY %s %s", $orderby, $order);
             $prepared_sql .= " ORDER BY %s %s";
