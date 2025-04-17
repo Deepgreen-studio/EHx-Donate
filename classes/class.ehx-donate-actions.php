@@ -8,8 +8,6 @@ if (!class_exists('EHXDo_Actions')) {
 
     class EHXDo_Actions
     {
-        private EHXDo_Helper $helper;
-
         /**
          * Constructor for EHXDo_Actions class.
          *
@@ -19,8 +17,6 @@ if (!class_exists('EHXDo_Actions')) {
          */
         public function __construct() 
         {
-            $this->helper = new EHXDo_Helper();
-
             // Hook CSV export into WordPress before any output starts
             add_action('admin_init', [$this, 'export_csv']);
 
@@ -42,7 +38,7 @@ if (!class_exists('EHXDo_Actions')) {
          */
         public function export_csv()
         {
-            $export = $this->helper->getInput('export');
+            $export = EHXDo_Helper::getInput('export');
 
             if ($export === 'edp-csv') {
 
@@ -50,7 +46,7 @@ if (!class_exists('EHXDo_Actions')) {
                     wp_die(esc_html__('Permission denied', 'ehx-donate'));
                 }
 
-                $page  = $this->helper->getInput('page');
+                $page  = EHXDo_Helper::getInput('page');
 
                 if($page == EHXDo_Menu::$pages['transaction']) {
                     [$data] = (new EHXDo_Transaction_Data_Table)->get_query_results();
@@ -143,8 +139,8 @@ if (!class_exists('EHXDo_Actions')) {
          */
         public function ehxdo_table_row_delete()
         {
-            $id = $this->helper->getInput('id');
-            $action  = $this->helper->getInput('action');
+            $id = EHXDo_Helper::getInput('id');
+            $action  = EHXDo_Helper::getInput('action');
 
             if(!empty($id) && !empty($action)) {
                 if (!current_user_can('manage_donations', $id) || !current_user_can('manage_transactions', $id)) {
@@ -166,11 +162,11 @@ if (!class_exists('EHXDo_Actions')) {
             }
 
             if(isset($table)) {
-                $page  = $this->helper->getInput('page');
+                $page  = EHXDo_Helper::getInput('page');
 
                 global $wpdb;
 
-                $wpdb->query($wpdb->prepare("DELETE FROM $table WHERE id = %d", $id));
+                $wpdb->query($wpdb->prepare("DELETE FROM %1s WHERE id = %d", $table, $id));
 
                 wp_redirect(admin_url("admin.php?page={$page}&deleted=1"));
 

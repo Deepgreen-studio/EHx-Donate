@@ -324,7 +324,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
 
             global $wpdb;
 
-            $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM $donation_table WHERE browser_session = %s AND payment_status = 'pending'", $this->transient?->browser_session));
+            $donation = $wpdb->get_row($wpdb->prepare("SELECT * FROM %1s WHERE browser_session = %s AND payment_status = 'pending'", $donation_table, $this->transient?->browser_session));
             
             if($donation != null) {
                 $recurring = $input['recurring'] ?? esc_html('One-off');
@@ -349,7 +349,7 @@ if (!class_exists('EHXDo_Donation_Form_Shortcode')) {
                     $this->sendConfirmationMail($donation->total_amount, $donation->browser_session);
                 }
 
-                $wpdb->query($wpdb->prepare("UPDATE $donation_table SET payment_status = %s WHERE browser_session = %s", $status, $this->transient->browser_session));
+                $wpdb->query($wpdb->prepare("UPDATE %1s SET payment_status = %s WHERE browser_session = %s", $donation_table, $status, $this->transient->browser_session));
             }
 
             delete_transient(self::TRANSIENT);

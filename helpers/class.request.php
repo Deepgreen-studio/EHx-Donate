@@ -17,10 +17,9 @@ if (!class_exists('EHXDo_Request')) {
         public function __construct()
         {
             if (isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] === 'POST') {
-                $nonce = isset($_REQUEST['_ehxdo_nonce']) ? sanitize_text_field(wp_unslash($_REQUEST['_ehxdo_nonce'])) : '';
-                $action = isset($_REQUEST['action']) ? sanitize_text_field(wp_unslash($_REQUEST['action'])) : '';
-            
-                if (!wp_verify_nonce($nonce, $action)) {
+                $nonce  = EHXDo_Helper::getInput('_ehxdo_nonce');
+                $action = EHXDo_Helper::getInput('action');
+                if ($action !== 'editpost' && $nonce && !wp_verify_nonce($nonce, $action)) {
                     $error = new WP_Error(
                         'invalid_nonce',
                         esc_html__('Unauthorized action!', 'ehx-donate'),
