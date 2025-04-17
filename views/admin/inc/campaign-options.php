@@ -1,8 +1,10 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
 <div class="edp-admin-metabox">
-	<input type="hidden" name="<?php echo esc_html(self::NONCE_ACTION) ?>" value="<?php echo esc_html(wp_create_nonce(self::NONCE_ACTION)) ?>">
-    <table class="form-table edp-form-table edp-form-register-gdpr edp-top-label">
+	
+	<input type="hidden" name="<?php echo esc_html(self::NONCE_NAME) ?>" value="<?php echo esc_html(wp_create_nonce(self::NONCE_NAME)) ?>">
+    
+	<table class="form-table edp-form-table edp-form-register-gdpr edp-top-label">
         <tbody>
 			<?php
 				$ehx_campaign = get_post_meta($post->ID, '_ehx_campaign', true);

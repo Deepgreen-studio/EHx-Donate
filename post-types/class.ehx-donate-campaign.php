@@ -11,7 +11,6 @@ if (!class_exists('EHXDo_Campaign')) {
         public EHXDo_Response $response;
         public EHXDo_Validator $validator;
 
-        const NONCE_ACTION = 'ehxdo_nonce';
         const NONCE_NAME = '_ehxdo_nonce';
 
         public function __construct() 
@@ -131,7 +130,7 @@ if (!class_exists('EHXDo_Campaign')) {
                     $donation_table = EHXDo_Donate::$donation_items_table;
 
                     // Query to calculate the total donations for the campaign
-                    $sum_total_amount = $wpdb->get_var($wpdb->prepare("SELECT SUM(amount) FROM $donation_table WHERE campaign_id = %d", $post_id));
+                    $sum_total_amount = $wpdb->get_var($wpdb->prepare("SELECT SUM(amount) FROM %1s WHERE campaign_id = %d", $donation_table, $post_id));
 
                     // Ensure $sum_total_amount is a valid number
                     $sum_total_amount = floatval($sum_total_amount);
@@ -336,8 +335,8 @@ if (!class_exists('EHXDo_Campaign')) {
             $request = new EHXDo_Request();
 
             // Verify nonce for security
-            $nonce = $request->input(self::NONCE_ACTION);
-            if (!wp_verify_nonce($nonce, self::NONCE_ACTION)) {
+            $nonce = $request->input(self::NONCE_NAME);
+            if (!wp_verify_nonce($nonce, self::NONCE_NAME)) {
                 return;
             }
 

@@ -26,7 +26,7 @@ if (!class_exists('EHXDo_Helper')) {
             }
 
             echo '<pre>';
-            var_dump($values);
+            var_dump($values);  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             exit(1);
         }
         
@@ -49,7 +49,7 @@ if (!class_exists('EHXDo_Helper')) {
         {
             // Validate email addresses
             if (!is_email($to)) {
-                error_log('Invalid recipient email address: ' . $to);
+                error_log('Invalid recipient email address: ' . $to);  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
                 return false;
             }
 
@@ -110,7 +110,7 @@ if (!class_exists('EHXDo_Helper')) {
 
             // Log errors if the email fails to send
             if (!$result) {
-                error_log('Failed to send email to: ' . $to);
+                error_log('Failed to send email to: ' . $to);  // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
             }
 
             return $result;
@@ -380,9 +380,9 @@ if (!class_exists('EHXDo_Helper')) {
          * Sanitize a value or array of values.
          *
          * @param mixed $value The value to sanitize.
-         * @return string|null The sanitized value or array.
+         * @return mixed The sanitized value or array.
          */
-        public static function getInput($key, $default = null): string|null
+        public static function getInput($key, $default = null): mixed
         {
             return isset($_GET[$key]) ? sanitize_text_field(wp_unslash($_GET[$key])) : $default;
         }
