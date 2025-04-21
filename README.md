@@ -1,6 +1,6 @@
 # EHx Donate
 
-**Contributors:** ehstudio
+**Contributors:** [ehstudio](https://profiles.wordpress.org/ehstudio), [iamsujitsarkar](https://profiles.wordpress.org/iamsujitsarkar)
 **Tags:** donation, fundraising, membership, payment, charity  
 **Requires at least:** 5.8  
 **Tested up to:** 6.8  

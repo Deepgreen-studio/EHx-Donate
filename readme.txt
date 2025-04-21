@@ -1,5 +1,5 @@
 === EHx Donate ===
-Contributors: ehstudio
+Contributors: ehstudio, iamsujitsarkar
 Tags: donation, fundraising, membership, payment, charity
 Requires at least: 5.8
 Tested up to: 6.8
@@ -12,7 +12,7 @@ EHx Donate – WordPress Donation Plugin. A feature-rich donation management plu
 
 == Description ==
 
-The **EHx Donate** plugin is designed to enhance donation management on WordPress websites. It offers **seamless integration** with WordPress’s built-in user system, **AJAX-based forms** for a smooth experience, and **custom role assignments** for better user management.
+The EHx Donate plugin is designed to enhance donation management on WordPress websites. It offers seamless integration with WordPress’s built-in user system, AJAX-based forms for a smooth experience, and custom role assignments for better user management.
 
 **Key Features:**
 - **AJAX-Based Submissions** – Users can donate without page reloads.
