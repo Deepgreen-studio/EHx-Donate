@@ -1,5 +1,12 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
+<?php
+
+use EHxDonate\Classes\Settings;
+use EHxDonate\Helpers\Helper;
+    use EHxDonate\Shortcodes\DonationFormShortcode;
+?>
+
 <div class="edp-alert-element d-none">
     <div class="edp-alert edp-alert-primary text-center rounded-0" role="alert" id="edp-alert-message">
         <i>&quest;</i>
@@ -11,10 +18,11 @@
 <div class="edp-card" id="edp-card-element">
     
     <form id="ehxdo_form_submit" class="edp-form" method="POST">
-        
-        <input type="hidden" name="action" value="<?php echo esc_html(self::NONCE_ACTION); ?>">
+
         <input type="hidden" name="callback" value="<?php echo esc_html($callback); ?>">
-        <?php wp_nonce_field(self::NONCE_ACTION, self::NONCE_NAME); ?>
+
+        <input type="hidden" name="action" value="<?php echo esc_html(DonationFormShortcode::NONCE_ACTION); ?>">
+        <?php wp_nonce_field(DonationFormShortcode::NONCE_ACTION, Helper::NONCE_NAME); ?>
 
         <input type="hidden" name="amount" id="amount" value="0" />
 
@@ -35,7 +43,7 @@
                 <div class="edp-input-fields" style="margin-bottom: 40px;">
                     <?php
                         if (count($campaigns)) {
-                            self::input_field(label: 'campaign', isType: 'select', placeholder: esc_html__('Select campaign', 'ehx-donate'), data: $campaigns, column: 'edp-field-full');
+                            DonationFormShortcode::inputField(label: 'campaign', isType: 'select', placeholder: esc_html__('Select campaign', 'ehx-donate'), data: $campaigns, column: 'edp-field-full');
                             echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select required fields.', 'ehx-donate') .'</p>';
                         }
                         else {
@@ -111,15 +119,22 @@
                 
                 <div class="edp-input-fields">
                     <?php
-                        self::input_field(label: __('Title', 'ehx-donate'), for: 'title', isType: 'select', placeholder: __('Select title', 'ehx-donate'), data: [__('Mr', 'ehx-donate'), __('Ms', 'ehx-donate'), __('Mrs', 'ehx-donate'), __('Miss', 'ehx-donate'), __('Dr', 'ehx-donate')], column: 'edp-field-full');
-                        self::input_field(label: __('First Name', 'ehx-donate'), for: 'first_name', placeholder: __('Enter First Name', 'ehx-donate'));
-                        self::input_field(label: __('Last Name', 'ehx-donate'), for: 'last_name', placeholder: __('Enter Last Name', 'ehx-donate'));
-                        self::input_field(label: __('Email Address', 'ehx-donate'), for: 'email', placeholder: __('Enter Email Address', 'ehx-donate'));
-                        self::input_field(label: __('Phone Number', 'ehx-donate'), for: 'phone', placeholder: __('Enter Phone Number', 'ehx-donate'));
+                        DonationFormShortcode::inputField(label: __('Title', 'ehx-donate'), for: 'title', isType: 'select', placeholder: __('Select title', 'ehx-donate'), data: [__('Mr', 'ehx-donate'), __('Ms', 'ehx-donate'), __('Mrs', 'ehx-donate'), __('Miss', 'ehx-donate'), __('Dr', 'ehx-donate')], column: 'edp-field-full');
+                        DonationFormShortcode::inputField(label: __('First Name', 'ehx-donate'), for: 'first_name', placeholder: __('Enter First Name', 'ehx-donate'));
+                        DonationFormShortcode::inputField(label: __('Last Name', 'ehx-donate'), for: 'last_name', placeholder: __('Enter Last Name', 'ehx-donate'));
+                        DonationFormShortcode::inputField(label: __('Email Address', 'ehx-donate'), for: 'email', placeholder: __('Enter Email Address', 'ehx-donate'));
+                        DonationFormShortcode::inputField(label: __('Phone Number', 'ehx-donate'), for: 'phone', placeholder: __('Enter Phone Number', 'ehx-donate'));
                     ?>
                 </div>
 
                 <div>
+
+                    <?php if($enable_recaptcha): ?>
+                        <div style="margin-top: 24px;">
+                            <div class="g-recaptcha mb-3" id="feedback-recaptcha" data-sitekey="<?php echo esc_attr(Settings::extractSettingValue('google_recaptcha_site_key')) ?>"></div>
+                        </div>
+                    <?php endif ?>
+
                     <div class="edp-donation-amounts" id="edp-pay-amounts" style="display: none;">
                         <div class="edp-donation-amount">
                             <div class="form-column">

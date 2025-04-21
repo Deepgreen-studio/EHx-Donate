@@ -1,18 +1,21 @@
 <?php
+declare(strict_types=1);
+
+namespace EHxDonate\Classes;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
 /**
- * Class EHXDo_Register_Scripts
+ * Class RegisterScripts
  *
  * This class is responsible for registering and enqueuing scripts and styles for both the admin and frontend of the WordPress plugin.
  */
-class EHXDo_Register_Scripts 
+class RegisterScripts 
 {
     /**
-     * Constructor for the EHXDo_Register_Scripts class.
+     * Constructor for the RegisterScripts class.
      *
      * Initializes the sets up WordPress hooks.
      *
@@ -21,10 +24,10 @@ class EHXDo_Register_Scripts
     public function __construct() 
     {
         // Register admin scripts
-        add_action('admin_enqueue_scripts', [$this, 'register_admin_scripts']);
+        add_action('admin_enqueue_scripts', [$this, 'registerAdminScripts']);
 
         // Register frontend scripts
-        add_action('wp_enqueue_scripts', [$this, 'register_scripts']);
+        add_action('wp_enqueue_scripts', [$this, 'registerScripts']);
     }
 
     /**
@@ -32,7 +35,7 @@ class EHXDo_Register_Scripts
      *
      * This method enqueues admin-specific CSS and JS files. It also localizes the 'ehxdo-admin-js' script with necessary data.
      */
-    public function register_admin_scripts() 
+    public function registerAdminScripts() 
     {
         wp_enqueue_style(
             handle: 'ehxdo-admin-css',
@@ -40,30 +43,6 @@ class EHXDo_Register_Scripts
             ver: EHXDO_VERSION
         );
 
-        wp_enqueue_style(
-            handle: 'ehxdo-fonticons-css',
-            src: EHXDO_PLUGIN_URL . 'assets/libs/legacy/fonticons/fonticons-fa.css',
-            ver: EHXDO_VERSION
-        );
-
-        wp_enqueue_style(
-            handle: 'ehxdo-admin-jquery-ui-css',
-            src: EHXDO_PLUGIN_URL . 'assets/libs/jquery-ui/jquery-ui.min.css',
-            ver: EHXDO_VERSION
-        );
-
-        wp_enqueue_script(
-            handle: 'ehxdo-admin-sortable-js',
-            src: EHXDO_PLUGIN_URL . 'assets/libs/sortablejs/sortable.min.js',
-            deps: ['jquery'],
-            ver: EHXDO_VERSION,
-            args: false
-        );
-
-        // wp_enqueue_script(handle: 'jquery-ui-widget', deps: ['jquery']);
-        // wp_enqueue_script(handle: 'jquery-ui-mouse', deps: ['jquery']);
-        // wp_enqueue_script(handle: 'jquery-ui-accordion', deps: ['jquery']);
-        // wp_enqueue_script(handle: 'jquery-ui-autocomplete', deps: ['jquery']);
         wp_enqueue_script(handle: 'jquery-ui-tooltip', deps: ['jquery']);
         
         wp_enqueue_script(
@@ -92,7 +71,7 @@ class EHXDo_Register_Scripts
      *
      * This method enqueues frontend-specific CSS and JS files. It also registers and enqueues Google Map and Stripe scripts if enabled in the plugin settings.
      */
-    public function register_scripts() 
+    public function registerScripts() 
     {
         wp_enqueue_style(
             handle: 'ehxdo-main-css',

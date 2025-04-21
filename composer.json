@@ -1,10 +1,19 @@
 {
     "name": "ehstudio/ehxdonate",
 	"description": "EHx Donate - WordPress Donation Plugin. A feature-rich donation management plugin.",
+    "keywords": [
+        "plugin",
+        "ehxdonate"
+    ],
 	"homepage": "https://eh.studio",
 	"type": "wordpress-plugin",
 	"license": "GPL-2.0-or-later",
     "require": {
         "stripe/stripe-php": "^17.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "EHxDonate\\": "app/"
+        }
     }
 }

@@ -1,6 +1,6 @@
-<?php
-    if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
-?>
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
+<?php use EHxDonate\Helpers\Helper; ?>
 
 <div>
     <p><?php esc_html_e('Donations.', 'ehx-donate') ?></p>
@@ -22,7 +22,7 @@
                 <?php foreach($donations as $donation): ?>
                     <tr>
                         <td><?php echo esc_html(wp_date('d F Y', strtotime($donation->created_at))) ?></td>
-                        <td><?php echo esc_html(EHXDo_Helper::currencyFormat($donation->total_amount)) ?></td>
+                        <td><?php echo esc_html(Helper::currencyFormat($donation->total_amount)) ?></td>
                         <td><?php echo esc_html($donation->post_title) ?></td>
                         <td><?php echo esc_html($donation->gift_aid ? 'True':'False') ?></td>
                         <td><?php echo esc_html($donation->recurring) ?></td>

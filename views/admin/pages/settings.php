@@ -1,10 +1,15 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
+<?php
+    use EHxDonate\Classes\Settings;
+    use EHxDonate\Helpers\Helper;
+?>
+
 <div class="wrap edp-wrapper">
     <h1><?php echo esc_html(get_admin_page_title()); ?></h1>
     
     <nav class="nav-tab-wrapper edp-tab-wrapper">
-        <?php foreach (EHXDo_Settings::$tabs as $key => $tab): ?>
+        <?php foreach (Settings::$tabs as $key => $tab): ?>
             <a href="#<?php echo esc_attr($tab['slug']); ?>" class="nav-tab <?php echo $key == 0 ? 'nav-tab-active' : ''; ?>">
                 <?php echo esc_html($tab['label']); ?>
             </a>
@@ -16,7 +21,7 @@
     <!-- Form for Settings -->
     <form id="edp_donate_form_submit" action="<?php echo esc_url(admin_url('admin-ajax.php')) ?>" method="post">
 
-        <?php wp_nonce_field(EHXDo_Settings::NONCE_ACTION, EHXDo_Settings::NONCE_NAME); ?>
+        <?php wp_nonce_field(Settings::NONCE_ACTION, Helper::NONCE_NAME); ?>
 
         <input type="hidden" name="action" value="ehxdo_save_settings">
 
@@ -29,8 +34,8 @@
                 
                 <table class="form-table">
                     <?php
-                        foreach (EHXDo_Settings::get_integration_fields('general') as $field) {
-                            EHXDo_Helper::input_group($field);
+                        foreach (Settings::getIntegrationFields('general') as $field) {
+                            Helper::input_group($field);
                         }
                     ?>
 
@@ -105,8 +110,8 @@
                 
                 <table class="form-table">
                     <?php
-                        foreach (EHXDo_Settings::get_integration_fields('email') as $field) {
-                            EHXDo_Helper::input_group($field);
+                        foreach (Settings::getIntegrationFields('email') as $field) {
+                            Helper::input_group($field);
                         }
                     ?>
                 </table>
@@ -116,8 +121,8 @@
                 
                 <table class="form-table">
                     <?php
-                        foreach (EHXDo_Settings::get_integration_fields('email-options') as $field) {
-                            EHXDo_Helper::input_group($field);
+                        foreach (Settings::getIntegrationFields('email-options') as $field) {
+                            Helper::input_group($field);
                         }
                     ?>
                 </table>
@@ -127,8 +132,8 @@
                 
                 <table class="form-table">
                     <?php
-                        foreach (EHXDo_Settings::get_integration_fields('email-template') as $field) {
-                            EHXDo_Helper::input_group($field);
+                        foreach (Settings::getIntegrationFields('email-template') as $field) {
+                            Helper::input_group($field);
                         }
                     ?>
                 </table>
@@ -138,33 +143,36 @@
             <div id="integration" class="tab-panel">
 
                 <ul class="subsubsub edp-sub-tab-wrapper">
-                    <?php EHXDo_Settings::get_sub_tabs('integration') ?>
+                    <?php Settings::getSubTabs('integration') ?>
                 </ul>
                 <div class="clear"></div>
                 
-                <?php EHXDo_Settings::get_tab_heading_description('integration') ?>
+                <?php Settings::getTabHeadingDescription('integration') ?>
                 
                 <div class="tab-content edp-sub-tab-content">
 
                     <div id="stripe" class="tab-panel tab-panel-active">
                         <table class="form-table">
                             <?php
-                                foreach (EHXDo_Settings::get_integration_fields('stripe') as $field) {
-                                    EHXDo_Helper::input_group($field);
+                                foreach (Settings::getIntegrationFields('stripe') as $field) {
+                                    Helper::input_group($field);
                                 }
                             ?>
                         </table>
                     </div>
 
-                    <div id="paypal" class="tab-panel">
-                        <table class="form-table">
-                            <?php
-                                foreach (EHXDo_Settings::get_integration_fields('paypal') as $field) {
-                                    EHXDo_Helper::input_group($field);
-                                }
-                            ?>
-                        </table>
-                    </div>
+                    <?php if(defined('EHXRC_VERSION')): ?>
+                        <div id="google_recaptcha" class="tab-panel">
+                            <table class="form-table">
+                                <?php
+                                    foreach (\EHxRecaptcha\Classes\HandleSetting::getIntegrationFields() as $field) {
+                                        Helper::input_group($field);
+                                    }
+                                ?>
+                            </table>
+                        </div>
+                    <?php endif ?>
+                    
 
                 </div>
                 

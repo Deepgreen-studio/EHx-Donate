@@ -126,7 +126,7 @@
         --current
     });
 
-    $(".edp-card").on('click', '.edp-plan-list', function (e) {
+    $(".edp-card").on('click', '.edp-plan-list', function () {
         let amount = parseFloat($(this).data('amount') || ($('.edp-plan-list.edp-plan-list-custom-input input').val() || 0));
         let service = amount * 1.4 / 100;
         let payable_amount = amount + service;

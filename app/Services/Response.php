@@ -1,16 +1,17 @@
 <?php
+declare(strict_types=1);
+
+namespace EHxDonate\Services;
 
 if (!defined('ABSPATH')) {
     exit;
 }
 
-if (!class_exists('EHXDo_Response')) {
-
     /**
-     * EHxMember_Response
+     * Response
      * A helper class for handling responses in WordPress.
      */
-    class EHXDo_Response
+    class Response
     {
         /**
          * Send a JSON error response.
@@ -70,4 +71,3 @@ if (!class_exists('EHXDo_Response')) {
             return $response;
         }
     }
-}
