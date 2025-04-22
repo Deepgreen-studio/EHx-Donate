@@ -12,6 +12,11 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
+// Load recaptcha integration if available
+if (defined('EHXRC_VERSION')) {
+    require_once WP_PLUGIN_DIR . '/ehx-recaptcha/autoloader.php';
+}
+
 class Settings 
 {
     public static string $option = 'ehxdo_settings';
@@ -81,51 +86,44 @@ class Settings
     {
         return match($page) {
             'general' => [
-                ['field_name' => 'Default Donation Amounts', 'description' => 'If enabled, the text entered below will replace the title of the post/page/CPT for users who do not have permission to view the restricted content. Please see this doc for more information on this.', 'option' => $page],
+                ['field_name' => 'default_donation_amounts', 'title' => esc_html__('Default Donation Amounts', 'ehx-donate'), 'description' => esc_html__('If enabled, the text entered below will replace the title of the post/page/CPT for users who do not have permission to view the restricted content. Please see this doc for more information on this.', 'ehx-donate'), 'option' => $page],
             ],
             'restriction_content' => [
-                ['field_name' => 'paypal_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable PayPal as a payment option on the platform.', 'option' => $page],
-                ['field_name' => 'Restricted Access Post Title', 'description' => 'If enabled, the text entered below will replace the title of the post/page/CPT for users who do not have permission to view the restricted content. Please see this doc for more information on this.', 'option' => $page],
-                ['field_name' => 'Restricted Access Message', 'type' => 'textarea', 'option' => $page],
-                ['field_name' => 'Restricted Gutenberg Blocks', 'type' => 'checkbox', 'placeholder' => 'Enable the "Content Restriction" settings for the Gutenberg Blocks', 'option' => $page],
-                ['field_name' => 'Restricted Access Block Message', 'type' => 'textarea', 'option' => $page],
+                ['field_name' => 'paypal_enable', 'title' => esc_html__('Paypal Enable', 'ehx-donate'), 'type' => 'checkbox', 'placeholder' => 'Enable PayPal as a payment option on the platform.', 'option' => $page],
+                ['field_name' => 'restricted_access_post_title', 'title' => esc_html__('Restricted Access Post Title', 'ehx-donate'), 'description' => esc_html__('If enabled, the text entered below will replace the title of the post/page/CPT for users who do not have permission to view the restricted content. Please see this doc for more information on this.', 'ehx-donate'), 'option' => $page],
+                ['field_name' => 'restricted_access_message', 'title' => esc_html__('Restricted Access Message', 'ehx-donate'), 'type' => 'textarea', 'option' => $page],
+                ['field_name' => 'restricted_gutenberg_blocks', 'title' => esc_html__('Restricted Gutenberg Blocks', 'ehx-donate'), 'type' => 'checkbox', 'placeholder' => esc_html__('Enable the "Content Restriction" settings for the Gutenberg Blocks', 'ehx-donate'), 'option' => $page],
+                ['field_name' => 'restricted_access_block_message', 'title' => esc_html__('Restricted Access Block Message', 'ehx-donate'), 'type' => 'textarea', 'option' => $page],
             ],
             'paypal' => [
-                ['field_name' => 'paypal_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable PayPal as a payment option on the platform.', 'option' => $page],
-                ['field_name' => 'paypal_client_id', 'title' => 'Client id', 'placeholder' => 'PayPal client id', 'option' => $page],
-                ['field_name' => 'paypal_client_secret', 'title' => 'Client secret', 'placeholder' => 'PayPal client secret', 'option' => $page],
+                ['field_name' => 'paypal_enable', 'title' => esc_html__('Enabled', 'ehx-donate'), 'type' => 'checkbox', 'placeholder' => esc_html__('Enable PayPal as a payment option on the platform.', 'ehx-donate'), 'option' => $page],
+                ['field_name' => 'paypal_client_id', 'title' => 'Client id', 'placeholder' => esc_html__('PayPal client id', 'ehx-donate'), 'option' => $page],
+                ['field_name' => 'paypal_client_secret', 'title' => 'Client secret', 'placeholder' => esc_html__('PayPal client secret', 'ehx-donate'), 'option' => $page],
             ],
             'stripe' => [
-                ['field_name' => 'stripe_test_mode_enable', 'title' => 'Enabled', 'type' => 'switch', 'option' => $page],
-                ['field_name' => 'stripe_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Stripe as a payment option on the platform.', 'option' => $page],
-                ['field_name' => 'stripe_client_key', 'title' => 'Client key', 'placeholder' => 'Stripe client key', 'option' => $page, 'depend_field' => 'stripe_test_mode_enable', 'depend_value' => 1],
-                ['field_name' => 'stripe_client_secret', 'title' => 'Client secret', 'placeholder' => 'Stripe client secret', 'option' => $page, 'depend_field' => 'stripe_test_mode_enable', 'depend_value' => 1],
+                ['field_name' => 'stripe_test_mode_enable', 'title' => esc_html__('Enabled', 'ehx-donate'), 'type' => 'switch', 'option' => $page],
+                ['field_name' => 'stripe_enable', 'title' => esc_html__('Enabled', 'ehx-donate'), 'type' => 'checkbox', 'placeholder' => esc_html__('Enable Stripe as a payment option on the platform.', 'ehx-donate'), 'option' => $page],
+                ['field_name' => 'stripe_client_key', 'title' => esc_html__('Client key', 'ehx-donate'), 'placeholder' => esc_html__('Stripe client key', 'ehx-donate'), 'option' => $page, 'depend_field' => 'stripe_test_mode_enable', 'depend_value' => 1],
+                ['field_name' => 'stripe_client_secret', 'title' => esc_html__('Client secret', 'ehx-donate'), 'placeholder' => esc_html__('Stripe client secret', 'ehx-donate'), 'option' => $page, 'depend_field' => 'stripe_test_mode_enable', 'depend_value' => 1],
             ],
             'map' => [
-                ['field_name' => 'google_map_enable', 'title' => 'Enabled', 'type' => 'checkbox', 'placeholder' => 'Enable Google Maps to display interactive maps on your platform.', 'option' => $page],
+                ['field_name' => 'google_map_enable', 'title' => esc_html__('Enabled', 'ehx-donate'), 'type' => 'checkbox', 'placeholder' => esc_html__('Enable Google Maps to display interactive maps on your platform.', 'ehx-donate'), 'option' => $page],
                 ['field_name' => 'google_map_api_key', 'title' => 'API key', 'placeholder' => 'Google map API key', 'option' => $page],
             ],
             'email' => [
                 
             ],
             'email-options' => [
-                ['field_name' => 'admin_email_address', 'title' => 'Admin Email Address', 'placeholder' => 'e.g. admin@companyname.com.'],
-                ['field_name' => 'mail_appears_from', 'title' => 'Mail appears from', 'placeholder' => 'e.g. Site Name.'],
-                ['field_name' => 'mail_appears_from_address', 'title' => 'Mail appears from address', 'placeholder' => 'e.g. admin@companyname.com.'],
+                ['field_name' => 'admin_email_address', 'title' => esc_html__('Admin Email Address', 'ehx-donate'), 'placeholder' => esc_html__('e.g. admin@companyname.com.', 'ehx-donate')],
+                ['field_name' => 'mail_appears_from', 'title' => esc_html__('Mail appears from', 'ehx-donate'), 'placeholder' => esc_html__('e.g. Site Name.', 'ehx-donate')],
+                ['field_name' => 'mail_appears_from_address', 'title' => esc_html__('Mail appears from address', 'ehx-donate'), 'placeholder' => esc_html__('e.g. admin@companyname.com.', 'ehx-donate')],
             ],
             'email-template' => [
-                ['field_name' => 'content_type', 'title' => 'Content type', 'type' => 'checkbox', 'placeholder' => 'Enable HTML for Emails', 'content' => 'If you plan use emails with HTML, please make sure that this option is enabled. Otherwise, HTML will be displayed as plain text.'],
+                ['field_name' => 'content_type', 'title' => esc_html__('Content type', 'ehx-donate'), 'type' => 'checkbox', 'placeholder' => esc_html__('Enable HTML for Emails', 'ehx-donate'), 'content' => esc_html__('If you plan use emails with HTML, please make sure that this option is enabled. Otherwise, HTML will be displayed as plain text.', 'ehx-donate')],
             ],
             default => [
-                // ['field_name' => 'User page', 'is_type' => 'select', 'placeholder' => 'Stripe callback URL', 'option' => $page],
-                // ['field_name' => 'Login page', 'is_type' => 'select', 'placeholder' => 'Stripe callback URL', 'option' => $page],
-                // ['field_name' => 'Register page', 'is_type' => 'select', 'placeholder' => 'Stripe callback URL', 'option' => $page],
-                // ['field_name' => 'donate page', 'is_type' => 'select', 'placeholder' => 'Stripe callback URL', 'option' => $page],
-                // ['field_name' => 'Logout page', 'is_type' => 'select', 'placeholder' => 'Stripe callback URL', 'option' => $page],
-                // ['field_name' => 'Account page', 'is_type' => 'select', 'placeholder' => 'Stripe callback URL', 'option' => $page],
-                // ['field_name' => 'Password Reset page', 'is_type' => 'select', 'placeholder' => 'Stripe callback URL', 'option' => $page],
-                ['field_name' => 'Login Redirect', 'is_type' => 'select', 'placeholder' => 'Stripe callback URL', 'data' => $data, 'option' => $page],
-                ['field_name' => 'Registration Redirect', 'is_type' => 'select', 'placeholder' => 'Stripe callback URL', 'data' => $data, 'option' => $page],
+                ['field_name' => 'login_redirect', 'title' => esc_html__('Login Redirect', 'ehx-donate'), 'is_type' => 'select', 'placeholder' => esc_html__('Stripe callback URL', 'ehx-donate'), 'data' => $data, 'option' => $page],
+                ['field_name' => 'registration_redirect', 'title' => esc_html__('Registration Redirect', 'ehx-donate'), 'is_type' => 'select', 'placeholder' => esc_html__('Stripe callback URL', 'ehx-donate'), 'data' => $data, 'option' => $page],
             ],
         };
     }

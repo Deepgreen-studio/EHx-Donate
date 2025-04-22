@@ -17,6 +17,7 @@ class AdminMenuHandler
         'setting'     => 'ehxdo_admin_settings',
         'donation'    => 'ehxdo_admin_donations',
         'transaction' => 'ehxdo_admin_transactions',
+        'addons' => 'ehxdo_admin_addons',
     ];
 
     /**
@@ -101,7 +102,13 @@ class AdminMenuHandler
                         'menu_title' => esc_html__('Transactions', 'ehx-donate'),
                         'menu_slug'  => self::$pages['transaction'],
                         'callback'   => [$this, 'renderTransactionsPage'],
-                    ]
+                    ],
+                    [
+                        'page_title' => esc_html__('Add-ons', 'ehx-donate'),
+                        'menu_title' => esc_html__('Add-ons', 'ehx-donate'),
+                        'menu_slug'  => self::$pages['addons'],
+                        'callback'   => [$this, 'renderAddonsPage'],
+                    ],
                 ]
             ],
         ];
@@ -178,6 +185,29 @@ class AdminMenuHandler
 
         // Render the settings page
         require EHXDO_PLUGIN_DIR . 'views/admin/pages/settings.php';
+    }
+
+    /**
+     * Callback function for the Addons page.
+     *
+     * This function checks if the current user has the necessary capabilities to access the settings page.
+     * If the user has the required capabilities, it processes any form submissions and displays a success message.
+     * Then, it renders the settings page using the provided view file.
+     *
+     * @return void
+     */
+    public function renderAddonsPage() 
+    {
+        if (!current_user_can('manage_options')) {
+            return;
+        }
+
+        if (!empty(Request::getInput('settings-updated'))) {
+            Helper::display_notice(esc_html__('Setting Updated Successfully.', 'ehx-donate'));
+        }
+
+        // Render the settings page
+        require EHXDO_PLUGIN_DIR . 'views/admin/pages/addons.php';
     }
 
     /**

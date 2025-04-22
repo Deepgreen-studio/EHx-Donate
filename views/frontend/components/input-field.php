@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <div class="<?php echo esc_attr($column) ?>">
     <?php if(!empty($label)): ?>
         <label for="<?php echo esc_attr($htmlFor) ?>" class="edp-field-labels">

@@ -44,9 +44,12 @@ Yes! EHx Donate works with any WordPress theme.
 
 == Screenshots ==
 
-1. Donation form with AJAX submission.
-2. Custom post type for managing donations.
-3. Settings panel for customizing donations.
+1. Dashboard Donation List.
+2. All settings.
+3. All Campaigns.
+4. All transactions
+5. Donation form step one
+6. Donation form step two
 
 == External Services ==
 

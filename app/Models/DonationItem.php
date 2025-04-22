@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 
 class DonationItem extends Model
 {
-    public static string $table = 'ehxdo_donation_items';
+    public static string $table = EHXDO_TABLE_PREFIX . 'donation_items';
 
     public function __construct()
     {

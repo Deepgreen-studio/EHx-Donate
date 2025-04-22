@@ -8,7 +8,7 @@ if (!defined('ABSPATH')) {
 
 class Transaction extends Model
 {
-    public static string $table = 'ehxdo_transactions';
+    public static string $table = EHXDO_TABLE_PREFIX . 'transactions';
 
     public function __construct()
     {
