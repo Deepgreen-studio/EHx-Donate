@@ -2,6 +2,7 @@
 @import "admin-metabox.css";
 @import "admin-nav-menu.css";
 @import "plugins.css";
+@import "admin-addons.css";
 
 a {
     text-decoration: none;

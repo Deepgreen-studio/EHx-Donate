@@ -92,7 +92,7 @@ class DonationFormShortcode
         $enable_recaptcha = defined('EHXRC_VERSION') && (bool) Settings::extractSettingValue('google_recaptcha_enable', false);
 
         if ($enable_recaptcha) {
-            wp_enqueue_script('ehx-donate-recaptcha');
+            wp_enqueue_script('ehxrc-recaptcha');
         }
         
         global $wp;
@@ -105,6 +105,7 @@ class DonationFormShortcode
             'txid' => $txid,
             'callback' => home_url($wp->request),
             'payment_callback' => $payment_callback ?? false,
+            'enable_recaptcha' => $enable_recaptcha,
         ], true);
 
         return $content;
@@ -127,6 +128,9 @@ class DonationFormShortcode
 
         // Validate nonce to prevent CSRF
         $validator->validate_nonce(Helper::NONCE_NAME, self::NONCE_ACTION);
+
+        // Validate reCaptcha
+        $validator->validateRecaptcha($request->input('g-recaptcha-response'));
 
         // Validate input data
         $validator->validate([
@@ -373,7 +377,7 @@ class DonationFormShortcode
         $htmlFor = $for != null ? $for : $label;
         $isRequired = $required ? 'required' : '';
 
-        include EHXDO_PLUGIN_DIR . 'views/frontend/inc/input-field.php';
+        include EHXDO_PLUGIN_DIR . 'views/frontend/components/input-field.php';
     }
 
     /**

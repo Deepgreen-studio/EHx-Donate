@@ -159,4 +159,28 @@
         $(this).hide();
     });
 
+    // Addons
+    // Search functionality
+    $('#edp-addons-search').on('input', function() {
+        const searchTerm = $(this).val().toLowerCase();
+        $('.edp-addon-card').each(function() {
+            const text = $(this).text().toLowerCase();
+            $(this).toggle(text.indexOf(searchTerm) > -1);
+        });
+    });
+
+    // Filter tabs
+    $('.filter-links a').click(function(e) {
+        e.preventDefault();
+        const filter = $(this).attr('href').substring(1);
+        $('.edp-addon-card').show();
+        
+        if (filter !== 'all') {
+            $('.edp-addon-card').not('.' + filter).hide();
+        }
+        
+        $('.filter-links a').removeClass('current');
+        $(this).addClass('current');
+    });
+
 })(jQuery);

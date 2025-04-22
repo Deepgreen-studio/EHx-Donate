@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace EHxDonate\Services;
 
+use EHxDonate\Classes\Settings;
+use SimplePie\Exception;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -415,5 +418,56 @@ class Validator
             return false;
         }
         return true;
+    }
+
+    /**
+     * Validate a Google reCAPTCHA.
+     *
+     * @param string $value The reCAPTCHA response token from the frontend.
+     * @return WP_Error|void|bool Returns true if validation is successful, otherwise returns a WP_Error.
+     */
+    public function validateRecaptcha($value)
+    {
+        try {
+            $enable_recaptcha = defined('EHXRC_VERSION') && (bool) Settings::extractSettingValue('google_recaptcha_enable', false);
+
+            if (!$enable_recaptcha) {
+                return true;
+            }
+
+            if(empty($value)) {
+                throw new Exception(esc_html__('Please verify ReCaptcha.', 'ehx-donate'));
+            }
+
+            // Prepare request data
+            $data = [
+                'secret'   => Settings::extractSettingValue('google_recaptcha_secret_key'),
+                'response' => $value
+            ];
+
+            // Send request to Google
+            $response = wp_remote_post('https://www.google.com/recaptcha/api/siteverify', [
+                'body'      => $data,
+                'timeout'   => 10,
+                'sslverify' => true,
+            ]);
+
+            // Check for WP_Error
+            if (is_wp_error($response)) {
+                throw new Exception(esc_html__('ReCaptcha verification failed.', 'ehx-donate'));
+            }
+
+            // Decode JSON response
+            $body = json_decode(wp_remote_retrieve_body($response), true);
+
+            // Validate reCAPTCHA success
+            if (empty($body['success']) || !$body['success']) {
+                throw new Exception(esc_html__('ReCaptcha verification failed.', 'ehx-donate'));
+            }
+
+            return true; // Validation successful
+        } catch (Exception $e) {
+            return $this->response->error(esc_html($e->getMessage()));
+        }
     }
 }

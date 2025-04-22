@@ -51,6 +51,7 @@ class ActivationHandler
             'admin_email_address' => 'example@eh.studio',
             'mail_appears_from' => 'EHx Studio',
             'mail_appears_from_address' => 'example@eh.studio',
+            'content_type' => true,
             'stripe_test_mode_enable' => true,
             'stripe_enable' => true,
             'stripe_client_key' => 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot',
@@ -100,7 +101,7 @@ class ActivationHandler
         if (version_compare(PHP_VERSION, '7.4', '<')) {
             wp_die(
                 sprintf(
-                    __('EHx Donate requires PHP 7.4 or higher. Your server is running PHP %s.', 'ehx-donate'),
+                    esc_html__('EHx Donate requires PHP 7.4 or higher. Your server is running PHP %s.', 'ehx-donate'),
                     PHP_VERSION
                 )
             );
@@ -109,9 +110,9 @@ class ActivationHandler
         if (version_compare($wp_version, EHXDO_MINIMUM_WP_VERSION, '<')) {
             wp_die(
                 sprintf(
-                    __('EHx Donate requires WordPress %s or higher. You are running WordPress %s.', 'ehx-donate'),
-                    EHXDO_MINIMUM_WP_VERSION,
-                    $wp_version
+                    esc_html__('EHx Donate requires WordPress %1$s, or higher. You are running WordPress %2$s.', 'ehx-donate'),
+                    esc_html(EHXDO_MINIMUM_WP_VERSION),
+                    esc_html($wp_version)
                 )
             );
         }

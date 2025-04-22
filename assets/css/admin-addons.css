@@ -1,0 +1,97 @@
+.edp-addons-wrap {
+    margin: 20px auto;
+}
+
+.edp-addons-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin-top: 30px;
+}
+
+.edp-addon-card {
+    background: #fff;
+    border: 1px solid #ccd0d4;
+    border-radius: 3px;
+    padding: 20px;
+    position: relative;
+}
+
+.edp-addon-card.premium {
+    border-left: 4px solid #0073aa;
+}
+
+.edp-addon-card.free {
+    border-left: 4px solid #00a32a;
+}
+
+.addon-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.addon-icon {
+    width: 50px;
+    height: 50px;
+    margin-right: 15px;
+    border-radius: 3px;
+}
+
+.premium-badge {
+    background: #0073aa;
+    color: #fff;
+    padding: 2px 8px;
+    border-radius: 3px;
+    font-size: 0.8em;
+    margin-left: auto;
+}
+
+.addon-description {
+    color: #646970;
+    min-height: 60px;
+    margin-bottom: 15px;
+}
+
+.addon-meta {
+    font-size: 0.9em;
+    color: #646970;
+    display: flex;
+    justify-content: space-between;
+}
+
+.addon-footer {
+    border-top: 1px solid #dcdcde;
+    padding-top: 15px;
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.installed-badge {
+    color: #00a32a;
+    font-size: 0.9em;
+}
+
+.license-field {
+    display: flex;
+    gap: 5px;
+    width: 100%;
+}
+
+.license-field input {
+    flex: 1;
+}
+
+@media (max-width: 1024px) {
+    .edp-addons-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 782px) {
+    .edp-addons-grid {
+        grid-template-columns: 1fr;
+    }
+}

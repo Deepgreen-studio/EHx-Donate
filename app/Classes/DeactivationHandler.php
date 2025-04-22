@@ -2,8 +2,6 @@
 
 namespace EHxDonate\Classes;
 
-use EHxDonate\Helpers\Helper;
-
 if (!defined('ABSPATH')) {
     exit;
 }

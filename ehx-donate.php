@@ -54,23 +54,10 @@ class EHxDonate
      */
     private function __construct()
     {
-        $this->load_dependencies();
-
-        add_action('plugins_loaded', [$this, 'initPlugin']);
-    }
-
-    /**
-     * Load required dependencies
-     */
-    private function load_dependencies(): void
-    {
-        // Composer autoload
+        // Load required dependencies
         require_once EHXDO_PLUGIN_DIR . 'vendor/autoload.php';
 
-        // Load recaptcha integration if available
-        if (defined('EHXRC_VERSION')) {
-            require_once WP_PLUGIN_DIR . '/ehx-recaptcha/includes/autoloader.php';
-        }
+        add_action('plugins_loaded', [$this, 'initPlugin']);
     }
 
     /**
@@ -78,43 +65,29 @@ class EHxDonate
      */
     public function initPlugin(): void
     {
-        // Initialize components
-        $this->initComponents();
-
-        // Admin-only components
-        if (is_admin()) {
-            $this->initAdminComponents();
-        }
-    }
-
-    /**
-     * Initialize core components
-     */
-    private function initComponents(): void
-    {
+        // Initialize core components
         new \EHxDonate\Classes\RegisterScripts();
         new \EHxDonate\Classes\Settings();
         new \EHxDonate\PostTypes\CampaignPostType();
+        new \EHxDonate\Classes\RegisterElementorWidget();
         
         // Frontend components
         new \EHxDonate\Shortcodes\DonationFormShortcode();
         new \EHxDonate\Shortcodes\DonationTableShortcode();
         new \EHxDonate\Shortcodes\CampaignListShortcode();
-    }
 
-    /**
-     * Initialize admin components
-     */
-    private function initAdminComponents(): void
-    {
-        new \EHxDonate\Classes\AdminMenuHandler();
-        new \EHxDonate\Classes\AdminActionHandler();
+        // Initialize admin components
+        if (is_admin()) {
+            new \EHxDonate\Classes\AdminMenuHandler();
+            new \EHxDonate\Classes\AdminActionHandler();
+            new \EHxDonate\Addons\ManageAddons();
+        }
     }
 }
 
 // Initialize the plugin
 EHxDonate::getInstance();
 
-register_activation_hook(__FILE__, [\EHxDonate\Classes\ActivationHandler::class, 'activate']);
-register_deactivation_hook(__FILE__, [\EHxDonate\Classes\DeactivationHandler::class, 'deactivate']);
+register_activation_hook(__FILE__, [\EHxDonate\Classes\ActivationHandler::class, 'handle']);
+register_deactivation_hook(__FILE__, [\EHxDonate\Classes\DeactivationHandler::class, 'handle']);
 register_uninstall_hook(__FILE__, [\EHxDonate\Classes\UninstallHandler::class, 'handle']);
