@@ -14,55 +14,72 @@ if (!defined('ABSPATH')) {
 
 class ManageAddons
 {    
+    const NONCE_ACTION = 'ehxdo_handle_addon_form';
     private Response $response;
 
     public function __construct()
     {
         $this->response = new Response();
 
-        add_action('wp_ajax_ehxdo_install_addon', [$this, 'installAddon']);
-        add_action('wp_ajax_ehxdo_activate_addon', [$this, 'activateAddon']);
-        add_action('wp_ajax_ehxdo_deactivate_addon', [$this, 'deactivateAddon']);
+        add_action('wp_ajax_ehxdo_handle_addon_form', [$this, 'handleFormSubmit']);
+    }
+
+    public function handleFormSubmit()
+    {
+        $request = new Request();
+
+        try {
+            $slug = $request->input('slug');
+
+            return match($request->input('type')) {
+                'install' => $this->installAddon($slug),
+                'activate' => $this->activateAddon($slug),
+                'delete' => $this->destroyAddon($slug),
+                default => $this->deactivateAddon($slug),
+            };
+
+        } catch (\Exception $e) {
+            return $this->response->error(esc_html($e->getMessage()));
+        }
     }
     
     /**
      * Install Addon
      *
-     * @param  mixed $addon_url
+     * @param  string $slug
      */
-    public function installAddon() 
+    protected function installAddon($slug) 
     {
-        $request = new Request();
-
+        require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+    
         $upgrader = new Plugin_Upgrader(new Automatic_Upgrader_Skin());
 
-        $addon_url = $request->input('addon_url');
-        
-        $result = $upgrader->install($addon_url);
+        $addons = self::getAvailableAddons();
+
+        $addon = $addons[$slug]['url'] ?? null;
+
+        $result = $upgrader->install($addon);
     
         if (is_wp_error($result)) {
             return $this->response->error(esc_html($result->get_error_message()));
         }
         
         return $this->response->success(esc_html__('Add-on installed successfully!', 'ehx-donate'));
+
     } 
     
     /**
      * Activate Addon
      *
-     * @return void
+     * @param  string $slug
      */
-    public function activateAddon() 
+    protected function activateAddon($slug) 
     {
-        $request = new Request();
-        
         if (!current_user_can('activate_plugins')) {
             return $this->response->error(esc_html__('You do not have sufficient permissions.', 'ehx-donate'));
         }
 
-        $plugin_file = $request->input('plugin_file');
-
-        $result = activate_plugin($plugin_file);
+        $result = activate_plugin($slug);
 
         if (is_wp_error($result)) {
             return $this->response->error(esc_html($result->get_error_message()));
@@ -70,25 +87,40 @@ class ManageAddons
 
         return $this->response->success(esc_html__('Add-on activated successfully!', 'ehx-donate'));
     }
-
+    
     /**
      * Deactivate Addon
      *
-     * @return void
+     * @param  string $slug
      */
-    public function deactivateAddon() 
+    protected function deactivateAddon($slug) 
     {
-        $request = new Request();
-        
         if (!current_user_can('activate_plugins')) {
             return $this->response->error(esc_html__('You do not have sufficient permissions.', 'ehx-donate'));
         }
 
-        $plugin_file = $request->input('plugin_file');
-
-        deactivate_plugins($plugin_file, true);
+        deactivate_plugins($slug, true);
 
         return $this->response->success(esc_html__('Add-on deactivated successfully!', 'ehx-donate'));
+    }
+    
+    /**
+     * Delete Addon
+     *
+     * @param  string $slug
+     */
+    protected function destroyAddon($slug) 
+    {
+        if (!current_user_can('activate_plugins')) {
+            return $this->response->error(esc_html__('You do not have sufficient permissions.', 'ehx-donate'));
+        }
+
+        $result = delete_plugins([$slug]);
+        if (is_wp_error($result)) {
+            return $this->response->error(esc_html($result->get_error_message()));
+        }
+
+        return $this->response->success(esc_html__('Add-on deleted successfully!', 'ehx-donate'));
     }
 
     /**
@@ -104,20 +136,29 @@ class ManageAddons
                 'name' => esc_html__('reCaptcha', 'ehx-donate'),
                 'version' => '1.0.0',
                 'icon' => EHXDO_PLUGIN_URL . 'assets/images/recaptcha.png',
-                'description' => esc_html__(' Adds Google reCAPTCHA functionality to EHx plugins for enhanced form security.'),
+                'description' => esc_html__(' Adds Google reCAPTCHA functionality to EHx plugins for enhanced form security.', 'ehx-donate'),
                 'premium' => false,
                 'updated' => '2023-11-10',
-                'url' => EHXDO_PLUGIN_URL . 'addons/advanced-forms.zip'
+                'url' => 'https://portal.immersivebrands.co.uk/storage/plugin/ehx-recaptcha.zip'
             ],
             'ehx-recurring-donation/ehx-recurring-donation.php' => [
                 'name' => esc_html__('Recurring Donations', 'ehx-donate'),
                 'version' => '1.0.0',
                 'icon' => EHXDO_PLUGIN_URL . 'assets/images/donation.jpg',
-                'description' => esc_html__('Recurring Donations - A powerful WordPress plugin that enables automated recurring donations, seamlessly integrating with EHx Donate for a smooth and efficient donor experience.'),
+                'description' => esc_html__('Recurring Donations - A powerful WordPress plugin that enables automated recurring donations, seamlessly integrating with EHx Donate for a smooth and efficient donor experience.', 'ehx-donate'),
                 'premium' => true,
                 'updated' => '2023-11-15',
-                'url' => 'https://store.eh.studio/addons/recurring-donations'
-            ]
+                'url' => null
+            ],
+            'ehx-giftaid/ehx-giftaid.php' => [
+                'name' => esc_html__('Gift Aid', 'ehx-donate'),
+                'version' => '1.0.0',
+                'icon' => EHXDO_PLUGIN_URL . 'assets/images/gift-aid.png',
+                'description' => esc_html__('Gift Aid plugin extends the EHx Donate plugin to enable Gift Aid functionality, allowing donors to increase their donation amount without additional cost.', 'ehx-donate'),
+                'premium' => true,
+                'updated' => '2023-11-15',
+                'url' => null
+            ],
         ];
     }
     
@@ -141,7 +182,7 @@ class ManageAddons
             if (in_array($path, $addons)) {
                 $our_addons[$path] = [
                     'active' => is_plugin_active($path),
-                    'version' => $plugin['Version']
+                    'version' => $plugin['Version'],
                 ];
             }
         }

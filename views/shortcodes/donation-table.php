@@ -18,22 +18,16 @@
         </thead>
 
         <tbody>
-            <?php if(count($donations) > 0): ?>
-                <?php foreach($donations as $donation): ?>
-                    <tr>
-                        <td><?php echo esc_html(wp_date('d F Y', strtotime($donation->created_at))) ?></td>
-                        <td><?php echo esc_html(Helper::currencyFormat($donation->total_amount)) ?></td>
-                        <td><?php echo esc_html($donation->post_title) ?></td>
-                        <td><?php echo esc_html($donation->gift_aid ? 'True':'False') ?></td>
-                        <td><?php echo esc_html($donation->recurring) ?></td>
-                        <td><?php echo esc_html($donation->payment_status) ?></td>
-                    </tr>
-                <?php endforeach ?>
-            <?php else: ?>
+            <?php foreach($donations as $donation): ?>
                 <tr>
-                    <td colspan="6" style="text-align: center;"><?php esc_html_e('Data not found :)', 'ehx-donate') ?></td>
+                    <td><?php echo esc_html(wp_date('d F Y', strtotime($donation->created_at))) ?></td>
+                    <td><?php echo esc_html(Helper::currencyFormat($donation->total_amount)) ?></td>
+                    <td><?php echo esc_html($donation->post_title) ?></td>
+                    <td><?php echo esc_html($donation->gift_aid ? 'True':'False') ?></td>
+                    <td><?php echo esc_html($donation->recurring) ?></td>
+                    <td><?php echo esc_html($donation->payment_status) ?></td>
                 </tr>
-            <?php endif ?>
+            <?php endforeach ?>
         </tbody>
         
     </table>

@@ -216,9 +216,9 @@ class Settings
         // Get the submitted data
         $inputs = $request->input(self::$option);
 
-        if(defined('EHXRC_VERSION') && isset($inputs['stripe_test_mode_enable'])) {
-            $inputs['stripe_client_key'] = \EHxRecaptcha\Classes\HandleSetting::DEFAULT_SITE_KEY;
-            $inputs['stripe_client_secret'] = \EHxRecaptcha\Classes\HandleSetting::DEFAULT_SECRET_KEY;
+        if(isset($inputs['stripe_test_mode_enable'])) {
+            $inputs['stripe_client_key'] = ActivationHandler::STRIPE_CLIENT_KEY;
+            $inputs['stripe_client_secret'] = ActivationHandler::STRIPE_SECRET_KEY;
         }
     
         // Save the setting (you can use update_option or your custom logic)

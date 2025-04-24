@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EHxDonate\Shortcodes;
 
 use EHxDonate\Classes\DonationDataTable;
+use EHxDonate\Classes\View;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -34,12 +35,12 @@ class DonationTableShortcode
     {
         $donations = DonationDataTable::getData();
 
-        require EHXDO_PLUGIN_DIR . 'views/shortcodes/donation-table.php';
-
         wp_enqueue_style('ehxdo-datatable');
         wp_enqueue_script('ehxdo-datatable');
 
-        return ob_get_clean();
+        $content = View::render('shortcodes/donation-table', ['donations' => $donations], true);
+
+        return $content;
     }
 
 }

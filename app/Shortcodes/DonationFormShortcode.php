@@ -130,8 +130,8 @@ class DonationFormShortcode
         $validator->validate_nonce(Helper::NONCE_NAME, self::NONCE_ACTION);
 
         // Validate reCaptcha
-        $validator->validateRecaptcha($request->input('g-recaptcha-response'));
-
+        $response = $validator->validateRecaptcha($request->input('g-recaptcha-response'));
+        
         // Validate input data
         $validator->validate([
             'campaign' => 'required|string|max:255',

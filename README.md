@@ -5,98 +5,120 @@
 **Requires at least:** 5.8  
 **Tested up to:** 6.8  
 **Requires PHP:** 7.4  
-**Stable tag:** 1.0.0  
+**Stable tag:** 1.1.0  
 **License:** GPLv2 or later  
-**License URI:** [https://www.gnu.org/licenses/gpl-2.0.html](https://www.gnu.org/licenses/gpl-2.0.html)  
+**License URI:** https://www.gnu.org/licenses/gpl-2.0.html  
 
-EHx Donate – WordPress Donation Plugin. A feature-rich donation management plugin.
+**EHx Donate** – A feature-rich WordPress donation plugin with modern architecture and addon support.
+
 
 ## Description
 
-The **EHx Donate** plugin is designed to enhance donation management on WordPress websites. It offers **seamless integration** with WordPress’s built-in user system, **AJAX-based forms** for a smooth experience, and **custom role assignments** for better user management.
+The EHx Donate plugin enhances donation management in WordPress. Built with an object-oriented structure, it supports AJAX-based forms, secure payment integrations, and addon handling—all with optimal performance and flexibility.
 
-### Key Features:
-- **AJAX-Based Submissions** – Users can donate without page reloads.
-- **Multilingual Support** – Fully translatable with the text domain `ehx-donate`.
-- **Performance-Optimized** – Lightweight and efficient for fast page loading.
-- **Custom Post Type for Donations** – Organize donations separately.
-- **Easy Integration** – Works with any WordPress theme.
-- **Secure and Scalable** – Follows WordPress coding standards.
+### 🔑 Key Features
+
+- ⚡ **AJAX-Based Submissions** – Smooth, no-reload donation experience.
+- 🧱 **OOP Architecture** – Modular, scalable, and maintainable code.
+- ➕ **Addon Support System** – Download, install, and activate addons from within the plugin.
+- 🔐 **Google reCAPTCHA Addon** – Adds spam protection to donation forms.
+- 🌐 **Multilingual Ready** – Fully translatable via `ehx-donate` text domain.
+- 🚀 **Performance Optimized** – Lightweight and efficient.
+- 🗃️ **Custom Post Type for Donations** – Keep donations organized.
+- 🎨 **Theme Compatible** – Works with any modern WordPress theme.
+- 🔒 **Secure & Scalable** – Built following WordPress best practices.
 
 ## Installation
 
-1. Upload the `ehx-donate` folder to the `/wp-content/plugins/` directory.
-2. Activate the plugin through the ‘Plugins’ menu in WordPress.
-3. Use the **[ehxdo_donation_form]** shortcode to display the donation form.
+1. Upload the `ehx-donate` folder to `/wp-content/plugins/`.
+2. Activate the plugin through the **Plugins** menu in WordPress.
+3. Use any of the shortcodes listed below to display plugin functionality.
 
-## Frequently Asked Questions
+## Usage
 
-### How do I use the plugin?
-Use the shortcode `[ehxdo_donation_form]` on any page or post to display the donation form.
+### Shortcodes
+
+- `[ehxdo_donation_form]` – Display the donation form.
+- `[ehxdo_campaign_lists]` – Show a customizable list of campaigns.
+- `[ehxdo_donation_table]` – Display a table listing recent donations.
+
+You can place these shortcodes in posts, pages, or widgets.
+
+
+## FAQ
+
+### How do I display the donation form?
+
+Use the shortcode `[ehxdo_donation_form]` on any page or post.
 
 ### Can I customize the donation form?
-Yes! You can modify the form layout and styling using CSS or template overrides.
 
-### Does this plugin support multiple payment methods?
-The default version supports Stripe payments. Future versions will integrate **PayPal, and WooCommerce**.
+Yes! You can override templates or apply custom styles via CSS.
 
-### Is this plugin compatible with my theme?
-Yes! EHx Donate works with any WordPress theme.
+### Does the plugin support multiple payment gateways?
+
+Stripe is supported in the free version. Future updates will support **PayPal** and **WooCommerce**.
+
+### Is EHx Donate compatible with my theme?
+
+Yes! It works with all modern WordPress themes.
 
 ## Screenshots
 
-1. Donation form with AJAX submission.
-2. Custom post type for managing donations.
-3. Settings panel for customizing donations.
+1. Dashboard Donation List  
+2. Plugin Settings Panel  
+3. Campaign Listings  
+4. Transactions Overview  
+5. Donation Form – Step 1  
+6. Donation Form – Step 2
 
 ## External Services
-This plugin integrates with the following third-party services:
 
-1. **Stripe PHP Library**
-   - Purpose: Server-side payment processing for donations
-   - Data Sent: Payment tokens, transaction amounts, customer metadata
-   - When: During donation processing and payment verification
-   - Links:
-     - [Terms of Service](https://stripe.com/legal)
-     - [Privacy Policy](https://stripe.com/privacy)
-     - [GitHub Repository](https://github.com/stripe/stripe-php)
+This plugin integrates with the following:
 
-== Data Handling ==
+### 1. Stripe PHP Library
+- **Used for**: Server-side payment processing  
+- **Data**: Tokens, transaction amounts, customer metadata  
+- **When**: During donation and verification  
+- **Links**:
+  - [Terms of Service](https://stripe.com/legal)  
+  - [Privacy Policy](https://stripe.com/privacy)  
+  - [GitHub](https://github.com/stripe/stripe-php)
 
-All communication with external services is done securely via HTTPS. The plugin implements:
+### 2. Google reCAPTCHA (Addon)
+- **Used for**: Spam protection  
+- **Data**: Form interaction validation  
+- **When**: On form submission  
+- **Links**:
+  - [Terms of Service](https://policies.google.com/terms)  
+  - [Privacy Policy](https://policies.google.com/privacy)
 
-1. **Payment Processing**:
-   - Uses the official Stripe PHP library (stripe/stripe-php) for server-side operations
-   - Sensitive payment details are processed directly by Stripe's systems
-   - Our servers only receive and store payment tokens for transaction verification
 
-== User Consent ==
+## Data Handling
 
-By using this plugin, you acknowledge that:
-- Payment processing is handled by Stripe's secure systems
-- The stripe-php library is used under MIT license
+- Payment processing is securely done via Stripe servers.
+- Stripe tokens are stored server-side for verification only.
+- reCAPTCHA validates form submissions via Google's secure APIs.
 
-You can disable individual services in the plugin settings if desired.
 
-1. Donation form with AJAX submission.
-2. Custom post type for managing donations.
-3. Settings panel for customizing donations.
+## User Consent
+
+By using this plugin, you agree that:
+
+- Payment is handled by Stripe.
+- Google reCAPTCHA is used for spam protection (if enabled).
+- External libraries are used under their respective open-source licenses.
+
 
 ## Changelog
 
-### 1.0.0
-- Initial release.
-- AJAX donation form added.
-- Custom post type for donations.
-- Basic role-based access control.
+Detailed changelog available in [CHANGELOG.md](CHANGELOG.md).
 
-## Upgrade Notice
-
-### 1.0.0
-- First release, no upgrades necessary.
 
 ## License & Credits
 
-This plugin is licensed under the **GPLv2 or later**.  
-For contributions and bug reports, visit [GitHub Repository](https://github.com/ehstudio/ehx-donate).
+This plugin is licensed under the **GPLv2 or later** license.
 
+**Thanks to:**
+- [Stripe](https://github.com/stripe/stripe-php) (MIT License)
+- [Google reCAPTCHA](https://www.google.com/recaptcha/)

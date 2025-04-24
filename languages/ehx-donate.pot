@@ -10,7 +10,7 @@ msgstr ""
 "Translator Name "
 "<translations@example.com>\n"
 "POT-Creation-Date: "
-"2025-04-07 19:45+0600\n"
+"2025-04-23 17:16+0600\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Your "
 "Name <you@example.com>\n"
@@ -38,263 +38,628 @@ msgstr ""
 "X-Poedit-"
 "SearchPath-0: .\n"
 
-#: classes/class.ehx-donate-actions.php:46
-#: classes/class.ehx-donate-actions.php:147
+#: app/Addons/ManageAddons.php:62
+msgid ""
+"Add-on installed "
+"successfully!"
+msgstr ""
+
+#: app/Addons/ManageAddons.php:73
+#: app/Addons/ManageAddons.php:93
+#: app/Addons/ManageAddons.php:109
+msgid ""
+"You do not have "
+"sufficient permissions."
+msgstr ""
+
+#: app/Addons/ManageAddons.php:82
+msgid ""
+"Add-on activated "
+"successfully!"
+msgstr ""
+
+#: app/Addons/ManageAddons.php:98
+msgid ""
+"Add-on deactivated "
+"successfully!"
+msgstr ""
+
+#: app/Addons/ManageAddons.php:117
+msgid ""
+"Add-on deleted "
+"successfully!"
+msgstr ""
+
+#: app/Addons/ManageAddons.php:130
+msgid "reCaptcha"
+msgstr ""
+
+#: app/Addons/ManageAddons.php:133
+msgid ""
+" Adds Google reCAPTCHA "
+"functionality to EHx "
+"plugins for enhanced "
+"form security."
+msgstr ""
+
+#: app/Addons/ManageAddons.php:139
+msgid "Recurring Donations"
+msgstr ""
+
+#: app/Addons/ManageAddons.php:142
+msgid ""
+"Recurring Donations - A "
+"powerful WordPress "
+"plugin that enables "
+"automated recurring "
+"donations, seamlessly "
+"integrating with EHx "
+"Donate for a smooth and "
+"efficient donor "
+"experience."
+msgstr ""
+
+#: app/Addons/ManageAddons.php:148
+#: views/shortcodes/donation-table.php:14
+msgid "Gift Aid"
+msgstr ""
+
+#: app/Addons/ManageAddons.php:151
+msgid ""
+"Gift Aid plugin extends "
+"the EHx Donate plugin to "
+"enable Gift Aid "
+"functionality, allowing "
+"donors to increase their "
+"donation amount without "
+"additional cost."
+msgstr ""
+
+#: app/Classes/ActivationHandler.php:104
+#, php-format
+msgid ""
+"EHx Donate requires PHP "
+"7.4 or higher. Your "
+"server is running PHP %s."
+msgstr ""
+
+#: app/Classes/ActivationHandler.php:113
+#, php-format
+msgid ""
+"EHx Donate requires "
+"WordPress %1$s, or "
+"higher. You are running "
+"WordPress %2$s."
+msgstr ""
+
+#: app/Classes/AdminActionHandler.php:52
+#: app/Classes/AdminActionHandler.php:159
 msgid "Permission denied"
 msgstr ""
 
-#: classes/class.ehx-donate-actions.php:82
+#: app/Classes/AdminActionHandler.php:94
 msgid ""
 "No data found to export."
 msgstr ""
 
-#: classes/class.ehx-donate-donation.php:23
-#: views/shortcodes/donation-form.php:14
-msgid "Donation"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:24
-#: classes/class.ehx-donate-menu.php:84
-#: classes/class.ehx-donate-menu.php:85
-msgid "Donations"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:40
-#: classes/class.ehx-donate-transaction.php:40
-msgid "Date"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:41
-#: classes/class.ehx-donate-transaction.php:41
-msgid "Donor"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:42
-#: classes/class.ehx-donate-transaction.php:43
-#: views/shortcodes/donation-table.php:10
-msgid "Amount"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:43
-#: classes/class.ehx-donate-transaction.php:42
-#: views/shortcodes/donation-table.php:11
-msgid "Campaign"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:44
-msgid "Gift Aid Enabled"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:45
-#: helpers/class.helper.php:380
-#: post-types/class.ehx-donate-campaign.php:102
-#: views/shortcodes/donation-table.php:13
-msgid "Recurring"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:46
-msgid "Payment"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:115
-#: shortcodes/class.donation-form-shortcode.php:254
-msgid "Quick Donation"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:151
-msgid "Pending"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:151
-msgid "Success"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:151
-msgid "Cancel"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:160
-#: classes/class.ehx-donate-transaction.php:143
-msgid "All Users"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:170
-msgid "All"
-msgstr ""
-
-#: classes/class.ehx-donate-donation.php:177
-#: classes/class.ehx-donate-transaction.php:152
-msgid "Export"
-msgstr ""
-
-#: classes/class.ehx-donate-menu.php:71
-#: classes/class.ehx-donate-menu.php:72
+#: app/Classes/AdminMenuHandler.php:76
+#: app/Classes/AdminMenuHandler.php:77
 msgid "EHx Donate"
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:78
-#: classes/class.ehx-donate-menu.php:79
+#: app/Classes/AdminMenuHandler.php:83
+#: app/Classes/AdminMenuHandler.php:84
 msgid "Settings"
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:90
-#: classes/class.ehx-donate-menu.php:91
-#: post-types/class.ehx-donate-campaign.php:51
-#: post-types/class.ehx-donate-campaign.php:52
-#: post-types/class.ehx-donate-campaign.php:54
+#: app/Classes/AdminMenuHandler.php:89
+#: app/Classes/AdminMenuHandler.php:90
+#: app/Classes/DonationDataTable.php:29
+msgid "Donations"
+msgstr ""
+
+#: app/Classes/AdminMenuHandler.php:95
+#: app/Classes/AdminMenuHandler.php:96
+#: app/PostTypes/CampaignPostType.php:57
+#: app/PostTypes/CampaignPostType.php:58
+#: app/PostTypes/CampaignPostType.php:60
 msgid "Campaigns"
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:96
-#: classes/class.ehx-donate-menu.php:97
-#: classes/class.ehx-donate-transaction.php:24
+#: app/Classes/AdminMenuHandler.php:101
+#: app/Classes/AdminMenuHandler.php:102
+#: app/Classes/TransactionDataTable.php:30
 #: views/admin/pages/transactions.php:4
 msgid "Transactions"
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:173
+#: app/Classes/AdminMenuHandler.php:107
+#: app/Classes/AdminMenuHandler.php:108
+msgid "Add-ons"
+msgstr ""
+
+#: app/Classes/AdminMenuHandler.php:183
+#: app/Classes/AdminMenuHandler.php:206
 msgid ""
 "Setting Updated "
 "Successfully."
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:195
+#: app/Classes/AdminMenuHandler.php:228
 msgid ""
 "Donation Deleted "
 "Successfully."
 msgstr ""
 
-#: classes/class.ehx-donate-menu.php:217
-msgid ""
-"Gift Aid Deleted "
-"Successfully."
-msgstr ""
-
-#: classes/class.ehx-donate-menu.php:240
+#: app/Classes/AdminMenuHandler.php:251
 msgid ""
 "Transaction Deleted "
 "Successfully."
 msgstr ""
 
-#: classes/class.ehx-donate-settings.php:29
+#: app/Classes/DonationDataTable.php:28
+#: views/shortcodes/donation-form.php:30
+msgid "Donation"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:43
+#: app/Classes/TransactionDataTable.php:44
+#: app/Widgets/CampaignListWidget.php:143
+msgid "Date"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:44
+#: app/Classes/TransactionDataTable.php:45
+msgid "Donor"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:45
+#: app/Classes/TransactionDataTable.php:47
+#: views/shortcodes/donation-table.php:12
+msgid "Amount"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:46
+#: app/Classes/TransactionDataTable.php:46
+#: views/shortcodes/donation-table.php:13
+msgid "Campaign"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:47
+msgid "Gift Aid Enabled"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:48
+#: app/Helpers/Helper.php:240
+#: app/PostTypes/CampaignPostType.php:108
+#: views/shortcodes/donation-table.php:15
+msgid "Recurring"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:49
+msgid "Payment"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:118
+#: app/Shortcodes/DonationFormShortcode.php:281
+msgid "Quick Donation"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:154
+msgid "Pending"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:154
+msgid "Success"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:154
+msgid "Cancel"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:163
+#: app/Classes/TransactionDataTable.php:147
+msgid "All Users"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:173
+#: views/admin/pages/addons.php:22
+msgid "All"
+msgstr ""
+
+#: app/Classes/DonationDataTable.php:180
+#: app/Classes/TransactionDataTable.php:156
+msgid "Export"
+msgstr ""
+
+#: app/Classes/Settings.php:43
+#: app/Classes/Settings.php:150
 msgid "General"
 msgstr ""
 
-#: classes/class.ehx-donate-settings.php:31
+#: app/Classes/Settings.php:44
 msgid "Email"
 msgstr ""
 
-#: classes/class.ehx-donate-settings.php:32
+#: app/Classes/Settings.php:45
 msgid "Integration"
 msgstr ""
 
-#: classes/class.ehx-donate-settings.php:216
+#: app/Classes/Settings.php:89
+msgid ""
+"Default Donation Amounts"
+msgstr ""
+
+#: app/Classes/Settings.php:89
+#: app/Classes/Settings.php:93
+msgid ""
+"If enabled, the text "
+"entered below will "
+"replace the title of the "
+"post/page/CPT for users "
+"who do not have "
+"permission to view the "
+"restricted content. "
+"Please see this doc for "
+"more information on this."
+msgstr ""
+
+#: app/Classes/Settings.php:92
+msgid "Paypal Enable"
+msgstr ""
+
+#: app/Classes/Settings.php:93
+msgid ""
+"Restricted Access Post "
+"Title"
+msgstr ""
+
+#: app/Classes/Settings.php:94
+msgid ""
+"Restricted Access Message"
+msgstr ""
+
+#: app/Classes/Settings.php:95
+msgid ""
+"Restricted Gutenberg "
+"Blocks"
+msgstr ""
+
+#: app/Classes/Settings.php:95
+msgid ""
+"Enable the \"Content "
+"Restriction\" settings "
+"for the Gutenberg Blocks"
+msgstr ""
+
+#: app/Classes/Settings.php:96
+msgid ""
+"Restricted Access Block "
+"Message"
+msgstr ""
+
+#: app/Classes/Settings.php:99
+#: app/Classes/Settings.php:104
+#: app/Classes/Settings.php:105
+#: app/Classes/Settings.php:110
+msgid "Enabled"
+msgstr ""
+
+#: app/Classes/Settings.php:99
+msgid ""
+"Enable PayPal as a "
+"payment option on the "
+"platform."
+msgstr ""
+
+#: app/Classes/Settings.php:100
+msgid "PayPal client id"
+msgstr ""
+
+#: app/Classes/Settings.php:101
+msgid ""
+"PayPal client secret"
+msgstr ""
+
+#: app/Classes/Settings.php:105
+msgid ""
+"Enable Stripe as a "
+"payment option on the "
+"platform."
+msgstr ""
+
+#: app/Classes/Settings.php:106
+msgid "Client key"
+msgstr ""
+
+#: app/Classes/Settings.php:106
+msgid "Stripe client key"
+msgstr ""
+
+#: app/Classes/Settings.php:107
+msgid "Client secret"
+msgstr ""
+
+#: app/Classes/Settings.php:107
+msgid ""
+"Stripe client secret"
+msgstr ""
+
+#: app/Classes/Settings.php:110
+msgid ""
+"Enable Google Maps to "
+"display interactive maps "
+"on your platform."
+msgstr ""
+
+#: app/Classes/Settings.php:117
+msgid "Admin Email Address"
+msgstr ""
+
+#: app/Classes/Settings.php:117
+#: app/Classes/Settings.php:119
+msgid ""
+"e.g. "
+"admin@companyname.com."
+msgstr ""
+
+#: app/Classes/Settings.php:118
+msgid "Mail appears from"
+msgstr ""
+
+#: app/Classes/Settings.php:118
+msgid "e.g. Site Name."
+msgstr ""
+
+#: app/Classes/Settings.php:119
+msgid ""
+"Mail appears from address"
+msgstr ""
+
+#: app/Classes/Settings.php:122
+msgid "Content type"
+msgstr ""
+
+#: app/Classes/Settings.php:122
+msgid ""
+"Enable HTML for Emails"
+msgstr ""
+
+#: app/Classes/Settings.php:122
+msgid ""
+"If you plan use emails "
+"with HTML, please make "
+"sure that this option is "
+"enabled. Otherwise, HTML "
+"will be displayed as "
+"plain text."
+msgstr ""
+
+#: app/Classes/Settings.php:125
+msgid "Login Redirect"
+msgstr ""
+
+#: app/Classes/Settings.php:125
+#: app/Classes/Settings.php:126
+msgid "Stripe callback URL"
+msgstr ""
+
+#: app/Classes/Settings.php:126
+msgid ""
+"Registration Redirect"
+msgstr ""
+
+#: app/Classes/Settings.php:143
+msgid "Stripe"
+msgstr ""
+
+#: app/Classes/Settings.php:145
+msgid ""
+"Configuration for Stripe "
+"payment gateway "
+"integration."
+msgstr ""
+
+#: app/Classes/Settings.php:152
+msgid ""
+"Provides settings for "
+"controlling access to "
+"your site"
+msgstr ""
+
+#: app/Classes/Settings.php:155
+msgid "Other"
+msgstr ""
+
+#: app/Classes/Settings.php:157
+msgid ""
+"Settings to manage user "
+"roles, permissions, and "
+"related functionality."
+msgstr ""
+
+#: app/Classes/Settings.php:228
 msgid ""
 "Settings saved "
 "successfully."
 msgstr ""
 
-#: classes/class.ehx-donate-transaction.php:23
+#: app/Classes/TransactionDataTable.php:29
 msgid "Transaction"
 msgstr ""
 
-#: classes/class.ehx-donate-transaction.php:44
+#: app/Classes/TransactionDataTable.php:48
 msgid "Status"
 msgstr ""
 
-#: classes/class.ehx-donate-transaction.php:45
+#: app/Classes/TransactionDataTable.php:49
 msgid "Type"
 msgstr ""
 
-#: helpers/class.helper.php:280
-msgid "Select an option"
-msgstr ""
-
-#: helpers/class.helper.php:373
-#: post-types/class.ehx-donate-campaign.php:101
+#: app/Helpers/Helper.php:233
+#: app/PostTypes/CampaignPostType.php:107
 msgid "Goal Amount"
 msgstr ""
 
-#: helpers/class.helper.php:376
+#: app/Helpers/Helper.php:236
 msgid "Enter Goal Amount"
 msgstr ""
 
-#: helpers/class.helper.php:384
-#: views/shortcodes/donation-form.php:50
-#: views/shortcodes/donation-form.php:62
+#: app/Helpers/Helper.php:244
+#: views/shortcodes/donation-form.php:66
+#: views/shortcodes/donation-form.php:78
 msgid "One-off"
 msgstr ""
 
-#: helpers/class.helper.php:385
+#: app/Helpers/Helper.php:245
 msgid "Weekly"
 msgstr ""
 
-#: helpers/class.helper.php:386
+#: app/Helpers/Helper.php:246
 msgid "Monthly"
 msgstr ""
 
-#: helpers/class.helper.php:387
+#: app/Helpers/Helper.php:247
 msgid "Quarterly"
 msgstr ""
 
-#: helpers/class.helper.php:388
+#: app/Helpers/Helper.php:248
 msgid "Yearly"
 msgstr ""
 
-#: helpers/class.helper.php:395
+#: app/Helpers/Helper.php:255
 msgid "Start Date"
 msgstr ""
 
-#: helpers/class.helper.php:398
-#: helpers/class.helper.php:405
+#: app/Helpers/Helper.php:258
+#: app/Helpers/Helper.php:265
 msgid "Choice Start date"
 msgstr ""
 
-#: helpers/class.helper.php:402
+#: app/Helpers/Helper.php:262
 msgid "End Date"
 msgstr ""
 
-#: helpers/class.validator.php:55
+#: app/PostTypes/CampaignPostType.php:61
+msgid "Form"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:62
+msgid "EHx Campaigns"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:63
+msgid "All Campaigns"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:64
+msgid "Add New"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:65
+#: app/PostTypes/CampaignPostType.php:261
+msgid "Add New Campaign"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:66
+msgid "Edit Campaign"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:67
+msgid "New Campaign"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:68
+msgid "View Campaign"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:69
+msgid "Search Campaigns"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:70
+msgid "No campaigns found"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:71
+msgid ""
+"No campaigns found in "
+"Trash"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:109
+msgid "Progress"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:110
+msgid "Start & End Date"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:271
+msgid ""
+"Enter Campaign Title"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:282
+msgid "Banner image"
+msgstr ""
+
+#: app/PostTypes/CampaignPostType.php:289
+msgid "Options"
+msgstr ""
+
+#: app/Services/Request.php:29
+msgid ""
+"Unauthorized action!"
+msgstr ""
+
+#: app/Services/Request.php:32
+#: app/Services/Request.php:44
+#: app/Services/Request.php:51
+msgid "Plugin Error"
+msgstr ""
+
+#: app/Services/Validator.php:64
 msgid ""
 "Please fill up all "
 "fields correctly."
 msgstr ""
 
-#: helpers/class.validator.php:121
+#: app/Services/Validator.php:130
 #, php-format
 msgid ""
 "Validation rule \"%s\" "
 "is not supported."
 msgstr ""
 
-#: helpers/class.validator.php:155
+#: app/Services/Validator.php:164
 #, php-format
 msgid ""
 "The %s field is required."
 msgstr ""
 
-#: helpers/class.validator.php:188
+#: app/Services/Validator.php:197
 #, php-format
 msgid ""
 "The %s field must be an "
 "array."
 msgstr ""
 
-#: helpers/class.validator.php:202
+#: app/Services/Validator.php:211
 #, php-format
 msgid ""
 "The %s field must be a "
 "valid email address."
 msgstr ""
 
-#: helpers/class.validator.php:216
+#: app/Services/Validator.php:225
 #, php-format
 msgid ""
 "The %s has already been "
 "taken."
 msgstr ""
 
-#: helpers/class.validator.php:235
+#: app/Services/Validator.php:244
 #, php-format
 msgid ""
 "The %1$s field must be "
@@ -302,149 +667,287 @@ msgid ""
 "long."
 msgstr ""
 
-#: helpers/class.validator.php:258
+#: app/Services/Validator.php:267
 #, php-format
 msgid ""
 "The %1$s field must not "
 "exceed %2$d characters."
 msgstr ""
 
-#: helpers/class.validator.php:276
+#: app/Services/Validator.php:285
 #, php-format
 msgid ""
 "The %s field must be a "
 "string."
 msgstr ""
 
-#: helpers/class.validator.php:290
+#: app/Services/Validator.php:299
 #, php-format
 msgid ""
 "The %s field must be a "
 "number."
 msgstr ""
 
-#: helpers/class.validator.php:309
+#: app/Services/Validator.php:321
 #, php-format
 msgid ""
 "The %1$s field must "
 "match the %2$s field."
 msgstr ""
 
-#: helpers/class.validator.php:327
+#: app/Services/Validator.php:339
 #, php-format
 msgid ""
 "The %s field must be an "
 "valid url."
 msgstr ""
 
-#: helpers/class.validator.php:390
-#: helpers/class.validator.php:404
+#: app/Services/Validator.php:403
+#: app/Services/Validator.php:417
 msgid ""
 "Nonce verification "
 "failed. Please try again."
 msgstr ""
 
-#: post-types/class.ehx-donate-campaign.php:55
-msgid "Form"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:56
-msgid "EHx Campaigns"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:57
-msgid "All Campaigns"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:58
-msgid "Add New"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:59
-#: post-types/class.ehx-donate-campaign.php:263
-msgid "Add New Campaign"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:60
-msgid "Edit Campaign"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:61
-msgid "New Campaign"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:62
-msgid "View Campaign"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:63
-msgid "Search Campaigns"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:64
-msgid "No campaigns found"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:65
+#: app/Services/Validator.php:439
 msgid ""
-"No campaigns found in "
-"Trash"
+"Please verify ReCaptcha."
 msgstr ""
 
-#: post-types/class.ehx-donate-campaign.php:103
-msgid "Progress"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:104
-msgid "Start & End Date"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:273
+#: app/Services/Validator.php:457
+#: app/Services/Validator.php:465
 msgid ""
-"Enter Campaign Title"
+"ReCaptcha verification "
+"failed."
 msgstr ""
 
-#: post-types/class.ehx-donate-campaign.php:284
-msgid "Banner image"
-msgstr ""
-
-#: post-types/class.ehx-donate-campaign.php:291
-msgid "Options"
-msgstr ""
-
-#: shortcodes/class.campaign-list-shortcode.php:46
+#: app/Shortcodes/CampaignListShortcode.php:53
 msgid "Donate Now"
 msgstr ""
 
-#: shortcodes/class.donation-form-shortcode.php:117
+#: app/Shortcodes/DonationFormShortcode.php:158
 msgid ""
 "Payment processing "
 "failed. Please try again."
 msgstr ""
 
-#: shortcodes/class.donation-form-shortcode.php:124
+#: app/Shortcodes/DonationFormShortcode.php:165
 msgid ""
 "Failed to create user. "
 "Please try again."
 msgstr ""
 
-#: shortcodes/class.donation-form-shortcode.php:130
+#: app/Shortcodes/DonationFormShortcode.php:183
 msgid ""
 "Failed to save donation "
 "record. Please try again."
 msgstr ""
 
-#: shortcodes/class.donation-form-shortcode.php:143
+#: app/Shortcodes/DonationFormShortcode.php:202
 msgid ""
 "Donation processed "
 "successfully, please "
 "complete payment."
 msgstr ""
 
-#: shortcodes/class.donation-form-shortcode.php:425
+#: app/Shortcodes/DonationFormShortcode.php:411
 msgid ""
 "Thank You for Your "
 "Generous Donation!"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:32
+msgid "Campaigns List"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:109
+msgid "Content"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:117
+msgid "Posts Per Page"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:126
+msgid "Order"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:130
+msgid "Descending"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:131
+msgid "Ascending"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:139
+msgid "Order By"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:144
+#: views/shortcodes/donation-form.php:122
+msgid "Title"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:145
+msgid "Random"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:153
+msgid "Exclude"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:164
+msgid "Include"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:174
+msgid "Columns"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:183
+msgid "Layout"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:187
+msgid "Grid"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:188
+msgid "List"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:196
+msgid "Image Size"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:200
+msgid "thumbnail"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:201
+msgid "Medium"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:202
+msgid "Medium Large"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:203
+msgid "Large"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:204
+msgid "Full"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:212
+msgid "Show Excerpt"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:216
+#: app/Widgets/CampaignListWidget.php:238
+#: app/Widgets/CampaignListWidget.php:260
+msgid "Yes"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:217
+#: app/Widgets/CampaignListWidget.php:239
+#: app/Widgets/CampaignListWidget.php:261
+msgid "No"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:225
+msgid "Excerpt Length"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:234
+msgid "Show Button"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:247
+msgid "Button Text"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:249
+msgid "Reserve a spot"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:256
+msgid "Pagination"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:289
+msgid "Style"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:309
+#: app/Widgets/CampaignListWidget.php:528
+#: app/Widgets/CampaignListWidget.php:600
+msgid "Normal"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:316
+#: app/Widgets/CampaignListWidget.php:410
+#: app/Widgets/CampaignListWidget.php:617
+#: app/Widgets/CampaignListWidget.php:699
+msgid "Background Color"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:327
+#: app/Widgets/CampaignListWidget.php:421
+msgid "Title Color"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:338
+#: app/Widgets/CampaignListWidget.php:432
+msgid "Description Color"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:349
+#: app/Widgets/CampaignListWidget.php:443
+msgid "Border Width"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:367
+#: app/Widgets/CampaignListWidget.php:461
+#: app/Widgets/CampaignListWidget.php:710
+msgid "Border Color"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:378
+#: app/Widgets/CampaignListWidget.php:472
+#: app/Widgets/CampaignListWidget.php:535
+#: app/Widgets/CampaignListWidget.php:558
+#: app/Widgets/CampaignListWidget.php:648
+msgid "Border Radius"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:403
+#: app/Widgets/CampaignListWidget.php:551
+#: app/Widgets/CampaignListWidget.php:682
+msgid "Hover"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:507
+msgid "Image Style"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:582
+msgid "Button Style"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:606
+#: app/Widgets/CampaignListWidget.php:688
+msgid "Text Color"
+msgstr ""
+
+#: app/Widgets/CampaignListWidget.php:660
+msgid "Padding"
+msgstr ""
+
+#: views/admin/components/input-group.php:52
+msgid "Select an option"
 msgstr ""
 
 #: views/admin/inc/banner-image.php:11
@@ -463,32 +966,76 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: views/admin/pages/settings.php:27
+#: views/admin/pages/addons.php:11
+msgid "EHx Donate Add-ons"
+msgstr ""
+
+#: views/admin/pages/addons.php:19
+msgid "Search add-ons..."
+msgstr ""
+
+#: views/admin/pages/addons.php:23
+msgid "Active"
+msgstr ""
+
+#: views/admin/pages/addons.php:24
+#: views/admin/pages/addons.php:47
+msgid "Premium"
+msgstr ""
+
+#: views/admin/pages/addons.php:25
+msgid "Free"
+msgstr ""
+
+#: views/admin/pages/addons.php:57
+#, php-format
+msgid "Version: %s"
+msgstr ""
+
+#: views/admin/pages/addons.php:58
+#, php-format
+msgid "Updated: %s"
+msgstr ""
+
+#: views/admin/pages/addons.php:65
+msgid "Enter license key"
+msgstr ""
+
+#: views/admin/pages/addons.php:67
+#: views/admin/pages/addons.php:78
+msgid "Activate"
+msgstr ""
+
+#: views/admin/pages/addons.php:73
+msgid "Deactivate"
+msgstr ""
+
+#: views/admin/pages/addons.php:81
+msgid "Delete"
+msgstr ""
+
+#: views/admin/pages/addons.php:85
+msgid "Installed"
+msgstr ""
+
+#: views/admin/pages/addons.php:88
+msgid "Install"
+msgstr ""
+
+#: views/admin/pages/settings.php:32
 msgid "General Settings"
 msgstr ""
 
-#: views/admin/pages/settings.php:28
-msgid ""
-"Email notifications sent "
-"from Ehx Member are "
-"listed below. Click on "
-"an email to configure "
-"it. Emails should be "
-"sent from an email using "
-"your website's domain "
-"name. We highly "
-"recommend using a SMTP "
-"service email delivery. "
-"Please see this doc for "
-"more information."
+#: views/admin/pages/settings.php:33
+msgid "General Settings."
 msgstr ""
 
-#: views/admin/pages/settings.php:39
+#: views/admin/pages/settings.php:44
 msgid ""
 "Donation Form Shortcode"
 msgstr ""
 
-#: views/admin/pages/settings.php:44
+#: views/admin/pages/settings.php:49
 msgid ""
 "Insert this shortcode on "
 "any page or post to "
@@ -498,12 +1045,12 @@ msgid ""
 "content editor."
 msgstr ""
 
-#: views/admin/pages/settings.php:51
+#: views/admin/pages/settings.php:56
 msgid ""
 "Donation Table Shortcode"
 msgstr ""
 
-#: views/admin/pages/settings.php:56
+#: views/admin/pages/settings.php:61
 msgid ""
 "Insert this shortcode on "
 "any page or post to "
@@ -513,12 +1060,12 @@ msgid ""
 "content editor."
 msgstr ""
 
-#: views/admin/pages/settings.php:63
+#: views/admin/pages/settings.php:68
 msgid ""
 "Campaign Lists Shortcode"
 msgstr ""
 
-#: views/admin/pages/settings.php:68
+#: views/admin/pages/settings.php:73
 msgid ""
 "Insert this shortcode on "
 "any page or post to "
@@ -528,132 +1075,132 @@ msgid ""
 "content editor."
 msgstr ""
 
-#: views/admin/pages/settings.php:71
+#: views/admin/pages/settings.php:76
 msgid ""
 "Available parameters:"
 msgstr ""
 
-#: views/admin/pages/settings.php:73
+#: views/admin/pages/settings.php:78
 msgid ""
 "Number of campaigns to "
 "display (default: 6)."
 msgstr ""
 
-#: views/admin/pages/settings.php:74
+#: views/admin/pages/settings.php:79
 msgid ""
 "Sorting order (ASC or "
 "DESC, default: DESC)."
 msgstr ""
 
-#: views/admin/pages/settings.php:75
+#: views/admin/pages/settings.php:80
 msgid ""
 "Field to order by (e.g., "
 "date, title, default: "
 "date)."
 msgstr ""
 
-#: views/admin/pages/settings.php:76
+#: views/admin/pages/settings.php:81
 msgid ""
 "Filter by category slug."
 msgstr ""
 
-#: views/admin/pages/settings.php:77
+#: views/admin/pages/settings.php:82
 msgid ""
 "Custom taxonomy to "
 "filter campaigns."
 msgstr ""
 
-#: views/admin/pages/settings.php:78
+#: views/admin/pages/settings.php:83
 msgid ""
 "Comma-separated term "
 "slugs for taxonomy "
 "filtering."
 msgstr ""
 
-#: views/admin/pages/settings.php:79
+#: views/admin/pages/settings.php:84
 msgid ""
 "Meta key for custom "
 "field filtering."
 msgstr ""
 
-#: views/admin/pages/settings.php:80
+#: views/admin/pages/settings.php:85
 msgid ""
 "Meta value for custom "
 "field filtering."
 msgstr ""
 
-#: views/admin/pages/settings.php:81
+#: views/admin/pages/settings.php:86
 msgid ""
 "Comparison operator for "
 "meta query (default: =)."
 msgstr ""
 
-#: views/admin/pages/settings.php:82
+#: views/admin/pages/settings.php:87
 msgid ""
 "Comma-separated post IDs "
 "to exclude."
 msgstr ""
 
-#: views/admin/pages/settings.php:83
+#: views/admin/pages/settings.php:88
 msgid ""
 "Comma-separated post IDs "
 "to include."
 msgstr ""
 
-#: views/admin/pages/settings.php:84
+#: views/admin/pages/settings.php:89
 msgid ""
 "Number of columns for "
 "grid layout (default: 2)."
 msgstr ""
 
-#: views/admin/pages/settings.php:85
+#: views/admin/pages/settings.php:90
 msgid ""
 "Layout type (grid or "
 "list, default: grid)."
 msgstr ""
 
-#: views/admin/pages/settings.php:86
+#: views/admin/pages/settings.php:91
 msgid ""
 "Image size for "
 "thumbnails (default: "
 "thumbnail)."
 msgstr ""
 
-#: views/admin/pages/settings.php:87
+#: views/admin/pages/settings.php:92
 msgid ""
 "Show excerpt (true or "
 "false, default: true)."
 msgstr ""
 
-#: views/admin/pages/settings.php:88
+#: views/admin/pages/settings.php:93
 msgid ""
 "Number of words in "
 "excerpt (default: 10)."
 msgstr ""
 
-#: views/admin/pages/settings.php:89
+#: views/admin/pages/settings.php:94
 msgid ""
 "Show button (true or "
 "false, default: true)."
 msgstr ""
 
-#: views/admin/pages/settings.php:90
+#: views/admin/pages/settings.php:95
 msgid ""
 "Text for button "
 "(default: Donate Now)."
 msgstr ""
 
-#: views/admin/pages/settings.php:91
+#: views/admin/pages/settings.php:96
 msgid ""
 "Enable pagination (true "
 "or false, default: true)."
 msgstr ""
 
-#: views/admin/pages/settings.php:103
+#: views/admin/pages/settings.php:108
 msgid "Email notifications"
 msgstr ""
 
-#: views/admin/pages/settings.php:104
+#: views/admin/pages/settings.php:109
 msgid ""
 "Email notifications sent "
 "from Ehx Donate are "
@@ -669,206 +1216,266 @@ msgid ""
 "more information."
 msgstr ""
 
-#: views/admin/pages/settings.php:114
+#: views/admin/pages/settings.php:119
 msgid ""
 "Email sender options"
 msgstr ""
 
-#: views/admin/pages/settings.php:115
+#: views/admin/pages/settings.php:120
 msgid ""
 "How the sender appears "
 "in outgoing Ehx donate "
 "emails."
 msgstr ""
 
-#: views/admin/pages/settings.php:125
+#: views/admin/pages/settings.php:130
 msgid "Email template"
 msgstr ""
 
-#: views/admin/pages/settings.php:126
+#: views/admin/pages/settings.php:131
 msgid ""
 "Section to customize "
 "email templates settings."
 msgstr ""
 
-#: views/admin/pages/settings.php:175
+#: views/admin/pages/settings.php:183
 msgid "Save Settings"
+msgstr ""
+
+#: views/mail/donation-confirmation.php:26
+#, php-format
+msgid "Dear %s,"
+msgstr ""
+
+#: views/mail/donation-confirmation.php:31
+#, php-format
+msgid ""
+"We sincerely appreciate "
+"your generous donation "
+"to %s. Your support "
+"makes a difference."
+msgstr ""
+
+#: views/mail/donation-confirmation.php:36
+msgid "Donation Details:"
+msgstr ""
+
+#: views/mail/donation-confirmation.php:37
+msgid "Amount:"
+msgstr ""
+
+#: views/mail/donation-confirmation.php:38
+msgid "Date:"
+msgstr ""
+
+#: views/mail/donation-confirmation.php:39
+msgid "Transaction ID:"
+msgstr ""
+
+#: views/mail/donation-confirmation.php:42
+msgid ""
+"Your contribution helps "
+"provide essential "
+"resources to those in "
+"need."
+msgstr ""
+
+#: views/mail/donation-confirmation.php:43
+msgid ""
+"For tax receipts or "
+"questions, please "
+"contact us."
+msgstr ""
+
+#: views/mail/donation-confirmation.php:44
+msgid ""
+"Thank you for being part "
+"of our mission!"
+msgstr ""
+
+#: views/mail/donation-confirmation.php:46
+msgid "Best regards,"
+msgstr ""
+
+#: views/mail/donation-confirmation.php:51
+msgid ""
+"This is an automated "
+"message. Please do not "
+"reply directly."
 msgstr ""
 
 #: views/shortcodes/campaign-lists.php:47
 msgid "No posts found."
 msgstr ""
 
-#: views/shortcodes/donation-form.php:14
+#: views/shortcodes/donation-form.php:13
+msgid ""
+"Item added to cart "
+"successfully"
+msgstr ""
+
+#: views/shortcodes/donation-form.php:30
 msgid "1"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:15
+#: views/shortcodes/donation-form.php:31
 msgid "2"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:15
+#: views/shortcodes/donation-form.php:31
 msgid "Personal"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:23
+#: views/shortcodes/donation-form.php:39
 msgid ""
 "Donation Information"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:30
+#: views/shortcodes/donation-form.php:46
 msgid "Select campaign"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:31
+#: views/shortcodes/donation-form.php:47
 msgid ""
 "Please select required "
 "fields."
 msgstr ""
 
-#: views/shortcodes/donation-form.php:35
+#: views/shortcodes/donation-form.php:51
 msgid ""
 "Please select one option."
 msgstr ""
 
-#: views/shortcodes/donation-form.php:41
+#: views/shortcodes/donation-form.php:57
 msgid "Now choose how much"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:59
+#: views/shortcodes/donation-form.php:75
 msgid "Custom"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:71
+#: views/shortcodes/donation-form.php:87
 msgid ""
 "Total Payable Amount"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:79
-#: views/shortcodes/donation-form.php:118
+#: views/shortcodes/donation-form.php:95
+#: views/shortcodes/donation-form.php:141
 msgid ""
 "Final Payable with Fee"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:98
+#: views/shortcodes/donation-form.php:114
 msgid ""
 "Personal Information"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:102
+#: views/shortcodes/donation-form.php:118
 msgid ""
 "Please fill up required "
 "fields."
 msgstr ""
 
-#: views/shortcodes/donation-form.php:106
-msgid "Title"
-msgstr ""
-
-#: views/shortcodes/donation-form.php:106
+#: views/shortcodes/donation-form.php:122
 msgid "Select title"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:106
+#: views/shortcodes/donation-form.php:122
 msgid "Mr"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:106
+#: views/shortcodes/donation-form.php:122
 msgid "Ms"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:106
+#: views/shortcodes/donation-form.php:122
 msgid "Mrs"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:106
+#: views/shortcodes/donation-form.php:122
 msgid "Miss"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:106
+#: views/shortcodes/donation-form.php:122
 msgid "Dr"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:107
+#: views/shortcodes/donation-form.php:123
 msgid "First Name"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:107
+#: views/shortcodes/donation-form.php:123
 msgid "Enter First Name"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:108
+#: views/shortcodes/donation-form.php:124
 msgid "Last Name"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:108
+#: views/shortcodes/donation-form.php:124
 msgid "Enter Last Name"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:109
+#: views/shortcodes/donation-form.php:125
 msgid "Email Address"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:109
+#: views/shortcodes/donation-form.php:125
 msgid "Enter Email Address"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:110
+#: views/shortcodes/donation-form.php:126
 msgid "Phone Number"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:110
+#: views/shortcodes/donation-form.php:126
 msgid "Enter Phone Number"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:131
+#: views/shortcodes/donation-form.php:154
 msgid "Please Wait..."
 msgstr ""
 
-#: views/shortcodes/donation-form.php:133
+#: views/shortcodes/donation-form.php:156
 msgid "Submit"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:147
+#: views/shortcodes/donation-form.php:170
 msgid "Close"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:166
+#: views/shortcodes/donation-form.php:189
 msgid "SUCCESS !"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:166
+#: views/shortcodes/donation-form.php:189
 msgid "CANCEL !"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:168
+#: views/shortcodes/donation-form.php:191
 msgid ""
 "Thank you for your "
 "generous donation!"
 msgstr ""
 
-#: views/shortcodes/donation-form.php:168
+#: views/shortcodes/donation-form.php:191
 msgid ""
 "Your donation are "
 "cancelled."
 msgstr ""
 
-#: views/shortcodes/donation-table.php:4
+#: views/shortcodes/donation-table.php:6
 msgid "Donations."
 msgstr ""
 
-#: views/shortcodes/donation-table.php:9
+#: views/shortcodes/donation-table.php:11
 msgid "Date & Time"
 msgstr ""
 
-#: views/shortcodes/donation-table.php:12
-msgid "Gift Aid"
-msgstr ""
-
-#: views/shortcodes/donation-table.php:14
+#: views/shortcodes/donation-table.php:16
 msgid "Payment Status"
 msgstr ""
 
-#: views/shortcodes/donation-table.php:32
+#: views/shortcodes/donation-table.php:34
 msgid "Data not found :)"
 msgstr ""

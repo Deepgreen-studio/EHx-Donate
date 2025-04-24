@@ -1,6 +1,6 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
-<tr valign="top" <?php if ($dependable): ?> class="ehx-disabled-content" <?php endif ?> <?php if (isset($args['depend_field'])): ?> data-depend_field="<?php echo esc_html($option . '[' . $args['depend_field'] . ']') ?>" data-depend_value="<?php echo esc_html($args['depend_value']) ?>" <?php endif ?>>
+<tr valign="top" <?php if ($dependable): ?> class="edp-disabled-content" <?php endif ?> <?php if (isset($args['depend_field'])): ?> data-depend_field="<?php echo esc_html($option . '[' . $args['depend_field'] . ']') ?>" data-depend_value="<?php echo esc_html($args['depend_value']) ?>" <?php endif ?>>
     <th scope="row">
         <label for="<?php echo esc_attr($field_name); ?>"><?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?></label>
     </th>

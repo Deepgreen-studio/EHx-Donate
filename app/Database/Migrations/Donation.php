@@ -42,8 +42,7 @@ class Donation
             created_at TIMESTAMP NULL DEFAULT NULL,
             updated_at TIMESTAMP NULL DEFAULT NULL,
             PRIMARY KEY (id),
-            KEY user_id (user_id)
-            PRIMARY KEY (`id`)
+            KEY `user_id` (user_id)
         ) $charsetCollate;";
 
         return DBMigrator::runSQL($sql, $force ? $table_name : null);
