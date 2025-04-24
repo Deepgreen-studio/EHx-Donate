@@ -28,6 +28,9 @@
   color: var(--primary-color);
   font-weight: normal;
 }
+.edp-d-none {
+  display: none;
+}
 
 .edp-form {
   text-align: center;

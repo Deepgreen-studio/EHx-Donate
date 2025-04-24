@@ -1,8 +1,9 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+<?php use EHxDonate\Helpers\Helper; ?>
 
 <div class="edp-admin-metabox">
 	
-	<input type="hidden" name="<?php echo esc_html(self::NONCE_NAME) ?>" value="<?php echo esc_html(wp_create_nonce(self::NONCE_NAME)) ?>">
+	<input type="hidden" name="<?php echo esc_html(Helper::NONCE_NAME) ?>" value="<?php echo esc_html(wp_create_nonce(Helper::NONCE_NAME)) ?>">
     
 	<table class="form-table edp-form-table edp-form-register-gdpr edp-top-label">
         <tbody>

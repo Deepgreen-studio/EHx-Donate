@@ -360,7 +360,7 @@ class CampaignPostType
     public function savePost($post_id)
     {
         // Ensure the request is for an 'ehxdo-campaign' post type
-        if (Request::getInput('post_type') !== 'ehxdo-campaign') {
+        if ((isset($_SERVER['REQUEST_METHOD']) && $_SERVER['REQUEST_METHOD'] != 'POST') || Request::getInput('post_type') !== 'ehxdo-campaign') {
             return;
         }
 

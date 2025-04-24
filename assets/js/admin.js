@@ -63,10 +63,10 @@
         let siblings = $(this).parents('tr').siblings('[data-depend_field="'+ e.target.name +'"]');
         
         if (e.target.checked) {
-            siblings.addClass('ehx-disabled-content');
+            siblings.addClass('edp-disabled-content');
         }
         else {
-            siblings.removeClass('ehx-disabled-content');
+            siblings.removeClass('edp-disabled-content');
         }
         
     });
@@ -74,7 +74,10 @@
     $(document).on('submit', 'form#edp_donate_form_submit', function (e) {
         e.preventDefault();
 
-        const form     = $(this);
+        submitForm($(this));
+    });
+
+    function submitForm(form) {
         const url      = form.attr('action');
         const method   = form.attr('method');
         const enctype  = form.attr('enctype');
@@ -88,7 +91,7 @@
 
         const options = {
             type: method || 'POST',
-            url: url,
+            url: url || ehxdo_object.ajax_url,
             dataType: 'JSON'
         }
 
@@ -98,7 +101,7 @@
         else {
             options.data = new FormData(form[0]);
             options.contentType = false;
-            options.enctype = file;
+            options.enctype = enctype;
             options.processData = false;
         }
 
@@ -110,8 +113,6 @@
                 $(btnText).text('Please wait...')
             },
             success: (response) => {
-                console.log(response);
-                
                 edpHandleSuccess(response, redirect)
             },
             complete: () => {
@@ -123,7 +124,7 @@
                 edpHandleError(e, redirect)
             }
         });
-    });
+    }
 
     var frame;
     $('.edp-admin-metabox').on('click', '#upload-image', function(e) {
@@ -170,7 +171,7 @@
     });
 
     // Filter tabs
-    $('.filter-links a').click(function(e) {
+    $('.edp-addons-wrap .filter-links').on('click', 'a', function(e) {
         e.preventDefault();
         const filter = $(this).attr('href').substring(1);
         $('.edp-addon-card').show();
@@ -181,6 +182,28 @@
         
         $('.filter-links a').removeClass('current');
         $(this).addClass('current');
+    });
+
+    // Filter tabs
+    $('.edp-addons-wrap').on('click', '#manageAddon', function(e) {
+        e.preventDefault();
+        
+        let type = $(this).data('type');
+        let addon = $(this).data('addon');
+
+        if(type == 'delete') {
+            conf = confirm('Are you sure you want to delete this plugin?')
+            if(!conf) return;
+        }
+
+        let form = $(this).parents('form#edp-addon-form');
+
+        form.attr('data-redirect', location.href);
+        form.find('input[name="type"]').val(type);
+        form.find('input[name="slug"]').val(addon);
+
+        submitForm(form);
+        
     });
 
 })(jQuery);

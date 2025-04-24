@@ -44,7 +44,7 @@
         if (e.status === 0) {
             message = 'Not connected Please verify your network connection.'
         }
-        else if (e.status === 200 && typeof redirect !== null && typeof redirect !== 'undefined') {
+        else if (e.status === 200 && redirect !== null && typeof redirect !== 'undefined') {
             location.replace(redirect);
         }
         else if (e.status === 404) {
@@ -120,13 +120,13 @@
                 },
             }[type]
 
-            element.parent().removeClass('d-none')
+            element.parent().removeClass('edp-d-none')
 
             element.attr('class', `edp-alert ${alert.color} text-center rounded-0`)
             element.find('i').attr('class', `${alert.icon}`)
             element.find('span').html(message)
 
-            setTimeout(() => element.parent().addClass('d-none'), 10000)
+            setTimeout(() => element.parent().addClass('edp-d-none'), 10000)
         }
         
     }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace EHxDonate\Shortcodes;
 
+use EHxDonate\Classes\View;
 use WP_Query;
 
 if (!defined('ABSPATH')) {
@@ -11,92 +12,88 @@ if (!defined('ABSPATH')) {
 
 class CampaignListShortcode
 {
-    /**
-     * Initializes the donation table shortcode.
-     *
-     * This method adds the 'CampaignListShortcode' shortcode to WordPress,
-     * which triggers the 'add_shortcode' method when used in content.
-     */
     public function __construct()
     {
-        add_shortcode('ehxdo_campaign_lists', [$this, 'addShortcode']);
+        add_shortcode('ehxdo_campaign_lists', [$this, 'renderShortcode']);
     }
 
     /**
-     * Processes the ehxdo_campaign_lists shortcode and generates a list of campaigns.
+     * Render the [ehxdo_campaign_lists] shortcode.
      *
-     * @param array $atts An array of shortcode attributes.
-     *
-     * @return string The generated HTML for the campaign list.
+     * @param array $atts Shortcode attributes.
+     * @return string HTML output of campaign list.
      */
-    public function addShortcode($atts)
+    public function renderShortcode($atts): string
     {
-        // Set default attributes
-        $atts = shortcode_atts(array(
-            'posts_per_page' => 6,          // Number of posts to display
-            'order'          => 'DESC',       // Order of posts (DESC or ASC)
-            'orderby'        => 'date',       // Field to order posts by
-            'category'       => '',           // Category filter (if taxonomy applies)
-            'taxonomy'       => '',           // Custom taxonomy
-            'terms'          => '',           // Term slug for taxonomy filter
-            'meta_key'       => '',           // Meta key
-            'meta_value'     => '',           // Meta value
-            'meta_compare'   => '=',          // Meta compare operator
-            'exclude'        => '',           // Exclude post IDs
-            'include'        => '',           // Include post IDs
-            'columns'        => 2,            // Number of columns in the layout
-            'layout'         => 'grid',       // Layout type (grid or list)
-            'image_size'     => 'thumbnail',  // Image size for campaign thumbnails
-            'show_excerpt'   => 'true',       // Show excerpt for campaigns
-            'excerpt_length' => 10,           // Length of the excerpt
-            'show_button'    => 'true',       // Show donate now button for campaigns
-            'button_text'    => esc_html__('Donate Now', 'ehx-donate'), // Text for the donate now button
-            'pagination'     => 'true',       // Enable pagination for the campaign list
-        ), array_change_key_case((array) $atts));
+        $atts = shortcode_atts([
+            'posts_per_page' => 6,
+            'order'          => 'DESC',
+            'orderby'        => 'date',
+            'category'       => '',
+            'taxonomy'       => '',
+            'terms'          => '',
+            'meta_key'       => '',
+            'meta_value'     => '',
+            'meta_compare'   => '=',
+            'exclude'        => '',
+            'include'        => '',
+            'columns'        => 2,
+            'layout'         => 'grid',
+            'image_size'     => 'thumbnail',
+            'show_excerpt'   => 'true',
+            'excerpt_length' => 10,
+            'show_button'    => 'true',
+            'button_text'    => esc_html__('Donate Now', 'ehx-donate'),
+            'pagination'     => 'true',
+        ], array_change_key_case((array) $atts));
 
-        // Query arguments
-        $args = array(
+        $args = [
             'post_type'      => 'ehxdo-campaign',
-            'posts_per_page' => intval($atts['posts_per_page']),
-            'order'          => $atts['order'],
-            'orderby'        => $atts['orderby'],
-            'post__not_in'   => !empty($atts['exclude']) ? explode(',', $atts['exclude']) : [],
-            'post__in'       => !empty($atts['include']) ? explode(',', $atts['include']) : [],
-        );
+            'posts_per_page' => (int) $atts['posts_per_page'],
+            'order'          => strtoupper($atts['order']) === 'ASC' ? 'ASC' : 'DESC',
+            'orderby'        => sanitize_key($atts['orderby']),
+        ];
+
+        // Post include/exclude
+        if (!empty($atts['exclude'])) {
+            $args['post__not_in'] = array_map('absint', explode(',', $atts['exclude']));
+        }
+
+        if (!empty($atts['include'])) {
+            $args['post__in'] = array_map('absint', explode(',', $atts['include']));
+        }
 
         // Taxonomy filter
         if (!empty($atts['taxonomy']) && !empty($atts['terms'])) {
-            $args['tax_query'] = array(
-                array(
-                    'taxonomy' => $atts['taxonomy'],
+            $args['tax_query'] = [
+                [
+                    'taxonomy' => sanitize_key($atts['taxonomy']),
                     'field'    => 'slug',
-                    'terms'    => explode(',', $atts['terms']),
-                ),
-            );
+                    'terms'    => array_map('sanitize_text_field', explode(',', $atts['terms'])),
+                ],
+            ];
         }
 
-        // Meta query
+        // Meta filter
         if (!empty($atts['meta_key']) && !empty($atts['meta_value'])) {
-            $args['meta_query'] = array(
-                array(
-                    'key'     => $atts['meta_key'],
-                    'value'   => $atts['meta_value'],
-                    'compare' => $atts['meta_compare'],
-                ),
-            );
+            $args['meta_query'] = [
+                [
+                    'key'     => sanitize_key($atts['meta_key']),
+                    'value'   => sanitize_text_field($atts['meta_value']),
+                    'compare' => in_array($atts['meta_compare'], ['=', '!=', '>', '>=', '<', '<=', 'LIKE', 'NOT LIKE'], true)
+                        ? $atts['meta_compare']
+                        : '=',
+                ],
+            ];
         }
 
         // Query posts
         $query = new WP_Query($args);
-        
-        // Include the view file to generate the campaign list HTML
-        require EHXDO_PLUGIN_DIR . 'views/shortcodes/campaign-lists.php';
 
-        // Reset the post data after the query
         wp_reset_postdata();
 
-        // Return the generated HTML
-        return ob_get_clean();
-    }
+        $content = View::render('shortcodes/campaign-lists', ['query' => $query, 'atts' => $atts], true);
 
+        return $content;
+    }
 }

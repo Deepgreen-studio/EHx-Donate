@@ -11,6 +11,9 @@ if (!defined('ABSPATH')) {
 
 class ActivationHandler
 {    
+    const STRIPE_CLIENT_KEY = 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot';
+    const STRIPE_SECRET_KEY = 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK';
+
     /**
      * Plugin activation hook.
      *
@@ -54,8 +57,8 @@ class ActivationHandler
             'content_type' => true,
             'stripe_test_mode_enable' => true,
             'stripe_enable' => true,
-            'stripe_client_key' => 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot',
-            'stripe_client_secret' => 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK',
+            'stripe_client_key' => self::STRIPE_CLIENT_KEY,
+            'stripe_client_secret' => self::STRIPE_SECRET_KEY,
         ];
 
         // Update the plugin's options with the default settings
