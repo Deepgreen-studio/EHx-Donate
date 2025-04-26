@@ -121,6 +121,9 @@ class Settings
             'email-template' => [
                 ['field_name' => 'content_type', 'title' => esc_html__('Content type', 'ehx-donate'), 'type' => 'checkbox', 'placeholder' => esc_html__('Enable HTML for Emails', 'ehx-donate'), 'content' => esc_html__('If you plan use emails with HTML, please make sure that this option is enabled. Otherwise, HTML will be displayed as plain text.', 'ehx-donate')],
             ],
+            'gift-aid' => [
+                ['field_name' => 'enable_gift_aid', 'title' => esc_html__('Enable Gift Aid', 'ehx-donate'), 'type' => 'checkbox', 'placeholder' => esc_html__('Allow Gift Aid Donation', 'ehx-donate')],
+            ],
             default => [
                 ['field_name' => 'login_redirect', 'title' => esc_html__('Login Redirect', 'ehx-donate'), 'is_type' => 'select', 'placeholder' => esc_html__('Stripe callback URL', 'ehx-donate'), 'data' => $data, 'option' => $page],
                 ['field_name' => 'registration_redirect', 'title' => esc_html__('Registration Redirect', 'ehx-donate'), 'is_type' => 'select', 'placeholder' => esc_html__('Stripe callback URL', 'ehx-donate'), 'data' => $data, 'option' => $page],

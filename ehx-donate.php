@@ -54,8 +54,7 @@ class EHxDonate
      */
     private function __construct()
     {
-        // Load required dependencies
-        require_once EHXDO_PLUGIN_DIR . 'vendor/autoload.php';
+        $this->registerAutoload();
 
         add_action('plugins_loaded', [$this, 'initPlugin']);
     }
@@ -82,6 +81,23 @@ class EHxDonate
             new \EHxDonate\Classes\AdminMenuHandler();
             new \EHxDonate\Classes\AdminActionHandler();
             new \EHxDonate\Addons\ManageAddons();
+            new \EHxDonate\Classes\ActivationHandler();
+        }
+    }
+    
+    /**
+     * Register Autoload
+     *
+     * @return void
+     */
+    protected function registerAutoload()
+    {
+        // Load required dependencies
+        require_once EHXDO_PLUGIN_DIR . 'vendor/autoload.php';
+        
+        // Load recurring donation integration if available
+        if (defined('EHXRD_VERSION')) {
+            require_once WP_PLUGIN_DIR . '/ehx-recurring-donation/autoloader.php';
         }
     }
 }

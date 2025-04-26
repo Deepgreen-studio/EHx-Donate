@@ -1,10 +1,10 @@
 <?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
 <?php
-
-use EHxDonate\Classes\Settings;
-use EHxDonate\Helpers\Helper;
+    use EHxDonate\Classes\Settings;
+    use EHxDonate\Helpers\Helper;
     use EHxDonate\Shortcodes\DonationFormShortcode;
+
 ?>
 
 <div class="edp-alert-element edp-d-none">
@@ -49,6 +49,11 @@ use EHxDonate\Helpers\Helper;
                         else {
                             echo "<input type='hidden' name='campaign' id='campaign' value='".esc_html($post->post_name)."' />";
                             echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select one option.', 'ehx-donate') .'</p>';
+                        }
+
+                        if(defined('EHXRD_VERSION')) {
+                            $recurring = \EHxRecurringDonation\Helpers\Helper::getRecurring();
+                            DonationFormShortcode::inputField(label: esc_html__('How often would you like to give?', 'ehx-donate'), for: 'recurring', isType: 'select', data: $recurring, column: 'edp-field-full');
                         }
                     ?>
                 </div>
@@ -125,7 +130,32 @@ use EHxDonate\Helpers\Helper;
                         DonationFormShortcode::inputField(label: __('Email Address', 'ehx-donate'), for: 'email', placeholder: __('Enter Email Address', 'ehx-donate'));
                         DonationFormShortcode::inputField(label: __('Phone Number', 'ehx-donate'), for: 'phone', placeholder: __('Enter Phone Number', 'ehx-donate'));
                     ?>
+
+                    <?php if($enable_gift_aid): ?>
+                        <div class="edp-field-100 edp-input-checkbox">
+                            <input type="checkbox" name="gift_aid" id="gift_aid" /> 
+                            <label for="gift_aid" class="edp-field-labels" style="display: inline-block;">
+                                <?php esc_html_e('Gift Aid', 'ehx-donate') ?>
+                                <img src="<?php echo esc_url(EHXDO_PLUGIN_URL .'assets/images/gift-aid.png') ?>" style="width: 70px;">
+                            </label> 
+                        </div>
+                    <?php endif ?>
                 </div>
+
+                <?php if($enable_gift_aid): ?>
+                    <div id="gift_aid_fields" style="display: none;">   
+                        <div class="edp-input-fields">
+                            <?php
+                                DonationFormShortcode::inputField(label: __('Address line 1', 'ehx-donate'), for: 'address_line_1', placeholder: __('Address line 1', 'ehx-donate'), required: false);
+                                DonationFormShortcode::inputField(label: __('Address line 2', 'ehx-donate'), for: 'address_line_2', placeholder: __('Address line 2', 'ehx-donate'), required: false);
+                                DonationFormShortcode::inputField(label: __('City', 'ehx-donate'), for: 'city', placeholder: __('Enter City', 'ehx-donate'), required: false);
+                                DonationFormShortcode::inputField(label: __('State', 'ehx-donate'), for: 'state', placeholder: __('Enter State', 'ehx-donate'), required: false);
+                                DonationFormShortcode::inputField(label: __('Country', 'ehx-donate'), for: 'country', placeholder: __('Enter Country', 'ehx-donate'), required: false);
+                                DonationFormShortcode::inputField(label: __('Post Code', 'ehx-donate'), for: 'post_code', placeholder: __('Enter Post Code', 'ehx-donate'), required: false);
+                            ?>
+                        </div>
+                    </div>
+                <?php endif ?>
 
                 <div>
 
@@ -142,6 +172,14 @@ use EHxDonate\Helpers\Helper;
                             </div>
                             <div class="form-column">
                                 <span class="form-row-value"><strong id="edp_donation_payable_amount"></strong></span>
+                            </div>
+                        </div>
+                        <div class="edp-donation-amount" id="edp-pay-gift-aid" style="display: none;">
+                            <div class="form-column">
+                                <span class="form-row-title"><strong><?php esc_html_e('Your Contribution with Gift Aid', 'ehx-donate') ?>:</strong></span>
+                            </div>
+                            <div class="form-column">
+                                <span class="form-row-value"><strong id="edp_donation_pay"></strong></span>
                             </div>
                         </div>
                     </div>

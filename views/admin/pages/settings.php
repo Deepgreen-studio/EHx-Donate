@@ -37,6 +37,12 @@
                         foreach (Settings::getIntegrationFields('general') as $field) {
                             Helper::input_group($field);
                         }
+                        
+                        if(defined('EHXGA_VERSION')) {
+                            foreach (Settings::getIntegrationFields('gift-aid') as $field) {
+                                Helper::input_group($field);
+                            }
+                        }
                     ?>
 
                     <tr valign="top">

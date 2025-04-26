@@ -2,7 +2,7 @@
 
 <tr valign="top" <?php if ($dependable): ?> class="edp-disabled-content" <?php endif ?> <?php if (isset($args['depend_field'])): ?> data-depend_field="<?php echo esc_html($option . '[' . $args['depend_field'] . ']') ?>" data-depend_value="<?php echo esc_html($args['depend_value']) ?>" <?php endif ?>>
     <th scope="row">
-        <label for="<?php echo esc_attr($field_name); ?>"><?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?></label>
+        <label for="<?php echo esc_attr($field_name); ?>"><?php echo esc_html(ucfirst(str_replace('_', ' ', $label))); ?></label>
     </th>
     <td>
         <?php if ($input_type === 'input'): ?>
@@ -21,7 +21,7 @@
                         checked(1, $value, true);
                     }
                     ?>
-                    aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?>" />
+                    aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $label))); ?>" />
 
                 <?php if ($type !== 'text' && !empty($placeholder)): ?>
                     <label for="<?php echo esc_attr($input_name); ?>">
@@ -47,7 +47,7 @@
                 name="<?php echo esc_attr($input_name); ?>"
                 id="<?php echo esc_attr($field_name); ?>"
                 class="regular-text"
-                aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?>"
+                aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $label))); ?>"
                 aria-value="<?php echo esc_html($value); ?>">
                 <option value=""><?php esc_html_e('Select an option', 'ehx-donate'); ?></option>
                 <?php foreach ($data as $option): ?>
@@ -63,7 +63,7 @@
                 id="<?php echo esc_attr($field_name); ?>"
                 class="regular-text"
                 placeholder="<?php echo esc_html($placeholder); ?>"
-                aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $field_name))); ?>"><?php echo esc_html($value); ?></textarea>
+                aria-label="<?php echo esc_html(ucfirst(str_replace('_', ' ', $label))); ?>"><?php echo esc_html($value); ?></textarea>
         <?php endif; ?>
         <small id="invalid_<?php echo esc_attr($field_name); ?>" class="invalid-feedback" style="display: block;"></small>
 

@@ -162,7 +162,8 @@ class Helper
         $option = $option ? $option : Settings::$option;
 
         // Extract field properties
-        $field_name = isset($args['field_name']) ? $args['field_name'] : '';
+        $label = isset($args['title']) ? $args['title'] : ($args['field_name'] ?? null);
+        $field_name = isset($args['field_name']) ? $args['field_name'] : ($args['title'] ?? null);
         $field_name = strtolower(str_replace(' ', '_', $field_name));
         $type       = $args['type'] ?? 'text';
         $input_type = $args['is_type'] ?? 'input';
