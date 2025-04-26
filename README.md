@@ -1,7 +1,7 @@
 # EHx Donate
 
 **Contributors:** [EH Studio](https://profiles.wordpress.org/ehstudio), [Sujit Sarkar](https://profiles.wordpress.org/iamsujitsarkar)
-**Tags:** donation, fundraising, membership, payment, charity  
+**Tags:** donation, fundraising, charity, nonprofit, campaigns
 **Requires at least:** 5.8  
 **Tested up to:** 6.8  
 **Requires PHP:** 7.4  

@@ -1,6 +1,6 @@
-=== EHx Donate ===
+=== EHx Donate - Easy Donation for WordPress - Charity Donation, Fundraising Donation, Nonprofit Donation, & More ===
 Contributors: ehstudio, iamsujitsarkar
-Tags: donation, fundraising, membership, payment, charity
+Tags: donation, fundraising, charity, nonprofit, campaigns
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4

@@ -12,6 +12,7 @@ use EHxDonate\Models\Transaction;
 use EHxDonate\Services\Request;
 use EHxDonate\Services\Response;
 use EHxDonate\Services\Validator;
+use EHxRecurringDonation\Helpers\Helper as RecurringDonationHelper;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -90,6 +91,7 @@ class DonationFormShortcode
         }
 
         $enable_recaptcha = defined('EHXRC_VERSION') && (bool) Settings::extractSettingValue('google_recaptcha_enable', false);
+        $enable_gift_aid = defined('EHXGA_VERSION') && (bool) Settings::extractSettingValue('enable_gift_aid', false);
 
         if ($enable_recaptcha) {
             wp_enqueue_script('ehxrc-recaptcha');
@@ -106,6 +108,7 @@ class DonationFormShortcode
             'callback' => home_url($wp->request),
             'payment_callback' => $payment_callback ?? false,
             'enable_recaptcha' => $enable_recaptcha,
+            'enable_gift_aid' => $enable_gift_aid,
         ], true);
 
         return $content;
@@ -132,14 +135,24 @@ class DonationFormShortcode
         // Validate reCaptcha
         $response = $validator->validateRecaptcha($request->input('g-recaptcha-response'));
         
+        $enable_gift_aid = $request->boolean('gift_aid');
+        $required = $enable_gift_aid ? 'required' : 'nullable';
+
         // Validate input data
         $validator->validate([
             'campaign' => 'required|string|max:255',
+            'recurring' => defined('EHXRD_VERSION') ? 'required' : 'nullable' . '|string|max:255',
             'amount' => 'required|numeric',
             'first_name' => 'required|string|min:2|max:30',
             'last_name' => 'required|string|min:2|max:30',
             'email' => 'required|string|email|max:255',
             'phone' => 'required|string|min:9|max:20',
+            'address_line_1' => $required . '|string|max:50',
+            'address_line_2' => 'nullable|string|max:50',
+            'city' => $required . '|string|max:50',
+            'state' => $required . '|string|max:50',
+            'country' => $required . '|string|max:50',
+            'post_code' => $required . '|string|max:50'
         ]);
 
         // Calculate total amount with service charge
@@ -153,7 +166,7 @@ class DonationFormShortcode
         if ($stripe_enable && $total_amount > 0) {
             $campaign = get_page_by_path(page_path: $request->input('campaign'), post_type: 'ehxdo-campaign');
 
-            $response = $this->handlePayment($total_amount, $browser_session, $campaign->post_title, $request->input('callback'));
+            $response = $this->handlePayment($total_amount, $browser_session, $campaign->post_title, $request->input('callback'), $request->input('recurring'));
             if (!$response || !isset($response->url)) {
                 return $this->response->error(__('Payment processing failed. Please try again.', 'ehx-donate'));
             }
@@ -269,7 +282,7 @@ class DonationFormShortcode
      * @param float $total_amount The total amount to be paid.
      * @param string $browser_session The unique browser session identifier.
      */
-    private function handlePayment($total_amount, $browser_session, $post_title = null, $callback = null)
+    private function handlePayment($total_amount, $browser_session, $post_title = null, $callback = null, $recurring = null)
     {
         try {
             $mode = 'payment';
@@ -282,6 +295,18 @@ class DonationFormShortcode
                     // 'description' => substr(strip_tags($campaign->post_content), 20),
                 ],
             ];
+
+            if (defined('EHXRD_VERSION') && $recurring !== RecurringDonationHelper::RECURRING_ONEOFF) {
+                $interval = match ($recurring) {
+                    RecurringDonationHelper::RECURRING_WEEKLY => ['interval' => 'week'],
+                    RecurringDonationHelper::RECURRING_QUARTERLY => ['interval' => 'day', 'interval_count' => 15],
+                    RecurringDonationHelper::RECURRING_YEARLY => ['interval' => 'year'],
+                    default => ['interval' => 'month']
+                };
+                $priceData['recurring'] = $interval;
+
+                $mode = 'subscription';
+            }
 
             $items[] = [
                 'price_data' => $priceData,
@@ -309,6 +334,7 @@ class DonationFormShortcode
             return $this->response->error($e->getMessage());
         }
     }
+    
     
     /**
      * Handles the payment callback after a successful payment.

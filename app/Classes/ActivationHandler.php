@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EHxDonate\Classes;
 
 use EHxDonate\Database\DBMigrator;
+use EHxDonate\Services\Request;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -11,8 +12,27 @@ if (!defined('ABSPATH')) {
 
 class ActivationHandler
 {    
+    const ACTIVATION_OPTION_KEY = 'ehxdo_activation_redirect';
     const STRIPE_CLIENT_KEY = 'pk_test_51R3tRbCo429twQWUFnIVnK8K0tH9Z1enVNk5Pggn3cABcgqctnO01kj60811kPBVLuSERJXphpfSzabb4CUWdrlb00ynOqC7Ot';
     const STRIPE_SECRET_KEY = 'sk_test_51R3tRbCo429twQWUYCwaeYwTJFPGj2VPaaGDdawemLCojNAvttxquBmhbUGbFNuALznNhw4KdZ11MdatryMjZVSQ00hCKZNEiK';
+    
+    /**
+     * Constructor for the ActivationHandler class.
+     *
+     * Initializes the sets up WordPress hooks.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        add_action( 'activated_plugin', function($plugin) {
+            if ( $plugin === plugin_basename( __FILE__ ) ) {
+                update_option(self::ACTIVATION_OPTION_KEY, true);
+            }
+        });
+
+        add_action('admin_init', [$this, 'redirectAfterActivation']);
+    }
 
     /**
      * Plugin activation hook.
@@ -63,6 +83,8 @@ class ActivationHandler
 
         // Update the plugin's options with the default settings
         update_option(Settings::$option, $options);
+
+        update_option( self::ACTIVATION_OPTION_KEY, true );
     }
 
     /**
@@ -118,6 +140,27 @@ class ActivationHandler
                     esc_html($wp_version)
                 )
             );
+        }
+    }
+    
+    /**
+     * Redirect After Activation
+     *
+     * @return void
+     */
+    public function redirectAfterActivation() 
+    {
+        // Check if the redirect option is set
+        if ( get_option( self::ACTIVATION_OPTION_KEY, false ) ) {
+            
+            // Delete the option to prevent future redirects
+            delete_option( self::ACTIVATION_OPTION_KEY);
+            
+            if(Request::getInput('activate') == 'true') {
+                $page = AdminMenuHandler::$pages['setting'];
+                wp_safe_redirect(admin_url("admin.php?page=$page"));
+                exit;
+            }
         }
     }
 }

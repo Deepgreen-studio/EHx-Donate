@@ -130,6 +130,7 @@
         let amount = parseFloat($(this).data('amount') || ($('.edp-plan-list.edp-plan-list-custom-input input').val() || 0));
         let service = amount * 1.4 / 100;
         let payable_amount = amount + service;
+        let gift_aid = payable_amount + (payable_amount * 25 / 100);
 
         $('.edp-plan-lists .edp-plan-list').removeClass('edp-plan-list-active');
         $(this).addClass('edp-plan-list-active');
@@ -141,6 +142,7 @@
 
             $('#edp-pay-amounts').css('display', 'block');
             $('#edp-pay-amounts #edp_donation_payable_amount').text(edpConvertAmount(payable_amount));
+            $('#edp-pay-amounts #edp_donation_pay').text(edpConvertAmount(gift_aid));
         }
 
         $('.edp-card input[name="amount"]').val(amount)
@@ -150,6 +152,7 @@
         let amount = parseFloat(e.target.value || 0);
         let service = amount * 1.4 / 100;
         let payable_amount = amount + service;
+        let gift_aid = payable_amount + (payable_amount * 25 / 100);
         
         $(this).attr('placeholder', $(this).attr('area-label'));
         $(this).parent().siblings('.edp-plan-list-currency').css('display', 'inline-block');
@@ -161,6 +164,7 @@
 
             $('#edp-pay-amounts').css('display', 'block');
             $('#edp-pay-amounts #edp_donation_payable_amount').text(edpConvertAmount(payable_amount));
+            $('#edp-pay-amounts #edp_donation_pay').text(edpConvertAmount(gift_aid));
         }
 
         $('.edp-card input[name="amount"]').val(amount)
@@ -184,7 +188,10 @@
         }
         // Step 2: Validate Personal Details (Current Step: 2)
         else if (current === 2) {
-            let fields = [];
+            let giftAidChecked = $('.edp-card input[name="gift_aid"]').is(':checked');
+            let fields = giftAidChecked
+                ? ['first_name', 'last_name', 'email', 'phone', 'address_line_1', 'city', 'state', 'country', 'post_code']
+                : ['first_name', 'last_name', 'email', 'phone'];
     
             valid = fields.every(field => $('.edp-card input[name="' + field + '"]').val().trim() !== '');
             
@@ -203,6 +210,25 @@
     $(".edp-card").on('click', '.edp-modal-close', function () {
         
         $('#edp-callback-modal').removeClass('edp-modal-active')
+    });
+
+    // FOR GIFT AID PLUGIN
+    $(".edp-card").on('change', 'input#gift_aid', function (e) {
+        
+        if(e.target.checked) {
+            $('#gift_aid_fields').css('display', 'block')
+            $('#edp-pay-gift-aid').css('display', 'flex')
+        }
+        else {
+            $('#gift_aid_fields').css('display', 'none')
+            $('#edp-pay-gift-aid').css('display', 'none')
+        }
+
+    });
+
+    // FOR RECURRING DONATION PLUGIN
+    $(".edp-card").on('change', 'select#recurring', function (e) {
+        $('.edp-plan-list .edp-plan-list-text').text(e.target.value)
     });
 
 })(jQuery);

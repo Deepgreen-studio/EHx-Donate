@@ -89,12 +89,12 @@ class Model
     public function select($selects)
     {
         if (is_array($selects)) {
-            $selects = array_unique(array_merge($selects, $this->selects));
+            $selects = array_merge($selects, $this->selects);
         } else {
             $this->selects[] = $selects;
-            $selects = array_unique($this->selects);
+            $selects = $this->selects;
         }
-        $this->selects = $selects;
+        $this->selects = array_unique($selects);
         return $this;
     }
 
@@ -572,10 +572,15 @@ class Model
      * @param string $output Output format (OBJECT/ARRAY_A/ARRAY_N)
      * @return array Query results
      */
-    public function get($output = OBJECT)
+    public function get($output = OBJECT, $plainSelect = false)
     {
         // Build the base query with placeholders
-        $query = $this->db->prepare("SELECT %1s FROM %1s %1s", $this->getSelects(), $this->getFromClause(), $this->getJoinStatement());
+        if($plainSelect) {
+            $query = $this->db->prepare("SELECT {$this->getSelects()} FROM %1s %1s", $this->getFromClause(), $this->getJoinStatement());
+        }
+        else {
+            $query = $this->db->prepare("SELECT %1s FROM %1s %1s", $this->getSelects(), $this->getFromClause(), $this->getJoinStatement());
+        }
         
         if (!empty($this->getWhereStatement())) {
             $query .= " {$this->getWhereStatement()}";
