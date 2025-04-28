@@ -28,6 +28,12 @@ class RegisterScripts
 
         // Register frontend scripts
         add_action('wp_enqueue_scripts', [$this, 'registerScripts']);
+
+        add_filter('safe_style_css', function ($styles) {
+            $styles[] = 'display'; // allow the 'display' property
+            return $styles;
+        });
+        
     }
 
     /**

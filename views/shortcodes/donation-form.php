@@ -76,7 +76,7 @@
                             <span class="edp-plan-list-currency" style="display: none;">£</span>
 
                             <div class="edp-plan-list-form-field">
-                                <input type="text" name="" id="" area-label="<?php esc_html_e('Custom', 'ehx-donate') ?>" placeholder="<?php esc_html_e('Custom', 'ehx-donate') ?>" class="is-empty">
+                                <input type="text" area-label="<?php esc_html_e('Custom', 'ehx-donate') ?>" placeholder="<?php esc_html_e('Custom', 'ehx-donate') ?>" class="is-empty">
                             </div>
 
                             <span class="edp-plan-list-text"><?php esc_html_e('One-off', 'ehx-donate') ?></span>
@@ -204,7 +204,7 @@
                 <div class="edp-modal-content">
 
                     <div class="edp-modal-header">
-                        <a href="javascript:void(0)" title="Close" class="edp-modal-close"><?php esc_html_e('Close', 'ehx-donate') ?></a>
+                        <a href="#" title="Close" class="edp-modal-close" onclick="event.preventDefault();"><?php esc_html_e('Close', 'ehx-donate') ?></a>
                     </div>
                     
                     <div class="edp-modal-body">

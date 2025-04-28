@@ -63,16 +63,14 @@ class View
     public static function render(string $path, array $data = [], bool $return = false): ?string
     {
         try {
-            $content = wp_kses(
-                static::make($path, $data),
-                Helper::allowedHTMLTags()
-            );
+            // $content = wp_kses(static::make($path, $data), Helper::allowedHTMLTags());
+            $content = wp_kses(static::make($path, $data), Helper::allowedHTMLTags());
 
             if ($return) {
                 return $content;
             }
 
-            echo wp_kses_post($content);
+            echo $content;
         } catch (\Throwable $e) {
             if (WP_DEBUG) {
                 error_log($e->getMessage());

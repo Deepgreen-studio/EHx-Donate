@@ -299,7 +299,7 @@ class DonationFormShortcode
             if (defined('EHXRD_VERSION') && $recurring !== RecurringDonationHelper::RECURRING_ONEOFF) {
                 $interval = match ($recurring) {
                     RecurringDonationHelper::RECURRING_WEEKLY => ['interval' => 'week'],
-                    RecurringDonationHelper::RECURRING_QUARTERLY => ['interval' => 'day', 'interval_count' => 15],
+                    RecurringDonationHelper::RECURRING_QUARTERLY => ['interval' => 'month', 'interval_count' => 3],
                     RecurringDonationHelper::RECURRING_YEARLY => ['interval' => 'year'],
                     default => ['interval' => 'month']
                 };

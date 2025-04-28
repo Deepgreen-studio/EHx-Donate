@@ -310,9 +310,17 @@ class Helper
             'class' => true,
             'style' => true,
             'title' => true,
+            'href' => true,
             'role' => true,
             'aria-*' => true,
             'data-*' => true,
+            'lang' => true,
+            'dir' => ['ltr', 'rtl', 'auto'],
+            'tabindex' => true,
+            'contenteditable' => true,
+            'hidden' => true,
+            'draggable' => ['true', 'false'],
+            'spellcheck' => ['true', 'false'],
         ];
 
         // SVG-specific tags and attributes
@@ -323,47 +331,116 @@ class Helper
                 'height' => true,
                 'viewbox' => true,
                 'fill' => true,
+                'stroke' => true,
+                'stroke-width' => true,
+                'stroke-linecap' => true,
+                'stroke-linejoin' => true,
+                'x' => true,
+                'y' => true,
+                'preserveAspectRatio' => true,
             ] + $base_attrs,
             'g' => [
                 'fill' => true,
+                'transform' => true,
             ] + $base_attrs,
             'title' => $base_attrs,
             'path' => [
                 'd' => true,
                 'fill' => true,
                 'stroke' => true,
+                'stroke-width' => true,
+                'stroke-linecap' => true,
+                'stroke-linejoin' => true,
+            ] + $base_attrs,
+            'circle' => [
+                'cx' => true,
+                'cy' => true,
+                'r' => true,
+                'fill' => true,
+                'stroke' => true,
+            ] + $base_attrs,
+            'polyline' => [
+                'cx' => true,
+                'cy' => true,
+                'r' => true,
+                'fill' => true,
+                'stroke' => true,
+                'points' => true,
+            ] + $base_attrs,
+            'line' => [
+                'cx' => true,
+                'cy' => true,
+                'r' => true,
+                'fill' => true,
+                'stroke' => true,
+                'x1' => true,
+                'x2' => true,
+                'y1' => true,
+                'y2' => true,
+            ] + $base_attrs,
+            'rect' => [
+                'x' => true,
+                'y' => true,
+                'width' => true,
+                'height' => true,
+                'rx' => true,
+                'ry' => true,
+                'fill' => true,
+                'stroke' => true,
+            ] + $base_attrs,
+            'text' => [
+                'x' => true,
+                'y' => true,
+                'font-family' => true,
+                'font-size' => true,
+                'text-anchor' => true,
+                'fill' => true,
+            ] + $base_attrs,
+            'use' => [
+                'href' => true,
+                'x' => true,
+                'y' => true,
+                'width' => true,
+                'height' => true,
             ] + $base_attrs,
         ];
 
-        // Standard HTML tags with their specific attributes
-        $html_tags = [
-            'a' => [
-                'href' => true,
+        // Form and input related tags
+        $form_tags = [
+            'form' => [
+                'action' => true,
+                'method' => ['get', 'post'],
+                'enctype' => ['application/x-www-form-urlencoded', 'multipart/form-data', 'text/plain'],
+                'novalidate' => true,
                 'target' => ['_blank', '_self', '_parent', '_top'],
-                'rel' => true,
-                'download' => true,
-            ],
-            'img' => [
-                'src' => true,
-                'alt' => true,
-                'srcset' => true,
-                'sizes' => true,
-                'decoding' => ['async', 'auto', 'sync'],
-                'loading' => ['lazy', 'eager'],
-            ],
+                'autocomplete' => ['on', 'off'],
+                'accept-charset' => true,
+                'name' => true,
+            ] + $base_attrs,
             'input' => [
-                'type' => true,
+                'type' => ['text', 'password', 'email', 'number', 'tel', 'url', 'search', 'date', 'time', 'datetime-local', 'month', 'week', 'color', 'checkbox', 'radio', 'file', 'submit', 'image', 'reset', 'button', 'hidden', 'range'],
                 'name' => true,
                 'value' => true,
-                'autocomplete' => true,
+                'autocomplete' => ['on', 'off'],
                 'placeholder' => true,
                 'required' => true,
                 'disabled' => true,
+                'readonly' => true,
                 'checked' => true,
                 'min' => true,
                 'max' => true,
                 'step' => true,
-            ],
+                'minlength' => true,
+                'maxlength' => true,
+                'pattern' => true,
+                'size' => true,
+                'multiple' => true,
+                'accept' => true,
+                'src' => true,
+                'alt' => true,
+                'form' => true,
+                'list' => true,
+            ] + $base_attrs,
             'textarea' => [
                 'name' => true,
                 'placeholder' => true,
@@ -371,60 +448,369 @@ class Helper
                 'cols' => true,
                 'required' => true,
                 'disabled' => true,
-            ],
+                'readonly' => true,
+                'minlength' => true,
+                'maxlength' => true,
+                'wrap' => ['hard', 'soft'],
+                'autocomplete' => ['on', 'off'],
+                'form' => true,
+            ] + $base_attrs,
             'select' => [
                 'name' => true,
                 'required' => true,
                 'disabled' => true,
                 'multiple' => true,
-            ],
+                'size' => true,
+                'autocomplete' => ['on', 'off'],
+                'form' => true,
+            ] + $base_attrs,
             'option' => [
                 'value' => true,
                 'selected' => true,
                 'disabled' => true,
-            ],
+                'label' => true,
+            ] + $base_attrs,
+            'optgroup' => [
+                'label' => true,
+                'disabled' => true,
+            ] + $base_attrs,
             'button' => [
                 'type' => ['button', 'submit', 'reset'],
                 'name' => true,
                 'value' => true,
                 'disabled' => true,
-            ],
-            'form' => [
-                'action' => true,
-                'method' => ['get', 'post'],
-                'enctype' => true,
-                'novalidate' => true,
-                'target' => true,
-            ],
+                'form' => true,
+                'formaction' => true,
+                'formenctype' => true,
+                'formmethod' => true,
+                'formnovalidate' => true,
+                'formtarget' => true,
+                'autofocus' => true,
+            ] + $base_attrs,
             'label' => [
                 'for' => true,
-            ],
-            // Router components (Vue.js, etc.)
+                'form' => true,
+            ] + $base_attrs,
+            'fieldset' => [
+                'disabled' => true,
+                'form' => true,
+                'name' => true,
+            ] + $base_attrs,
+            'legend' => $base_attrs,
+            'datalist' => $base_attrs,
+            'output' => [
+                'for' => true,
+                'form' => true,
+                'name' => true,
+            ] + $base_attrs,
+            'progress' => [
+                'value' => true,
+                'max' => true,
+            ] + $base_attrs,
+            'meter' => [
+                'value' => true,
+                'min' => true,
+                'max' => true,
+                'low' => true,
+                'high' => true,
+                'optimum' => true,
+            ] + $base_attrs,
+        ];
+
+        // Media tags
+        $media_tags = [
+            'img' => [
+                'src' => true,
+                'alt' => true,
+                'srcset' => true,
+                'sizes' => true,
+                'decoding' => ['async', 'auto', 'sync'],
+                'loading' => ['lazy', 'eager'],
+                'width' => true,
+                'height' => true,
+                'crossorigin' => ['anonymous', 'use-credentials'],
+                'usemap' => true,
+                'ismap' => true,
+                'longdesc' => true,
+                'referrerpolicy' => ['no-referrer', 'no-referrer-when-downgrade', 'origin', 'origin-when-cross-origin', 'unsafe-url'],
+            ] + $base_attrs,
+            'picture' => $base_attrs,
+            'source' => [
+                'src' => true,
+                'srcset' => true,
+                'sizes' => true,
+                'type' => true,
+                'media' => true,
+            ] + $base_attrs,
+            'audio' => [
+                'src' => true,
+                'controls' => true,
+                'autoplay' => true,
+                'loop' => true,
+                'muted' => true,
+                'preload' => ['none', 'metadata', 'auto'],
+                'crossorigin' => ['anonymous', 'use-credentials'],
+            ] + $base_attrs,
+            'video' => [
+                'src' => true,
+                'poster' => true,
+                'width' => true,
+                'height' => true,
+                'controls' => true,
+                'autoplay' => true,
+                'loop' => true,
+                'muted' => true,
+                'preload' => ['none', 'metadata', 'auto'],
+                'playsinline' => true,
+                'crossorigin' => ['anonymous', 'use-credentials'],
+            ] + $base_attrs,
+            'track' => [
+                'kind' => ['subtitles', 'captions', 'descriptions', 'chapters', 'metadata'],
+                'src' => true,
+                'srclang' => true,
+                'label' => true,
+                'default' => true,
+            ] + $base_attrs,
+            'embed' => [
+                'src' => true,
+                'type' => true,
+                'width' => true,
+                'height' => true,
+            ] + $base_attrs,
+            'object' => [
+                'data' => true,
+                'type' => true,
+                'width' => true,
+                'height' => true,
+                'usemap' => true,
+                'form' => true,
+                'name' => true,
+            ] + $base_attrs,
+            'param' => [
+                'name' => true,
+                'value' => true,
+            ] + $base_attrs,
+            'iframe' => [
+                'src' => true,
+                'srcdoc' => true,
+                'name' => true,
+                'width' => true,
+                'height' => true,
+                'allow' => true,
+                'allowfullscreen' => true,
+                'referrerpolicy' => ['no-referrer', 'no-referrer-when-downgrade', 'origin', 'origin-when-cross-origin', 'unsafe-url'],
+                'sandbox' => ['allow-forms', 'allow-modals', 'allow-orientation-lock', 'allow-pointer-lock', 'allow-popups', 'allow-popups-to-escape-sandbox', 'allow-presentation', 'allow-same-origin', 'allow-scripts', 'allow-top-navigation', 'allow-top-navigation-by-user-activation'],
+                'loading' => ['lazy', 'eager'],
+            ] + $base_attrs,
+            'map' => [
+                'name' => true,
+            ] + $base_attrs,
+            'area' => [
+                'alt' => true,
+                'coords' => true,
+                'shape' => ['rect', 'circle', 'poly', 'default'],
+                'href' => true,
+                'target' => ['_blank', '_self', '_parent', '_top'],
+                'download' => true,
+                'rel' => true,
+                'hreflang' => true,
+                'type' => true,
+                'referrerpolicy' => ['no-referrer', 'no-referrer-when-downgrade', 'origin', 'origin-when-cross-origin', 'unsafe-url'],
+            ] + $base_attrs,
+            'canvas' => [
+                'width' => true,
+                'height' => true,
+            ] + $base_attrs,
+        ];
+
+        // Table tags
+        $table_tags = [
+            'table' => [
+                'border' => true,
+                'cellpadding' => true,
+                'cellspacing' => true,
+                'summary' => true,
+                'width' => true,
+            ] + $base_attrs,
+            'caption' => $base_attrs,
+            'colgroup' => [
+                'span' => true,
+            ] + $base_attrs,
+            'col' => [
+                'span' => true,
+            ] + $base_attrs,
+            'thead' => $base_attrs,
+            'tbody' => $base_attrs,
+            'tfoot' => $base_attrs,
+            'tr' => $base_attrs,
+            'td' => [
+                'colspan' => true,
+                'rowspan' => true,
+                'headers' => true,
+                'scope' => ['row', 'col', 'rowgroup', 'colgroup'],
+                'abbr' => true,
+                'align' => ['left', 'center', 'right', 'justify', 'char'],
+                'valign' => ['top', 'middle', 'bottom', 'baseline'],
+                'width' => true,
+                'height' => true,
+            ] + $base_attrs,
+            'th' => [
+                'colspan' => true,
+                'rowspan' => true,
+                'headers' => true,
+                'scope' => ['row', 'col', 'rowgroup', 'colgroup'],
+                'abbr' => true,
+                'align' => ['left', 'center', 'right', 'justify', 'char'],
+                'valign' => ['top', 'middle', 'bottom', 'baseline'],
+                'width' => true,
+                'height' => true,
+            ] + $base_attrs,
+        ];
+
+        $a_tag = [
+            'a' => [
+                'href' => true,
+                'target' => ['_blank', '_self', '_parent', '_top'],
+                'rel' => true,
+                'download' => true,
+                'hreflang' => true,
+                'type' => true,
+                'referrerpolicy' => ['no-referrer', 'origin', 'unsafe-url'],
+                'ping' => true,
+                'onclick' => true,
+            ] + $base_attrs,
+        ];        
+
+        // Text formatting and semantic tags
+        $text_tags = [
+            'a' => $base_attrs,
+            'p' => $base_attrs,
+            'h1' => $base_attrs,
+            'h2' => $base_attrs,
+            'h3' => $base_attrs,
+            'h4' => $base_attrs,
+            'h5' => $base_attrs,
+            'h6' => $base_attrs,
+            'div' => $base_attrs,
+            'span' => $base_attrs,
+            'br' => $base_attrs,
+            'hr' => $base_attrs,
+            'pre' => $base_attrs,
+            'blockquote' => [
+                'cite' => true,
+            ] + $base_attrs,
+            'ol' => [
+                'reversed' => true,
+                'start' => true,
+                'type' => ['1', 'a', 'A', 'i', 'I'],
+            ] + $base_attrs,
+            'ul' => $base_attrs,
+            'li' => [
+                'value' => true,
+            ] + $base_attrs,
+            'dl' => $base_attrs,
+            'dt' => $base_attrs,
+            'dd' => $base_attrs,
+            'figure' => $base_attrs,
+            'figcaption' => $base_attrs,
+            'main' => $base_attrs,
+            'section' => $base_attrs,
+            'article' => $base_attrs,
+            'aside' => $base_attrs,
+            'header' => $base_attrs,
+            'footer' => $base_attrs,
+            'nav' => $base_attrs,
+            'address' => $base_attrs,
+            'time' => [
+                'datetime' => true,
+            ] + $base_attrs,
+            'mark' => $base_attrs,
+            'ruby' => $base_attrs,
+            'rt' => $base_attrs,
+            'rp' => $base_attrs,
+            'bdi' => $base_attrs,
+            'bdo' => [
+                'dir' => ['ltr', 'rtl'],
+            ] + $base_attrs,
+            'wbr' => $base_attrs,
+            'ins' => [
+                'cite' => true,
+                'datetime' => true,
+            ] + $base_attrs,
+            'del' => [
+                'cite' => true,
+                'datetime' => true,
+            ] + $base_attrs,
+            'small' => $base_attrs,
+            'strong' => $base_attrs,
+            'em' => $base_attrs,
+            'i' => $base_attrs,
+            'b' => $base_attrs,
+            'u' => $base_attrs,
+            's' => $base_attrs,
+            'cite' => $base_attrs,
+            'q' => [
+                'cite' => true,
+            ] + $base_attrs,
+            'dfn' => $base_attrs,
+            'abbr' => [
+                'title' => true,
+            ] + $base_attrs,
+            'code' => $base_attrs,
+            'var' => $base_attrs,
+            'samp' => $base_attrs,
+            'kbd' => $base_attrs,
+            'sub' => $base_attrs,
+            'sup' => $base_attrs,
+            'details' => [
+                'open' => true,
+            ] + $base_attrs,
+            'summary' => $base_attrs,
+            'dialog' => [
+                'open' => true,
+            ] + $base_attrs,
+            'menu' => $base_attrs,
+            'menuitem' => $base_attrs,
+            'template' => $base_attrs,
+            'slot' => $base_attrs,
+        ];
+
+        // Framework-specific tags (Vue, React, etc.)
+        $framework_tags = [
             'router-view' => $base_attrs,
             'router-link' => [
                 'to' => true,
                 'exact' => true,
                 'active-class' => true,
                 'exact-active-class' => true,
+                'replace' => true,
+                'append' => true,
+                'tag' => true,
+                'event' => true,
+            ] + $base_attrs,
+            'transition' => [
+                'name' => true,
+                'appear' => true,
+                'mode' => ['in-out', 'out-in'],
+                'duration' => true,
+            ] + $base_attrs,
+            'transition-group' => [
+                'name' => true,
+                'tag' => true,
+                'move-class' => true,
             ] + $base_attrs,
         ];
 
-        // Additional standard HTML tags that only need base attributes
-        $simple_tags = [
-            'div', 'span', 'p', 'table', 'thead', 'tbody', 'tr', 'td', 'th',
-            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'ul', 'li', 'i'
-        ];
-
-        // Merge all tags with their attributes
-        $allowed_tags = $svg_tags;
-        
-        foreach ($html_tags as $tag => $attrs) {
-            $allowed_tags[$tag] = $attrs + $base_attrs;
-        }
-        
-        foreach ($simple_tags as $tag) {
-            $allowed_tags[$tag] = $base_attrs;
-        }
+        // Combine all tags
+        $allowed_tags = array_merge(
+            $svg_tags,
+            $a_tag,
+            $form_tags,
+            $media_tags,
+            $table_tags,
+            $text_tags,
+            $framework_tags
+        );
 
         return $allowed_tags;
     }
