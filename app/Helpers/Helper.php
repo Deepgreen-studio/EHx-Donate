@@ -296,4 +296,136 @@ class Helper
     {
         return '£' . number_format((float) $amount, 2);
     }
+
+    /**
+     * Allowed HTML Tags
+     *
+     * @return array
+     */
+    public static function allowedHTMLTags(): array
+    {
+        // Base attributes allowed for most tags
+        $base_attrs = [
+            'id' => true,
+            'class' => true,
+            'style' => true,
+            'title' => true,
+            'role' => true,
+            'aria-*' => true,
+            'data-*' => true,
+        ];
+
+        // SVG-specific tags and attributes
+        $svg_tags = [
+            'svg' => [
+                'xmlns' => true,
+                'width' => true,
+                'height' => true,
+                'viewbox' => true,
+                'fill' => true,
+            ] + $base_attrs,
+            'g' => [
+                'fill' => true,
+            ] + $base_attrs,
+            'title' => $base_attrs,
+            'path' => [
+                'd' => true,
+                'fill' => true,
+                'stroke' => true,
+            ] + $base_attrs,
+        ];
+
+        // Standard HTML tags with their specific attributes
+        $html_tags = [
+            'a' => [
+                'href' => true,
+                'target' => ['_blank', '_self', '_parent', '_top'],
+                'rel' => true,
+                'download' => true,
+            ],
+            'img' => [
+                'src' => true,
+                'alt' => true,
+                'srcset' => true,
+                'sizes' => true,
+                'decoding' => ['async', 'auto', 'sync'],
+                'loading' => ['lazy', 'eager'],
+            ],
+            'input' => [
+                'type' => true,
+                'name' => true,
+                'value' => true,
+                'autocomplete' => true,
+                'placeholder' => true,
+                'required' => true,
+                'disabled' => true,
+                'checked' => true,
+                'min' => true,
+                'max' => true,
+                'step' => true,
+            ],
+            'textarea' => [
+                'name' => true,
+                'placeholder' => true,
+                'rows' => true,
+                'cols' => true,
+                'required' => true,
+                'disabled' => true,
+            ],
+            'select' => [
+                'name' => true,
+                'required' => true,
+                'disabled' => true,
+                'multiple' => true,
+            ],
+            'option' => [
+                'value' => true,
+                'selected' => true,
+                'disabled' => true,
+            ],
+            'button' => [
+                'type' => ['button', 'submit', 'reset'],
+                'name' => true,
+                'value' => true,
+                'disabled' => true,
+            ],
+            'form' => [
+                'action' => true,
+                'method' => ['get', 'post'],
+                'enctype' => true,
+                'novalidate' => true,
+                'target' => true,
+            ],
+            'label' => [
+                'for' => true,
+            ],
+            // Router components (Vue.js, etc.)
+            'router-view' => $base_attrs,
+            'router-link' => [
+                'to' => true,
+                'exact' => true,
+                'active-class' => true,
+                'exact-active-class' => true,
+            ] + $base_attrs,
+        ];
+
+        // Additional standard HTML tags that only need base attributes
+        $simple_tags = [
+            'div', 'span', 'p', 'table', 'thead', 'tbody', 'tr', 'td', 'th',
+            'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'hr', 'ul', 'li', 'i'
+        ];
+
+        // Merge all tags with their attributes
+        $allowed_tags = $svg_tags;
+        
+        foreach ($html_tags as $tag => $attrs) {
+            $allowed_tags[$tag] = $attrs + $base_attrs;
+        }
+        
+        foreach ($simple_tags as $tag) {
+            $allowed_tags[$tag] = $base_attrs;
+        }
+
+        return $allowed_tags;
+    }
 }
