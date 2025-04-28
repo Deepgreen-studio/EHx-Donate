@@ -4,7 +4,6 @@
     use EHxDonate\Classes\Settings;
     use EHxDonate\Helpers\Helper;
     use EHxDonate\Shortcodes\DonationFormShortcode;
-
 ?>
 
 <div class="edp-alert-element edp-d-none">
@@ -108,7 +107,7 @@
             </div> 
 
             <div class="edp-step-buttons"></div>
-            <input type="button" name="next" class="edp-next-btn edp-action-btn" value="Next" />
+            <input type="button" name="next" class="edp-next-btn edp-action-btn" value="<?php esc_attr_e('Next') ?>" />
 
         </fieldset>
 
@@ -193,7 +192,7 @@
                 <div class="ehx-btn-loader" id="ehx-loader"></div>
                 <span id="ehx-btn-text"><?php esc_html_e('Submit', 'ehx-donate') ?></span>
             </button>
-            <input type="button" name="previous" class="edp-previous-btn edp-action-btn-previous" value="Previous" />
+            <input type="button" name="previous" class="edp-previous-btn edp-action-btn-previous" value="<?php esc_attr_e('Previous') ?>" />
 
         </fieldset>
 

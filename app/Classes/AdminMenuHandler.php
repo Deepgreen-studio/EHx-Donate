@@ -21,9 +21,7 @@ class AdminMenuHandler
     ];
 
     /**
-     * Constructor for EHXDo_Menu class.
-     *
-     * Initializes the EHxMember_Request object and adds the admin menu.
+     * Constructor for AdminMenuHandler class.
      */
     public function __construct() 
     {
