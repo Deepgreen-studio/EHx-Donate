@@ -122,7 +122,7 @@
 
             element.parent().removeClass('edp-d-none')
 
-            element.attr('class', `edp-alert ${alert.color} text-center rounded-0`)
+            element.attr('class', `edp-alert ${alert.color} edp-text-center rounded-0`)
             element.find('i').attr('class', `${alert.icon}`)
             element.find('span').html(message)
 

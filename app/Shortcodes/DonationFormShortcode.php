@@ -13,6 +13,7 @@ use EHxDonate\Services\Request;
 use EHxDonate\Services\Response;
 use EHxDonate\Services\Validator;
 use EHxRecurringDonation\Helpers\Helper as RecurringDonationHelper;
+use EHxRecurringDonation\Models\Subscription;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -357,7 +358,7 @@ class DonationFormShortcode
 
         $donation = (new Donation())->where('browser_session', $this->transient?->browser_session)->where('payment_status', 'pending')->first();
         if($donation) {
-            $recurring = $input['recurring'] ?? esc_html('One-off');
+            $recurring = $this->transient?->input['recurring'] ?? esc_html('One-off');
 
             (new DonationItem)->insert([
                 'donation_id' => $donation->id,
@@ -369,6 +370,25 @@ class DonationFormShortcode
             ]);
 
             if ($status == 'success') {
+                if ($recurring !== RecurringDonationHelper::RECURRING_ONEOFF) {
+
+                    $next_payment_date = RecurringDonationHelper::recurringNextPayment($recurring);
+
+                    (new Subscription)->insert([
+                        'user_id' => $donation->user_id,
+                        // 'donation_id' => $donation->id,
+                        'title' => $this->transient?->campaign?->post_title ?? esc_html__('Quick Donation', 'ehx-donate'),
+                        'stripe_subscription_id' => wp_rand(),
+                        'stripe_subscription_price_id' => null,
+                        'amount' => $donation->total_amount,
+                        'recurring' => $recurring,
+                        'next_payment_date'  => $next_payment_date,
+                        'invoice_no' => wp_rand(),
+                        'status' => 'active',
+                        'payment_method' => $donation->payment_method,
+                    ]);
+                }
+
                 (new Transaction)->insert([
                     'donation_id' => $donation->id,
                     'amount'  => $donation->total_amount,
