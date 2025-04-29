@@ -17,7 +17,7 @@ if (!defined('ABSPATH')) {
 class TransactionDataTable extends WP_List_Table 
 { 
     /**
-     * Constructor for the EHXDo_Transaction_Data_Table class.
+     * Constructor for the TransactionDataTable class.
      *
      * Initializes the parent class and sets up the necessary properties.
      *

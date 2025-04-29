@@ -115,6 +115,24 @@ class Model
         $this->wheres[] = array($column, $operator, $value);
         return $this;
     }
+    
+    /**
+     * Add a OR WHERE condition
+     *
+     * @param string $column Column name
+     * @param mixed $operator Comparison operator
+     * @param mixed $value Comparison value
+     * @return self
+     */
+    public function orWhere($column, $operator, $value = '')
+    {
+        if (func_num_args() == 2) {
+            $value = $operator;
+            $operator = '=';
+        }
+        $this->wheres[] = [$column, $operator, $value, 'OR'];
+        return $this;
+    }
 
     /**
      * Add a WHERE BETWEEN condition
@@ -176,9 +194,7 @@ class Model
             array_walk($values, function (&$x) {
                 $x = "'$x'";
             });
-            $this->wheres[] = array(
-                $column, 'IN', '('.implode(',', $values).')'
-            );
+            $this->wheres[] = array($column, 'IN', '('.implode(',', $values).')');
         }
 
         return $this;
@@ -264,29 +280,33 @@ class Model
             foreach ($this->wheres as $index => $where) {
                 if (is_numeric($where[2])) {
                     $whereValue = $where[2];
-                } else {
+                } 
+                else {
                     if ($where[1] != 'IN') {
-                        $whereValue = "'".$where[2]."'";
-                    } else {
+                        $whereValue = "'$where[2]'";
+                    } 
+                    else {
                         $whereValue = $where[2];
                     }
                 }
                 if ($index == 0) {
-                    $statement = 'WHERE '.$where[0].' '.$where[1].' '.$whereValue;
-                } else {
-                    $statement .= ' AND '.$where[0].' '.$where[1].' '.$whereValue;
+                    $statement = "WHERE $where[0] $where[1] $whereValue";
+                } 
+                else {
+                    $operator = $where[3] ?? 'AND';
+                    $statement .= " $operator $where[0] $where[1] $whereValue";
                 }
             }
         }
         if ($this->whereBetween && !$this->wheres) {
             foreach ($this->whereBetween as $whereBetween) {
-                $statement .= ' WHERE '.$whereBetween[0].' BETWEEN "'.$whereBetween[1].'" AND "'.$whereBetween[2].'"';
+                $statement .= " WHERE $whereBetween[0] BETWEEN $whereBetween[1] AND $whereBetween[2]";
             }
         }
 
         if ($this->whereBetween && $this->wheres) {
             foreach ($this->whereBetween as $whereBetween) {
-                $statement .= ' '.$whereBetween[3]. ' ' .$whereBetween[0].' BETWEEN "'.$whereBetween[1].'" AND "'.$whereBetween[2].'"';
+                $statement .= " $whereBetween[3] $whereBetween[0] BETWEEN $whereBetween[1] AND $whereBetween[2]";
             }
         }
         return $statement;
@@ -466,33 +486,17 @@ class Model
     }
 
     /**
-     * Execute query and get single row by ID
-     *
-     * @param mixed $columnValue Optional ID value
-     * @param string $column Optional column name (default 'id')
-     * @return object|null Database row or null if not found
+     * Build SQL query with proper escaping
      */
-    public function find($columnValue = false, $column = 'id')
+    protected function buildSqlQuery(bool $countOnly = false): string
     {
-        if ($columnValue) {
-            $this->wheres[] = array($column, '=', $columnValue);
-        }
+        $select = $countOnly ? 'COUNT(*)' : $this->getSelects();
+        $from = $this->getFromClause();
+        $joins = $this->getJoinStatement();
+        $where = $this->getWhereStatement();
+        $others = $this->getOtherStatements();
 
-        // Build the base query with placeholders
-        $query = $this->db->prepare("SELECT %1s FROM %1s %1s", $this->getSelects(), $this->getFromClause(), $this->getJoinStatement());
-        
-        if (!empty($this->getWhereStatement())) {
-            $query .= " {$this->getWhereStatement()}";
-        }
-        
-        // Add other statements (ORDER BY, LIMIT etc)
-        $query .= " %1s";
-
-        $data = $this->db->get_row($this->db->prepare($query, $this->getOtherStatements()));
-
-        $this->reset();
-
-        return $data;
+        return $this->db->prepare("SELECT $select FROM %1s %1s $where %1s", $from, $joins, $others);
     }
 
     /**
@@ -502,17 +506,7 @@ class Model
      */
     public function first()
     {
-        // Build the base query with placeholders
-        $query = $this->db->prepare("SELECT %1s FROM %1s %1s", $this->getSelects(), $this->getFromClause(), $this->getJoinStatement());
-        
-        if (!empty($this->getWhereStatement())) {
-            $query .= " {$this->getWhereStatement()}";
-        }
-        
-        // Add other statements (ORDER BY, LIMIT etc)
-        $query .= " %1s";
-
-        $data = $this->db->get_row($this->db->prepare($query, $this->getOtherStatements()));
+        $data = $this->db->get_row($this->buildSqlQuery());
 
         $this->reset();
 
@@ -527,43 +521,11 @@ class Model
     public function getSQL()
     {
         // Build the base query with placeholders
-        $query = $this->db->prepare("SELECT %1s FROM %1s %1s", $this->getSelects(), $this->getFromClause(), $this->getJoinStatement());
-        
-        if (!empty($this->getWhereStatement())) {
-            $query .= " {$this->getWhereStatement()}";
-        }
-        
-        // Add other statements (ORDER BY, LIMIT etc)
-        $query .= " %1s";
-        
-        $data = $this->db->prepare($query, $this->getOtherStatements());
+        $query = $this->buildSqlQuery();
 
         $this->reset();
 
-        return $data;
-    }
-
-    /**
-     * Get the raw SQL query without preparation
-     *
-     * @return string The raw SQL query
-     */
-    public function prepareSQL()
-    {
-        // Get the raw components
-        $selects = $this->getSelects();
-        $from = $this->getFromClause();
-        $join = $this->getJoinStatement();
-        $where = $this->getWhereStatement();
-        $other = $this->getOtherStatements();
-
-        // Manually build the SQL to avoid prepare() issues
-        $sql = "SELECT $selects FROM $from $join $where $other";
-        
-        // Clean up any potential double quotes
-        $sql = str_replace('\"', '"', $sql);
-        
-        return $sql;
+        return $query;
     }
 
     /**
@@ -574,22 +536,7 @@ class Model
      */
     public function get($output = OBJECT, $plainSelect = false)
     {
-        // Build the base query with placeholders
-        if($plainSelect) {
-            $query = $this->db->prepare("SELECT {$this->getSelects()} FROM %1s %1s", $this->getFromClause(), $this->getJoinStatement());
-        }
-        else {
-            $query = $this->db->prepare("SELECT %1s FROM %1s %1s", $this->getSelects(), $this->getFromClause(), $this->getJoinStatement());
-        }
-        
-        if (!empty($this->getWhereStatement())) {
-            $query .= " {$this->getWhereStatement()}";
-        }
-        
-        // Add other statements (ORDER BY, LIMIT etc)
-        $query .= " %1s";
-
-        $data = $this->db->get_results($this->db->prepare($query, $this->getOtherStatements()), $output);
+        $data = $this->db->get_results($this->buildSqlQuery(), $output);
 
         $this->reset();
 
@@ -682,14 +629,7 @@ class Model
      */
     public function getCount()
     {
-        // Build the base query with placeholders
-        $query = $this->db->prepare("SELECT COUNT(*) FROM %1s %1s", $this->getFromClause(), $this->getJoinStatement());
-
-        if (!empty($this->getWhereStatement())) {
-            $query .= " {$this->getWhereStatement()}";
-        }
-
-        return $this->db->get_var($query);
+        return $this->db->get_var($this->buildSqlQuery(true));
     }
 
     /**

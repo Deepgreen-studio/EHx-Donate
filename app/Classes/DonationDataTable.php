@@ -16,7 +16,7 @@ if (!defined('ABSPATH')) {
 class DonationDataTable extends WP_List_Table 
 {   
     /**
-     * Constructor for the EHXDo_Donation_Data_Table class.
+     * Constructor for the DonationDataTable class.
      *
      * Initializes the parent class and sets up the necessary properties.
      *
@@ -284,7 +284,7 @@ class DonationDataTable extends WP_List_Table
      * and returns the results as an associative array. The retrieved data includes donation details,
      * campaign information, and whether the donation is recurring.
      *
-     * @param $currentUser
+     * @param bool|int $currentUser
      *
      * @return array An associative array containing the donation data for the current user.
      *               If no data is found, an empty array is returned.
@@ -298,7 +298,7 @@ class DonationDataTable extends WP_List_Table
             ->leftJoin('posts', 'p.ID', '=', 'di.campaign_id', 'p');
 
         if($currentUser) {
-            $query->where('d.user_id', get_current_user_id());
+            $query->where('d.user_id',  gettype($currentUser) == 'boolean' ? get_current_user_id() : $currentUser);
         }
 
         $donations = $query->get();

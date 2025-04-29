@@ -15,19 +15,81 @@ if (!defined('ABSPATH')) {
 class AdminActionHandler
 {
     /**
-     * Constructor for EHXDo_Actions class.
+     * Constructor for AdminActionHandler class.
      *
-     * Initializes the EHXDo_Actions class and sets up necessary actions and properties.
+     * Initializes the AdminActionHandler class and sets up necessary actions and properties.
      *
      * @return void
      */
     public function __construct() 
     {
+        add_action('admin_menu', [$this, 'addMenu'], 999);
+
         // Hook CSV export into WordPress before any output starts
         add_action('admin_init', [$this, 'exportCSV']);
 
         add_action('admin_init', [$this, 'deleteTableRow']);
     }
+
+    /**
+     * Adds a new menu page to the WordPress admin dashboard.
+     *
+     * This function creates a new menu page with the title 'User Details' and the slug 'ehx_member_user_view'.
+     * The page is associated with the 'render_user_view_page' method of the current class.
+     * The menu item is visible to users with the 'manage_options' capability.
+     * The menu icon is provided by the 'dashicons-admin-users' Dashicon.
+     * After adding the menu page, it removes the existing 'ehx_member_user_view' menu page.
+     *
+     * @return void
+     */
+    public function addMenu()
+    {
+        add_submenu_page(
+            AdminMenuHandler::$pages['admin'],
+            esc_html__('Donor Details', 'ehx-donate'),
+            esc_html__('Donor Details', 'ehx-donate'),
+            'manage_options',
+            AdminMenuHandler::$pages['donor_view'],
+            [$this, 'renderDonorViewPage'],
+        );
+    }
+
+    /**
+         * Renders the donor view page.
+         *
+         * This function retrieves the donor ID from the request, validates it, retrieves the donor data,
+         * and then includes the donor details view template. If the donor ID is invalid or the donor is not found,
+         * appropriate error messages are displayed.
+         * 
+         * @return void
+         */
+        public function renderDonorViewPage() 
+        {
+            $user_id = Request::getInput('user_id');
+
+            if (!$user_id) {
+                echo '<div class="notice notice-error"><p>' . esc_html__('Invalid donor ID.', 'ehx-donate') . '</p></div>';
+                return;
+            }
+
+            $user = get_userdata($user_id);
+
+            if (!$user) {
+                echo '<div class="notice notice-error"><p>' . esc_html__('Donor not found.', 'ehx-donate') . '</p></div>';
+                return;
+            }
+
+            $userData = [
+                ['label' => esc_html__('Username', 'ehx-donate'), 'value' => $user->user_login],
+                ['label' => esc_html__('Email', 'ehx-donate'), 'value' => $user->user_email],
+                ['label' => esc_html__('Full name', 'ehx-donate'), 'value' => $user->display_name],
+                ['label' => esc_html__('Status', 'ehx-donate'), 'value' => $user->user_status ? esc_html__('Approve', 'ehx-donate') : esc_html__('Deny', 'ehx-donate')],
+            ];
+
+            $donations = (new DonationDataTable())->getData($user_id);
+
+            require EHXDO_PLUGIN_DIR . 'views/admin/pages/donor-details.php';
+        }
 
     /**
      * Exports donation data to CSV or Excel file.
@@ -167,19 +229,27 @@ class AdminActionHandler
         }
 
         if ($action === 'ehx_transactions_delete') {
-
             check_admin_referer("transactions_delete_{$id}");
 
             $model = new Transaction();
         }
 
+        if ($action === 'ehx_donor_delete') {
+
+            check_admin_referer("donor_delete_{$id}");
+
+            wp_delete_user($id);
+
+            $deleted = true;
+        }
+
         if(isset($model)) {
-            $page  = Request::getInput('page');
-
             $model->where('id', $id)->delete();
+        }
 
+        if(isset($deleted)) {
+            $page  = Request::getInput('page');
             wp_redirect(admin_url("admin.php?page={$page}&deleted=1"));
-
             exit;
         }
     }

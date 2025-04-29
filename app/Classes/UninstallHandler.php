@@ -17,7 +17,7 @@ class UninstallHandler
      */
     public static function handle()
     {
-        ActivationHandler::capabilities(type: 'remove');
+        ActivationHandler::capabilities('administrator', 'remove');
 
         // Delete the plugin's options from the database
         delete_option(Settings::$option);

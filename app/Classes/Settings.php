@@ -27,7 +27,7 @@ class Settings
     const NONCE_ACTION = 'ehxdo_save_settings';
 
     /**
-     * Constructor for the EHXDo_Settings class.
+     * Constructor for the Settings class.
      *
      * Initializes the plugin's settings, defines tabs, retrieves pages, and sets up admin actions.
      *
