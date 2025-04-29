@@ -31,6 +31,9 @@
 .edp-d-none {
   display: none;
 }
+.edp-text-center {
+  text-align: center;
+}
 
 .edp-form {
   text-align: center;
