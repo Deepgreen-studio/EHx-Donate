@@ -33,7 +33,7 @@ class DonationFormShortcode
     public $form_id;
 
     /**
-     * Constructor for the EHXDo_Donate class.
+     * Constructor for the DonationFormShortcode class.
      *
      * Initializes the response object and adds the shortcode for the donate form.
      * Also sets up the AJAX actions for handling form submissions.
@@ -206,11 +206,12 @@ class DonationFormShortcode
             (object) [
                 'input' => $validator->validated(), 
                 'browser_session' => $browser_session, 
-                'campaign' => $campaign ?? null
+                'campaign' => $campaign ?? null,
+                'session_id' => $response->id ?? null,
             ], 
             self::TOKEN_EXPIRY
         );
-
+        
         // Return success response
         return $this->response->success(
             __('Donation processed successfully, please complete payment.', 'ehx-donate'),
@@ -374,12 +375,24 @@ class DonationFormShortcode
 
                     $next_payment_date = RecurringDonationHelper::recurringNextPayment($recurring);
 
+                    \Stripe\Stripe::setApiKey(esc_html(Settings::extractSettingValue('stripe_client_secret')));
+                    
+                    $session_id = $this->transient?->session_id;
+                    $session = \Stripe\Checkout\Session::retrieve(['id' => $session_id, 'expand' => ['subscription']]);
+
+                    // Get the subscription ID (only if mode is subscription)
+                    $stripe_subscription_id = $session->subscription->id ?? null;
+
+                    // Get the price ID from the line items
+                    $line_items = \Stripe\Checkout\Session::allLineItems($session_id, ['limit' => 1]);
+                    $stripe_subscription_price_id = $line_items->data[0]->price->id ?? null;
+
                     (new Subscription)->insert([
                         'user_id' => $donation->user_id,
                         // 'donation_id' => $donation->id,
                         'title' => $this->transient?->campaign?->post_title ?? esc_html__('Quick Donation', 'ehx-donate'),
-                        'stripe_subscription_id' => wp_rand(),
-                        'stripe_subscription_price_id' => null,
+                        'stripe_subscription_id' => $stripe_subscription_id,
+                        'stripe_subscription_price_id' => $stripe_subscription_price_id,
                         'amount' => $donation->total_amount,
                         'recurring' => $recurring,
                         'next_payment_date'  => $next_payment_date,
@@ -401,7 +414,7 @@ class DonationFormShortcode
             (new Donation())->where('browser_session', $this->transient?->browser_session)->update(['payment_status' => $status]);
         }
 
-        delete_transient(self::TRANSIENT);
+        // delete_transient(self::TRANSIENT);
         $this->transient = false;
 
         return true;

@@ -4,7 +4,7 @@ Tags: donation, fundraising, charity, nonprofit, campaigns
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -100,6 +100,15 @@ By using this plugin, you acknowledge that:
 - Google reCAPTCHA is used under its respective terms when enabled via addon
 
 == Changelog ==
+
+= 1.1.1 =
+* [Added] Premium addon compatibility
+* [Added] Security vulnerability in form submissions
+* [Added] Documentation for premium features
+* [Improved] Rebuilt model query system
+* [Improved] Database interactions for large datasets
+* [Improved] Template handling with override support.
+* [Fixed] Donation recording edge cases
 
 = 1.1.0 =
 - Refactored plugin structure to OOP

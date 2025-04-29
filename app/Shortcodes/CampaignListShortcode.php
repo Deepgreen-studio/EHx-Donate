@@ -12,6 +12,10 @@ if (!defined('ABSPATH')) {
 
 class CampaignListShortcode
 {
+    /**
+     * Constructor for the CampaignListShortcode class.
+     * 
+     */
     public function __construct()
     {
         add_shortcode('ehxdo_campaign_lists', [$this, 'renderShortcode']);

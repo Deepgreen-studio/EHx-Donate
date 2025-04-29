@@ -17,7 +17,9 @@ class AdminMenuHandler
         'setting'     => 'ehxdo_admin_settings',
         'donation'    => 'ehxdo_admin_donations',
         'transaction' => 'ehxdo_admin_transactions',
-        'addons' => 'ehxdo_admin_addons',
+        'donor'       => 'ehxdo_admin_donor',
+        'donor_view'  => 'ehxdo_user_view',
+        'addons'      => 'ehxdo_admin_addons',
     ];
 
     /**
@@ -82,6 +84,12 @@ class AdminMenuHandler
                         'menu_title' => esc_html__('Settings', 'ehx-donate'),
                         'menu_slug'  => self::$pages['setting'],
                         'callback'   => [$this, 'renderSettingsPage'],
+                    ],
+                    [
+                        'page_title' => esc_html__('Donor', 'ehx-donate'),
+                        'menu_title' => esc_html__('Donor', 'ehx-donate'),
+                        'menu_slug'  => self::$pages['donor'],
+                        'callback'   => [$this, 'renderDonorPage'],
                     ],
                     [
                         'page_title' => esc_html__('Donations', 'ehx-donate'),
@@ -186,6 +194,28 @@ class AdminMenuHandler
     }
 
     /**
+     * Callback function for the donations page.
+     *
+     * This function checks if the current user has the necessary capabilities to access the donations page.
+     * If the user has the required capabilities, it initializes and displays the donations table.
+     *
+     * @return void
+     */
+    public function renderDonorPage() 
+    {
+        // if (!current_user_can('manage_donor')) {
+        //     return;
+        // }
+
+        if (!empty(Request::getInput('deleted'))) {
+            Helper::display_notice(esc_html__('Donor Deleted Successfully.', 'ehx-donate'));
+        }
+
+        // Initialize and display the payments table
+        $this->render_table_page(new DonorDataTable(), 'donors');
+    }
+
+    /**
      * Callback function for the Addons page.
      *
      * This function checks if the current user has the necessary capabilities to access the settings page.
@@ -259,12 +289,12 @@ class AdminMenuHandler
      * This function initializes a custom table class based on the provided table class name,
      * prepares the table items, and includes the corresponding view file to display the table.
      *
-     * @param DonationDataTable|TransactionDataTable The name of the custom table class to be instantiated.
+     * @param DonationDataTable|TransactionDataTable|DonorDataTable The name of the custom table class to be instantiated.
      * @param string $view_name The name of the view file to be included.
      *
      * @return void
      */
-    private function render_table_page(DonationDataTable|TransactionDataTable $table_class, string $view_name): void
+    private function render_table_page(DonationDataTable|TransactionDataTable|DonorDataTable $table_class, string $view_name): void
     {
         $table_class->prepare_items();
         
