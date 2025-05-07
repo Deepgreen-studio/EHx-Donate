@@ -1,4 +1,6 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
+
+use EHxDonate\Models\Currency;?>
 
 <?php
     use EHxDonate\Classes\Settings;
@@ -34,7 +36,15 @@
                 
                 <table class="form-table">
                     <?php
-                        foreach (Settings::getIntegrationFields('general') as $field) {
+                        $currencies = [];
+                        foreach ((new Currency())->select(['id','name'])->get() as $key => $currency) {
+                            $currencies[] = [
+                                'key' => $currency->id,
+                                'value' => $currency->name,
+                            ];
+                        }
+                        
+                        foreach (Settings::getIntegrationFields('general', $currencies) as $field) {
                             Helper::input_group($field);
                         }
                         

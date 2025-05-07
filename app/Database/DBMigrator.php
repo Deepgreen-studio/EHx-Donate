@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace EHxDonate\Database;
 
+use EHxDonate\Database\Migrations\Currency;
 use EHxDonate\Database\Migrations\Donation;
 use EHxDonate\Database\Migrations\DonationItem;
 use EHxDonate\Database\Migrations\Transaction;
@@ -10,9 +11,8 @@ use EHxDonate\Database\Migrations\Transaction;
 class DBMigrator
 {    
     /**
-     * run
+     * Run The Migration
      *
-     * @param  mixed $network_wide
      * @return void
      */
     public static function run()
@@ -30,13 +30,14 @@ class DBMigrator
         Donation::migrate();
         DonationItem::migrate();
         Transaction::migrate();
+        Currency::migrate();
     }
     
     /**
      * Run SQL
      *
-     * @param  mixed $sql
-     * @param  mixed $tableName
+     * @param  string $sql
+     * @param  string|null $tableName
      * @return bool
      */
     public static function runSQL($sql, $tableName = null): bool

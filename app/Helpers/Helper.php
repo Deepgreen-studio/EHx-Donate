@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EHxDonate\Helpers;
 
 use EHxDonate\Classes\Settings;
+use EHxDonate\Models\Currency;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -290,12 +291,44 @@ class Helper
      *
      * @param float $amount The monetary amount to be formatted.
      *
-     * @return string The formatted currency string.
+     * @return string|float The formatted currency string.
      */
-    public static function currencyFormat($amount): string
+    public static function currencyFormat($amount, $addSymbol = true): string|float
     {
-        return '£' . number_format((float) $amount, 2);
+        $transient = get_transient(Settings::TRANSIENT);
+
+        // Converted & Format Amount
+        $converted_amount = (float) number_format((float) $amount, 2);
+
+        if(!$addSymbol) {
+            return $converted_amount;
+        }
+
+        $symbol = $transient->currency?->symbol ?? '£';
+        $position = $transient->currency->symbol_position ?? 'before'; // optional
+
+        return $position === 'after' ? "{$converted_amount} {$symbol}" : "{$symbol} {$converted_amount}";
     }
+
+    /**
+     * Exchange a monetary amount into a currency string.
+     *
+     * @param float $amount The monetary amount to be exchange.
+     *
+     * @return float The formatted currency string.
+     */
+    public static function exchangeCurrency($amount): float
+    {
+        $transient = get_transient(Settings::TRANSIENT);
+
+        $rate = $transient->currency?->exchange_rate ?? 1;
+
+        // Convert
+        $converted_amount = (float) $amount * (float) $rate;
+
+        return (float) number_format($converted_amount, 2);
+    }
+
 
     /**
      * Allowed HTML Tags

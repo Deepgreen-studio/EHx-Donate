@@ -126,7 +126,7 @@ class CampaignPostType
 
         switch ($column) {
             case 'goal_amount':
-                echo esc_html('£' . $ehx_campaign['goal_amount'] ?? '');
+                echo esc_html(Helper::currencyFormat($ehx_campaign['goal_amount'] ?? 0));
                 break;
             case 'progress':
 

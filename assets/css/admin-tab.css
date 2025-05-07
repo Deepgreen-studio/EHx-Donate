@@ -44,7 +44,8 @@
 .edp-wrapper .edp-main-tab-content .form-table input[type="number"],
 .edp-wrapper .edp-main-tab-content .form-table input[type="url"],
 .edp-wrapper .edp-main-tab-content .form-table input[type="tel"],
-.edp-wrapper .edp-main-tab-content .form-table input[type="email"] {
+.edp-wrapper .edp-main-tab-content .form-table input[type="email"],
+.edp-wrapper .edp-main-tab-content .form-table select {
   width: 100%;
   padding: 4px 12px;
 }

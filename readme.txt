@@ -4,7 +4,7 @@ Tags: donation, fundraising, charity, nonprofit, campaigns
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.1
+Stable tag: 1.1.2
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,11 @@ By using this plugin, you acknowledge that:
 
 == Changelog ==
 
+= 1.1.2 =
+* [Added] Currency support with formatting
+* [Improved] Currency conversion system based on selected site currency
+* [Fixed] Minor UI and logic bugs in campaign listing and donation form
+
 = 1.1.1 =
 * [Added] Premium addon compatibility
 * [Added] Security vulnerability in form submissions
@@ -133,8 +138,9 @@ By using this plugin, you acknowledge that:
 
 == Upgrade Notice ==
 
-= 1.1.0 =
-Major update with OOP rewrite and new addon support. Make sure to back up your site before upgrading.
+= 1.1.2 =
+Patch release with new currency support and formatting improvements. Recommended for all users to ensure consistent currency display and calculation.
+
 
 == License & Credits ==
 
