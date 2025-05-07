@@ -14,6 +14,7 @@ use EHxDonate\Services\Response;
 use EHxDonate\Services\Validator;
 use EHxRecurringDonation\Helpers\Helper as RecurringDonationHelper;
 use EHxRecurringDonation\Models\Subscription;
+use Exception;
 
 if (!defined('ABSPATH')) {
     exit;
@@ -160,7 +161,7 @@ class DonationFormShortcode
         $amount = (float) $request->input('amount');
         $service_charge = $amount * 1.4 / 100;
         $total_amount = $amount + $service_charge;
-        $browser_session = uniqid();
+        $browser_session = uniqid('EHXDO');
 
         // Handle Stripe payment if enabled
         $stripe_enable = (bool) Settings::extractSettingValue('stripe_enable', false);
@@ -289,8 +290,14 @@ class DonationFormShortcode
         try {
             $mode = 'payment';
 
+            $transient = get_transient(Settings::TRANSIENT);
+
+            if($transient === false) {
+                throw new Exception(esc_html__('Something went wrong, please try again.', 'ehx-donate'));
+            }
+
             $priceData = [
-                'currency' => 'gbp',
+                'currency' => strtolower($transient->currency?->code ?? 'gbp'),
                 'unit_amount' => round($total_amount, 2) * 100,
                 'product_data' => [
                     'name' => $post_title ?? esc_html__('Quick Donation', 'ehx-donate'),
@@ -332,7 +339,7 @@ class DonationFormShortcode
 
             return $session;
 
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->response->error($e->getMessage());
         }
     }
@@ -359,7 +366,7 @@ class DonationFormShortcode
 
         $donation = (new Donation())->where('browser_session', $this->transient?->browser_session)->where('payment_status', 'pending')->first();
         if($donation) {
-            $recurring = $this->transient?->input['recurring'] ?? esc_html('One-off');
+            $recurring = $this->transient?->input['recurring'] ?? esc_html__('One-off', 'ehx-donate');
 
             (new DonationItem)->insert([
                 'donation_id' => $donation->id,
@@ -371,7 +378,8 @@ class DonationFormShortcode
             ]);
 
             if ($status == 'success') {
-                if ($recurring !== RecurringDonationHelper::RECURRING_ONEOFF) {
+
+                if (defined('EHXRD_VERSION') && $recurring !== RecurringDonationHelper::RECURRING_ONEOFF) {
 
                     $next_payment_date = RecurringDonationHelper::recurringNextPayment($recurring);
 
@@ -414,7 +422,7 @@ class DonationFormShortcode
             (new Donation())->where('browser_session', $this->transient?->browser_session)->update(['payment_status' => $status]);
         }
 
-        // delete_transient(self::TRANSIENT);
+        delete_transient(self::TRANSIENT);
         $this->transient = false;
 
         return true;

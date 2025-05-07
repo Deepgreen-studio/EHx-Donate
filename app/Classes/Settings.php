@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EHxDonate\Classes;
 
 use EHxDonate\Helpers\Helper;
+use EHxDonate\Models\Currency;
 use EHxDonate\Services\Request;
 use EHxDonate\Services\Response;
 use EHxDonate\Services\Validator;
@@ -19,6 +20,9 @@ if (defined('EHXRC_VERSION')) {
 
 class Settings 
 {
+    const TRANSIENT = 'ehxdo_session';
+    const TOKEN_EXPIRY = 3600; // 30 min in seconds
+
     public static string $option = 'ehxdo_settings';
     public static array $pages;
     public static $options;
@@ -53,6 +57,8 @@ class Settings
             ];
         }
         
+        add_action('init', [$this, 'setupSession']);
+
         add_action('wp_ajax_ehxdo_save_settings', [$this, 'saveSetting']);
     }
     
@@ -86,7 +92,9 @@ class Settings
     {
         return match($page) {
             'general' => [
-                ['field_name' => 'default_donation_amounts', 'title' => esc_html__('Default Donation Amounts', 'ehx-donate'), 'description' => esc_html__('If enabled, the text entered below will replace the title of the post/page/CPT for users who do not have permission to view the restricted content. Please see this doc for more information on this.', 'ehx-donate'), 'option' => $page],
+                ['field_name' => 'default_donation_amounts', 'title' => esc_html__('Default Donation Amounts', 'ehx-donate'), 'option' => $page],
+                ['field_name' => 'currency', 'title' => esc_html__('Currency', 'ehx-donate'), 'is_type' => 'select', 'option' => $page, 'data' => $data],
+                ['field_name' => 'currency_position', 'title' => esc_html__('Currency Position', 'ehx-donate'), 'is_type' => 'select', 'option' => $page, 'data' => [['key' => 'before', 'value' => esc_html__('Before', 'ehx-donate')], ['key' => 'after', 'value' => esc_html__('After', 'ehx-donate')]]],
             ],
             'restriction_content' => [
                 ['field_name' => 'paypal_enable', 'title' => esc_html__('Paypal Enable', 'ehx-donate'), 'type' => 'checkbox', 'placeholder' => 'Enable PayPal as a payment option on the platform.', 'option' => $page],
@@ -229,5 +237,31 @@ class Settings
     
         // // Return success response
         return $response->success(esc_html__('Settings saved successfully.', 'ehx-donate'));
-    }        
+    }
+        
+    /**
+     * Setup Session Data
+     *
+     * @return void
+     */
+    public function setupSession()
+    {
+        $transient = get_transient(self::TRANSIENT);
+        
+        if($transient === false) {
+            $currencyId = Settings::extractSettingValue('currency');
+            $currencyId = in_array(gettype($currencyId), ['array', 'object']) ? 2 : $currencyId;
+            $currency = (new Currency())->where('id', $currencyId)->first();
+            $symbol_position = Settings::extractSettingValue('symbol_position', 'before');
+
+            set_transient(
+                self::TRANSIENT, 
+                (object) [
+                    'currency' => $currency,
+                    'symbol_position' => $symbol_position,
+                ], 
+                self::TOKEN_EXPIRY
+            );
+        }
+    }
 }

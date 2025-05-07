@@ -4,6 +4,8 @@
     use EHxDonate\Classes\Settings;
     use EHxDonate\Helpers\Helper;
     use EHxDonate\Shortcodes\DonationFormShortcode;
+
+    $transient = get_transient(Settings::TRANSIENT);
 ?>
 
 <div class="edp-alert-element edp-d-none">
@@ -63,7 +65,7 @@
                         <?php foreach([10,20,30,50,100] as $value): ?>
                             <div class="edp-plan-list" data-amount="<?php echo esc_html($value) ?>">
                                 <div class="">
-                                    <span class="edp-plan-list-currency">£</span>
+                                    <span class="edp-plan-list-currency"><?php echo esc_html($transient->currency?->symbol) ?></span>
                                     <span class="edp-plan-list-price"><?php echo esc_html($value) ?></span>
                                 </div>
 
@@ -73,7 +75,7 @@
 
                         <div class="edp-plan-list edp-plan-list-custom-input">
 
-                            <span class="edp-plan-list-currency" style="display: none;">£</span>
+                            <span class="edp-plan-list-currency" style="display: none;"><?php echo esc_html($transient->currency?->symbol) ?></span>
 
                             <div class="edp-plan-list-form-field">
                                 <input type="text" area-label="<?php esc_html_e('Custom', 'ehx-donate') ?>" placeholder="<?php esc_html_e('Custom', 'ehx-donate') ?>" class="is-empty">

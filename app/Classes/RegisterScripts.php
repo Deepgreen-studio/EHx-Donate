@@ -115,7 +115,7 @@ class RegisterScripts
         );
         wp_localize_script('ehxdo-main-js', 'ehxdo_object', [
             'ajax_url' => admin_url('admin-ajax.php'),
-            'currency' => '£',
+            'transient' => get_transient(Settings::TRANSIENT),
         ]);
     }
 }

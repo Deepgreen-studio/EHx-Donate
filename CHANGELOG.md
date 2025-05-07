@@ -4,6 +4,17 @@ All notable changes to the **EHx Donate** plugin will be documented in this file
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/), and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.2] – 2025-04-30
+
+### Added
+- Currency support with formatting
+
+### Improved
+- Currency conversion system based on selected site currency
+
+### Fixed
+- Minor UI and logic bugs in campaign listing and donation form
+
 ## [1.1.1] – 2025-04-29
 
 ### Added

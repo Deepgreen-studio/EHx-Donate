@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace EHxDonate\Classes;
 
 use EHxDonate\Database\DBMigrator;
+use EHxDonate\Models\Currency;
 use EHxDonate\Services\Request;
 
 if (!defined('ABSPATH')) {
@@ -63,14 +64,10 @@ class ActivationHandler
      */
     public static function setPluginInstallTime()
     {
-        // $data = get_option( 'wp_statuses', []);
-        // if( !isset($data['installed_time']) ){
-        //     $data['installed_time'] = strtotime("now") ;
-        //     update_option('wp_statuses', $data, false);
-        // }
-
         // Define default payment gateway settings
         $options = [
+            'currency' => (new Currency())->where('code', 'GBP')->first()->id ?? 2,
+            'currency_position' => 'before',
             'admin_email_address' => 'example@eh.studio',
             'mail_appears_from' => 'EHx Studio',
             'mail_appears_from_address' => 'example@eh.studio',

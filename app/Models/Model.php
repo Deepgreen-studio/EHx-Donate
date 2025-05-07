@@ -534,7 +534,7 @@ class Model
      * @param string $output Output format (OBJECT/ARRAY_A/ARRAY_N)
      * @return array Query results
      */
-    public function get($output = OBJECT, $plainSelect = false)
+    public function get($output = OBJECT)
     {
         $data = $this->db->get_results($this->buildSqlQuery(), $output);
 

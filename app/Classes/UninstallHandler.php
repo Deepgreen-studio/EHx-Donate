@@ -2,6 +2,8 @@
 
 namespace EHxDonate\Classes;
 
+use EHxDonate\Shortcodes\DonationFormShortcode;
+
 if (!defined('ABSPATH')) {
     exit;
 }
@@ -18,6 +20,9 @@ class UninstallHandler
     public static function handle()
     {
         ActivationHandler::capabilities('administrator', 'remove');
+
+        delete_transient(DonationFormShortcode::TRANSIENT);
+        delete_transient(Settings::TRANSIENT);
 
         // Delete the plugin's options from the database
         delete_option(Settings::$option);

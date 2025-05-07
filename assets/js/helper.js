@@ -1,5 +1,4 @@
 (function($) {
-
     function convertAmount(number, decimals = 2, dec_point = '.', thousands_sep = ',') {
         var n = !isFinite(+number) ? 0 : +number,
         prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
@@ -18,8 +17,16 @@
             s[1] = s[1] || '';
             s[1] += new Array(prec - s[1].length + 1).join('0');
         }
-    
-        return `${ehxdo_object.currency}${s.join(dec)}`;
+
+        let transient = ehxdo_object.transient;
+
+        let symbol = transient.currency?.symbol || '£';
+
+        let position = transient?.symbol_position || 'before'; // optional
+
+        let converted_amount = s.join(dec);
+        
+        return position === 'after' ? `${converted_amount} ${symbol}` : `${symbol} ${converted_amount}`;
     }
 
     window.edpConvertAmount = convertAmount
