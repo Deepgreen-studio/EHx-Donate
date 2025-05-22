@@ -1,8 +1,7 @@
-<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly 
-
-use EHxDonate\Models\Currency;?>
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
 
 <?php
+    use EHxDonate\Models\Currency;
     use EHxDonate\Classes\Settings;
     use EHxDonate\Helpers\Helper;
 ?>
@@ -182,6 +181,18 @@ use EHxDonate\Models\Currency;?>
                             <table class="form-table">
                                 <?php
                                     foreach (\EHxRecaptcha\Classes\HandleSetting::getIntegrationFields() as $field) {
+                                        Helper::input_group($field);
+                                    }
+                                ?>
+                            </table>
+                        </div>
+                    <?php endif ?>
+
+                    <?php if(defined('EHXMC_VERSION')): ?>
+                        <div id="mailchimp" class="tab-panel">
+                            <table class="form-table">
+                                <?php
+                                    foreach (\EHxMailchimp\Classes\HandleSetting::getIntegrationFields() as $field) {
                                         Helper::input_group($field);
                                     }
                                 ?>

@@ -8,13 +8,7 @@
     $transient = get_transient(Settings::TRANSIENT);
 ?>
 
-<div class="edp-alert-element edp-d-none">
-    <div class="edp-alert edp-alert-primary edp-text-center rounded-0" role="alert" id="edp-alert-message">
-        <i>&quest;</i>
-        <span><?php esc_html_e('Item added to cart successfully', 'ehx-donate'); ?></span>
-    </div>
-    <div class="edp-alert-close">&#10006;</div>
-</div>
+<?php include EHXDO_PLUGIN_DIR . 'views/frontend/components/toast-alert.php'; ?>
 
 <div class="edp-card" id="edp-card-element">
     
@@ -185,6 +179,17 @@
                         </div>
                     </div>
                 </div>
+
+                <?php if(defined('EHXMC_VERSION')): ?>
+                    <div class="edp-input-fields">
+                        <div class="edp-field-100 edp-input-checkbox">
+                            <input type="checkbox" name="subscribe_newsletter" id="subscribe_newsletter" /> 
+                            <label for="subscribe_newsletter" class="edp-field-labels" style="display: inline-block;">
+                                <?php esc_html_e('Get updates, promotions, and exclusive content via email. We respect your privacy.', 'ehx-donate') ?>
+                            </label> 
+                        </div>
+                    </div>
+                <?php endif ?>
 
             </div> 
             

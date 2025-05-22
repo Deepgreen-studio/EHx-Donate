@@ -58,6 +58,13 @@ class ManageAddons
 
         $addon = $addons[$slug]['url'] ?? null;
 
+        // $source = WP_PLUGIN_DIR . '/recaptcha-main';
+        // $target = WP_PLUGIN_DIR . '/ehx-recaptcha';
+
+        // if (is_dir($source)) {
+        //     rename($source, $target);
+        // }
+
         $result = $upgrader->install($addon);
     
         if (is_wp_error($result)) {
@@ -139,7 +146,7 @@ class ManageAddons
                 'description' => esc_html__(' Adds Google reCAPTCHA functionality to EHx plugins for enhanced form security.', 'ehx-donate'),
                 'premium' => false,
                 'updated' => '2023-11-10',
-                'url' => 'https://portal.immersivebrands.co.uk/storage/plugin/ehx-recaptcha.zip'
+                'url' => 'https://github.com/Deepgreen-studio/ehx-recaptcha/archive/refs/heads/main.zip'
             ],
             'ehx-recurring-donation/ehx-recurring-donation.php' => [
                 'name' => esc_html__('Recurring Donations', 'ehx-donate'),
@@ -159,6 +166,15 @@ class ManageAddons
                 'updated' => '2023-11-15',
                 'url' => null
             ],
+            'ehx-mailchimp/ehx-mailchimp.php' => [
+                'name' => esc_html__('Mailchimp', 'ehx-donate'),
+                'version' => '1.0.0',
+                'icon' => EHXDO_PLUGIN_URL . 'assets/images/mailchimp.jpg',
+                'description' => esc_html__('Easily integrate Mailchimp signup forms into your WordPress site with customizable options and secure AJAX support.', 'ehx-donate'),
+                'premium' => false,
+                'updated' => '2023-11-15',
+                'url' => 'https://portal.immersivebrands.co.uk/storage/plugin/ehx-mailchimp.zip'
+            ],
         ];
     }
     
@@ -175,7 +191,10 @@ class ManageAddons
         $addons = [
             'ehx-recaptcha/ehx-recaptcha.php',
             'ehx-recurring-donation/ehx-recurring-donation.php',
+            'ehx-mailchimp/ehx-mailchimp.php',
+            'ehx-giftaid/ehx-giftaid.php',
         ];
+        
         $our_addons = [];
         
         foreach ($all_plugins as $path => $plugin) {

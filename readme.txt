@@ -4,7 +4,7 @@ Tags: donation, fundraising, charity, nonprofit, campaigns
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.2
+Stable tag: 1.1.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,9 @@ By using this plugin, you acknowledge that:
 
 == Changelog ==
 
+= 1.1.3 =
+* [Added] Mailchimp Addon for syncing donor emails to Mailchimp lists.
+
 = 1.1.2 =
 * [Added] Currency support with formatting
 * [Improved] Currency conversion system based on selected site currency
@@ -138,8 +141,8 @@ By using this plugin, you acknowledge that:
 
 == Upgrade Notice ==
 
-= 1.1.2 =
-Patch release with new currency support and formatting improvements. Recommended for all users to ensure consistent currency display and calculation.
+= 1.1.3 =
+- Mailchimp Integration (via addon) – Automatically sync donors to your Mailchimp audience after a successful donation.
 
 
 == License & Credits ==

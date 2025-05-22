@@ -13,11 +13,6 @@ if (!defined('ABSPATH')) {
     exit;
 }
 
-// Load recaptcha integration if available
-if (defined('EHXRC_VERSION')) {
-    require_once WP_PLUGIN_DIR . '/ehx-recaptcha/autoloader.php';
-}
-
 class Settings 
 {
     const TRANSIENT = 'ehxdo_session';
@@ -170,11 +165,19 @@ class Settings
             ],
         };
 
-        if($tab = 'integration' && defined('EHXRC_VERSION')) {
-            $tabs = [
-                ...$tabs,
-                \EHxRecaptcha\Classes\HandleSetting::getSubTabData()
-            ];
+        if($tab = 'integration') {
+            if(defined('EHXRC_VERSION')) {
+                $tabs = [
+                    ...$tabs,
+                    \EHxRecaptcha\Classes\HandleSetting::getSubTabData()
+                ];
+            }
+            if(defined('EHXMC_VERSION')) {
+                $tabs = [
+                    ...$tabs,
+                    \EHxMailchimp\Classes\HandleSetting::getSubTabData()
+                ];
+            }
         }
 
         if($onlyData) return $tabs;

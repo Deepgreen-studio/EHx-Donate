@@ -212,6 +212,10 @@ class DonationFormShortcode
             ], 
             self::TOKEN_EXPIRY
         );
+
+        if(defined('EHXMC_VERSION') && $request->boolean('subscribe_newsletter')) {
+            \EHxMailchimp\Classes\HandleMailchimp::subscribe($request->input('email'));
+        }
         
         // Return success response
         return $this->response->success(
