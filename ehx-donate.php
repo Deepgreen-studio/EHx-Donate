@@ -3,7 +3,7 @@
  * Plugin Name: EHx Donate
  * Plugin URI: https://wordpress.org/plugins/ehx-donate
  * Description: A feature-rich donation management plugin with AJAX forms, multilingual support, and seamless WordPress integration.
- * Version: 1.1.2
+ * Version: 1.1.3
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * Author: EH Studio
@@ -20,7 +20,7 @@ if (!defined('ABSPATH')) {
 }
 
 // Define plugin constants
-define('EHXDO_VERSION', '1.1.2');
+define('EHXDO_VERSION', '1.1.3');
 define('EHXDO_MINIMUM_WP_VERSION', '5.8');
 define('EHXDO_PLUGIN_DIR', plugin_dir_path(__FILE__));
 define('EHXDO_PLUGIN_URL', plugin_dir_url(__FILE__));
@@ -98,8 +98,16 @@ class EHxDonate
         
         // Load recurring donation integration if available
         if (defined('EHXRD_VERSION')) {
-            require_once WP_PLUGIN_DIR . '/ehx-recurring-donation/autoloader.php';
+            require_once EHXRD_PLUGIN_DIR . '/autoloader.php';
         }
+
+        if (defined('EHXRC_VERSION')) {
+            require_once EHXRC_PLUGIN_DIR . '/autoloader.php';
+        }
+        if (defined('EHXMC_VERSION')) {
+            require_once EHXMC_PLUGIN_DIR . '/vendor/autoload.php';
+        }
+
     }
 }
 
