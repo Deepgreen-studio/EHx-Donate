@@ -55,41 +55,41 @@ class AdminActionHandler
     }
 
     /**
-         * Renders the donor view page.
-         *
-         * This function retrieves the donor ID from the request, validates it, retrieves the donor data,
-         * and then includes the donor details view template. If the donor ID is invalid or the donor is not found,
-         * appropriate error messages are displayed.
-         * 
-         * @return void
-         */
-        public function renderDonorViewPage() 
-        {
-            $user_id = Request::getInput('user_id');
+     * Renders the donor view page.
+     *
+     * This function retrieves the donor ID from the request, validates it, retrieves the donor data,
+     * and then includes the donor details view template. If the donor ID is invalid or the donor is not found,
+     * appropriate error messages are displayed.
+     * 
+     * @return void
+     */
+    public function renderDonorViewPage() 
+    {
+        $user_id = Request::getInput('user_id');
 
-            if (!$user_id) {
-                echo '<div class="notice notice-error"><p>' . esc_html__('Invalid donor ID.', 'ehx-donate') . '</p></div>';
-                return;
-            }
-
-            $user = get_userdata($user_id);
-
-            if (!$user) {
-                echo '<div class="notice notice-error"><p>' . esc_html__('Donor not found.', 'ehx-donate') . '</p></div>';
-                return;
-            }
-
-            $userData = [
-                ['label' => esc_html__('Username', 'ehx-donate'), 'value' => $user->user_login],
-                ['label' => esc_html__('Email', 'ehx-donate'), 'value' => $user->user_email],
-                ['label' => esc_html__('Full name', 'ehx-donate'), 'value' => $user->display_name],
-                ['label' => esc_html__('Status', 'ehx-donate'), 'value' => $user->user_status ? esc_html__('Approve', 'ehx-donate') : esc_html__('Deny', 'ehx-donate')],
-            ];
-
-            $donations = (new DonationDataTable())->getData($user_id);
-
-            require EHXDO_PLUGIN_DIR . 'views/admin/pages/donor-details.php';
+        if (!$user_id) {
+            echo '<div class="notice notice-error"><p>' . esc_html__('Invalid donor ID.', 'ehx-donate') . '</p></div>';
+            return;
         }
+
+        $user = get_userdata($user_id);
+
+        if (!$user) {
+            echo '<div class="notice notice-error"><p>' . esc_html__('Donor not found.', 'ehx-donate') . '</p></div>';
+            return;
+        }
+
+        $userData = [
+            ['label' => esc_html__('Username', 'ehx-donate'), 'value' => $user->user_login],
+            ['label' => esc_html__('Email', 'ehx-donate'), 'value' => $user->user_email],
+            ['label' => esc_html__('Full name', 'ehx-donate'), 'value' => $user->display_name],
+            ['label' => esc_html__('Status', 'ehx-donate'), 'value' => $user->user_status ? esc_html__('Approve', 'ehx-donate') : esc_html__('Deny', 'ehx-donate')],
+        ];
+
+        $donations = (new DonationDataTable())->getData($user_id);
+
+        require EHXDO_PLUGIN_DIR . 'views/admin/pages/donor-details.php';
+    }
 
     /**
      * Exports donation data to CSV or Excel file.

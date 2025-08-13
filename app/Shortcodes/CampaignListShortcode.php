@@ -43,7 +43,7 @@ class CampaignListShortcode
             'include'        => '',
             'columns'        => 2,
             'layout'         => 'grid',
-            'image_size'     => 'thumbnail',
+            'image_size'     => '',
             'show_excerpt'   => 'true',
             'excerpt_length' => 10,
             'show_button'    => 'true',

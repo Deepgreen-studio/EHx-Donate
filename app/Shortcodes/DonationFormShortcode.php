@@ -107,6 +107,7 @@ class DonationFormShortcode
             'campaigns' => $campaigns,
             'status' => $status,
             'txid' => $txid,
+            'user' => wp_get_current_user(),
             'callback' => home_url($wp->request),
             'payment_callback' => $payment_callback ?? false,
             'enable_recaptcha' => $enable_recaptcha,
@@ -443,7 +444,7 @@ class DonationFormShortcode
      *
      * @return void Prints the HTML for the input field with label and validation message.
      */
-    public static function inputField($label = '', $for = '', $isType = 'input', $placeholder = '', $data = [], $required = true, $column = 'edp-field-50')
+    public static function inputField($label = '', $for = '', $isType = 'input', $placeholder = '', $data = [], $required = true, $column = 'edp-field-50', $value = '')
     {
         $htmlFor = $for != null ? $for : $label;
         $isRequired = $required ? 'required' : '';

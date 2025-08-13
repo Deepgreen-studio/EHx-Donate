@@ -424,7 +424,7 @@ class Validator
      * Validate a Google reCAPTCHA.
      *
      * @param string $value The reCAPTCHA response token from the frontend.
-     * @return WP_Error|void|bool Returns true if validation is successful, otherwise returns a WP_Error.
+     * @return \WP_Error|void|bool Returns true if validation is successful, otherwise returns a WP_Error.
      */
     public function validateRecaptcha($value)
     {

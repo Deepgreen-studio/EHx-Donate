@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <div class="edp-alert-element edp-d-none">
     <div class="edp-alert edp-alert-primary edp-text-center rounded-0" role="alert" id="edp-alert-message">
         <i>&quest;</i>

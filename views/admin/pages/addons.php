@@ -1,3 +1,5 @@
+<?php if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly ?>
+
 <?php
     use EHxDonate\Addons\ManageAddons;
     use EHxDonate\Helpers\Helper;

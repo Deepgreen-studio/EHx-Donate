@@ -12,7 +12,7 @@
             <div class="edp-campaign-contents">
                 <?php if (!empty($ehx_campaign['banner_image'])): ?>
                     <div class="edp-campaign-cover">
-                        <?php echo wp_get_attachment_image($ehx_campaign['banner_image']); ?>
+                        <?php echo wp_get_attachment_image($ehx_campaign['banner_image'], ''); ?>
                     </div>
                 <?php endif; ?>
 
