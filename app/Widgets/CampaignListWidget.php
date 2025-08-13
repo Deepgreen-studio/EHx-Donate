@@ -195,7 +195,7 @@ class CampaignListWidget extends Widget_Base
             [
                 'label' => __('Image Size', 'ehx-donate'),
                 'type' => Controls_Manager::SELECT,
-                'default' => 'thumbnail',
+                'default' => '',
                 'options' => [
                     'thumbnail' => __('thumbnail', 'ehx-donate'),
                     'medium' => __('Medium', 'ehx-donate'),

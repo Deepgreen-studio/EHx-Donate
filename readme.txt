@@ -4,7 +4,7 @@ Tags: donation, fundraising, charity, nonprofit, campaigns
 Requires at least: 5.8
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 1.1.3
+Stable tag: 1.1.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -101,6 +101,9 @@ By using this plugin, you acknowledge that:
 
 == Changelog ==
 
+= 1.1.4 =
+* [Added] Auto-fill functionality for authenticated users in donation form.
+
 = 1.1.3 =
 * [Added] Mailchimp Addon for syncing donor emails to Mailchimp lists.
 
@@ -141,9 +144,8 @@ By using this plugin, you acknowledge that:
 
 == Upgrade Notice ==
 
-= 1.1.3 =
-- Mailchimp Integration (via addon) – Automatically sync donors to your Mailchimp audience after a successful donation.
-
+= 1.1.4 =
+- Auto-fill – Now automatically fills donation forms for logged-in users with their saved details.
 
 == License & Credits ==
 

@@ -38,7 +38,7 @@
                 <div class="edp-input-fields" style="margin-bottom: 40px;">
                     <?php
                         if (count($campaigns)) {
-                            DonationFormShortcode::inputField(label: 'campaign', isType: 'select', placeholder: esc_html__('Select campaign', 'ehx-donate'), data: $campaigns, column: 'edp-field-full');
+                            DonationFormShortcode::inputField(label: 'campaign', isType: 'select', placeholder: count($campaigns) > 1 ? esc_html__('Select campaign', 'ehx-donate') : '', data: $campaigns, column: 'edp-field-full');
                             echo '<p id="edp__donation__message" style="display: none;color:red;">'. esc_html__('Please select required fields.', 'ehx-donate') .'</p>';
                         }
                         else {
@@ -119,11 +119,11 @@
                 
                 <div class="edp-input-fields">
                     <?php
-                        DonationFormShortcode::inputField(label: __('Title', 'ehx-donate'), for: 'title', isType: 'select', placeholder: __('Select title', 'ehx-donate'), data: [__('Mr', 'ehx-donate'), __('Ms', 'ehx-donate'), __('Mrs', 'ehx-donate'), __('Miss', 'ehx-donate'), __('Dr', 'ehx-donate')], column: 'edp-field-full');
-                        DonationFormShortcode::inputField(label: __('First Name', 'ehx-donate'), for: 'first_name', placeholder: __('Enter First Name', 'ehx-donate'));
-                        DonationFormShortcode::inputField(label: __('Last Name', 'ehx-donate'), for: 'last_name', placeholder: __('Enter Last Name', 'ehx-donate'));
-                        DonationFormShortcode::inputField(label: __('Email Address', 'ehx-donate'), for: 'email', placeholder: __('Enter Email Address', 'ehx-donate'));
-                        DonationFormShortcode::inputField(label: __('Phone Number', 'ehx-donate'), for: 'phone', placeholder: __('Enter Phone Number', 'ehx-donate'));
+                        DonationFormShortcode::inputField(label: __('Title', 'ehx-donate'), for: 'title', isType: 'select', placeholder: __('Select title', 'ehx-donate'), data: [__('Mr', 'ehx-donate'), __('Ms', 'ehx-donate'), __('Mrs', 'ehx-donate'), __('Miss', 'ehx-donate'), __('Dr', 'ehx-donate')], column: 'edp-field-full', value: get_user_meta($user->ID, 'title', true));
+                        DonationFormShortcode::inputField(label: __('First Name', 'ehx-donate'), for: 'first_name', placeholder: __('Enter First Name', 'ehx-donate'), value: $user->first_name);
+                        DonationFormShortcode::inputField(label: __('Last Name', 'ehx-donate'), for: 'last_name', placeholder: __('Enter Last Name', 'ehx-donate'), value: $user->last_name);
+                        DonationFormShortcode::inputField(label: __('Email Address', 'ehx-donate'), for: 'email', placeholder: __('Enter Email Address', 'ehx-donate'), value: $user->user_email);
+                        DonationFormShortcode::inputField(label: __('Phone Number', 'ehx-donate'), for: 'phone', placeholder: __('Enter Phone Number', 'ehx-donate'), value: get_user_meta($user->ID, 'phone', true));
                     ?>
 
                     <?php if($enable_gift_aid): ?>

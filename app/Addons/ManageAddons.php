@@ -66,7 +66,7 @@ class ManageAddons
         // }
 
         $result = $upgrader->install($addon);
-    
+
         if (is_wp_error($result)) {
             return $this->response->error(esc_html($result->get_error_message()));
         }
