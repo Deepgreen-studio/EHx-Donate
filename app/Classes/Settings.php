@@ -175,7 +175,7 @@ class Settings
             if(defined('EHXMC_VERSION')) {
                 $tabs = [
                     ...$tabs,
-                    \EHxMailchimp\Classes\HandleSetting::getSubTabData()
+                    ...\EHxMailchimp\Classes\HandleSetting::getSubTabData()
                 ];
             }
         }

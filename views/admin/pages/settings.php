@@ -198,6 +198,27 @@
                                 ?>
                             </table>
                         </div>
+
+                        <div id="hubspot" class="tab-panel">
+                            <table class="form-table">
+                                <?php
+                                    foreach (\EHxMailchimp\Classes\HandleSetting::getHubspotIntegrationFields() as $field) {
+                                        Helper::input_group($field);
+                                    }
+                                ?>
+                            </table>
+                        </div>
+
+                        <div id="brevo" class="tab-panel">
+                            <table class="form-table">
+                                <?php
+                                    foreach (\EHxMailchimp\Classes\HandleSetting::getBrevoIntegrationFields() as $field) {
+                                        Helper::input_group($field);
+                                    }
+                                ?>
+                            </table>
+                        </div>
+
                     <?php endif ?>
 
                 </div>
